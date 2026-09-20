@@ -8,19 +8,27 @@ import com.ryrcontrolcenter.dao.UsuarioDao;
 import com.ryrcontrolcenter.modelo.Usuario;
 
 public class AuthService {
+    private Usuario usuario;
+    
     private final UsuarioDao usuarioDao = new UsuarioDao();
 
     public Usuario iniciarSesion(String usuarioLogin, String passwordPlano) {
         Usuario u = usuarioDao.buscarPorLogin(usuarioLogin);
         if (u == null) {
-            return null; // no existe o esta inactivo
+            return null;
         }
         // NOTA: comparacion simple por ahora. Mas adelante deberiamos
         // usar un hash real (BCrypt) en vez de comparar texto plano.
         if (u.getPasswordHash().equals(passwordPlano)) {
             usuarioDao.actualizarUltimoAcceso(u.getIdUsuario());
+            usuario = u;
             return u;
         }
-        return null; // password incorrecto
+        return null;
+    }
+
+    public Usuario cerrarSesion() {
+        usuario = null;
+        return null;
     }
 }
