@@ -12,38 +12,34 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 
 /**
  * FXML Controller class
  *
  * @author Juanp
  */
-public class NuevoPrestamoController implements Initializable {
+public class NuevoInventarioController implements Initializable {
 
     @FXML
-    private ToggleGroup grupoTipoItem;
+    private TextField txtIdActivo;
     @FXML
-    private RadioButton rbHerramientaUnica;
+    private TextField txtDescripcion;
     @FXML
-    private RadioButton rbKitCompleto;
+    private ComboBox<?> cmbTipoActivo;
     @FXML
-    private TextField txtOperario;
-    @FXML
-    private ComboBox<?> cmbActivoDisponible;
+    private ComboBox<?> cmbEstadoSst;
     @FXML
     private ComboBox<?> cmbUbicacion;
     @FXML
-    private DatePicker dpDevolucionEstimada;
+    private DatePicker dpFechaRegistro;
     @FXML
     private TextArea txtObservaciones;
     @FXML
     private Button btnCancelar;
     @FXML
-    private Button btnAutorizarSalida;
+    private Button btnGuardar;
 
     /**
      * Initializes the controller class.
@@ -58,7 +54,7 @@ public class NuevoPrestamoController implements Initializable {
     }
 
     @FXML
-    private void onAutorizarSalidaClick(ActionEvent event) {
+    private void onGuardarClick(ActionEvent event) {
     }
     
 }

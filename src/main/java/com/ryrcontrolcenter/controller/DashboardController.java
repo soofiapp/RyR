@@ -94,7 +94,6 @@ public class DashboardController implements Initializable {
         try {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/PrestamosVista.fxml"));
-            stage.setTitle("Préstamos");
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
             stage.show();
@@ -110,7 +109,6 @@ public class DashboardController implements Initializable {
         try {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/InventariadoVista.fxml"));
-            stage.setTitle("Inventariado");
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
             stage.show();
@@ -126,7 +124,6 @@ public class DashboardController implements Initializable {
         try {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml"));
-            stage.setTitle("Matriz Filtros");
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
             stage.show();
@@ -142,7 +139,6 @@ public class DashboardController implements Initializable {
         try {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/KardexVista.fxml"));
-            stage.setTitle("Kardex");
             stage.setScene(new Scene(root));
             stage.show();
             stage.setFullScreen(true);
@@ -158,7 +154,6 @@ public class DashboardController implements Initializable {
         try {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml"));
-            stage.setTitle("Usuarios Bitácora");
             stage.setScene(new Scene(root));
             stage.show();
             stage.setFullScreen(true);
@@ -175,7 +170,6 @@ public class DashboardController implements Initializable {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/LoginVista.fxml"));
             stage.setFullScreen(true);
-            stage.setTitle("Login");
             stage.setScene(new Scene(root));
             stage.show();
             Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();

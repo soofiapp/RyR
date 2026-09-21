@@ -1,11 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.InventariadoController">
-    
-</AnchorPane>
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.InventariadoController">
+
+    <left>
+        <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
+            <padding><Insets bottom="20" left="16" right="16" top="20" /></padding>
+            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="RyR Global" />
+            <VBox spacing="2" style="-fx-padding: 20 0 0 0;">
+                <Button maxWidth="Infinity" onAction="#irADashboard" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Dashboard" />
+                <Button maxWidth="Infinity" onAction="#irAPrestamos" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Préstamos" />
+                <Button maxWidth="Infinity" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Inventariado" />
+                <Button maxWidth="Infinity" onAction="#irAMatrizFiltro" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Matriz Filtro" />
+                <Button maxWidth="Infinity" onAction="#irAKardex" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Insumos / Kárdex" />
+                <Button maxWidth="Infinity" onAction="#irAUsuariosBitacora" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Usuarios y bitácora" />
+            </VBox>
+            <VBox VBox.vgrow="ALWAYS" />
+            <Button maxWidth="Infinity" onAction="#onLogoutClick" style="-fx-background-color: white; -fx-text-fill: #2447c4;" text="Logout" />
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="14">
+            <padding><Insets bottom="20" left="24" right="24" top="16" /></padding>
+             <Label fx:id="lblTotalActivos" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Inventario General Registrado" />
+
+            <HBox alignment="CENTER_LEFT">
+   
+               <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="25.0" prefWidth="519.0" spacing="10">
+                   <ComboBox fx:id="cmbFiltro" prefHeight="25.0" prefWidth="99.0" promptText="Filtrar" />
+                   <TextField fx:id="txtBuscar" prefHeight="25.0" prefWidth="459.0" promptText="Busca por máquina, herramienta o kit" HBox.hgrow="ALWAYS" />
+               </HBox>
+                <VBox HBox.hgrow="ALWAYS" />
+                <Button fx:id="btnAgregarActivo" onAction="#onAgregarActivoClick" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar al Inventario" />
+            </HBox>
+
+            <TableView fx:id="tablaInventario" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colCodigo" prefWidth="86.66667175292969" text="Código / ID" />
+                    <TableColumn fx:id="colDescripcion" prefWidth="202.66671752929688" text="Descripción del activo" />
+                    <TableColumn fx:id="colTipo" prefWidth="132.66668701171875" text="Tipo" />
+                    <TableColumn fx:id="colEstadoSst" prefWidth="148.666748046875" text="Estado SSt" />
+                    <TableColumn fx:id="colAcciones" prefWidth="121.333251953125" text="Acciones" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>
