@@ -11,9 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
@@ -22,28 +21,28 @@ import javafx.scene.control.ToggleGroup;
  *
  * @author Juanp
  */
-public class NuevoPrestamoController implements Initializable {
+public class NuevoMovimientoController implements Initializable {
 
     @FXML
-    private ToggleGroup grupoTipoItem;
+    private ToggleGroup grupoTipoMovimiento;
     @FXML
-    private RadioButton rbHerramientaUnica;
+    private RadioButton rbEntrada;
     @FXML
-    private RadioButton rbKitCompleto;
+    private RadioButton rbSalida;
     @FXML
-    private TextField txtOperario;
+    private RadioButton rbAjuste;
     @FXML
-    private ComboBox<?> cmbActivoDisponible;
+    private ComboBox<?> cmbFiltro;
     @FXML
-    private ComboBox<?> cmbUbicacion;
+    private Label lblStockActual;
     @FXML
-    private DatePicker dpDevolucionEstimada;
+    private TextField txtCantidad;
     @FXML
-    private TextArea txtObservaciones;
+    private Label lblError;
     @FXML
     private Button btnCancelar;
     @FXML
-    private Button btnAutorizarSalida;
+    private Button btnGuardar;
 
     /**
      * Initializes the controller class.
@@ -58,7 +57,7 @@ public class NuevoPrestamoController implements Initializable {
     }
 
     @FXML
-    private void onAutorizarSalidaClick(ActionEvent event) {
+    private void onGuardarClick(ActionEvent event) {
     }
     
 }
