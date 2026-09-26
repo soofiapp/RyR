@@ -33,8 +33,6 @@ public class NuevoInventarioController implements Initializable {
     @FXML
     private ComboBox<?> cmbEstadoSst;
     @FXML
-    private ComboBox<?> cmbUbicacion;
-    @FXML
     private DatePicker dpFechaRegistro;
     @FXML
     private TextArea txtObservaciones;
@@ -44,6 +42,8 @@ public class NuevoInventarioController implements Initializable {
     private Button btnGuardar;
     
     InventarioService service;
+    @FXML
+    private TextField txtUbicacion;
     
     public NuevoInventarioController(){
         service = new InventarioService();

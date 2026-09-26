@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BitacoraDAO {
+public class BitacoraDao {
     
     public void registrar(int idUsuario, String accion, String modulo, String referenciaId){
         

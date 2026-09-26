@@ -4,43 +4,37 @@
  */
 package com.ryrcontrolcenter.service;
 
-import com.ryrcontrolcenter.dao.InventarioDAO;
+import com.ryrcontrolcenter.dao.InventarioDao;
 import com.ryrcontrolcenter.modelo.Inventario;
-
-
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
  * @author sofia
  */
 public class InventarioService {
-    
-InventarioDAO dao;    
-    
-public InventarioService(){
-    dao = new InventarioDAO(); 
-    
-}
 
-public boolean agregarItemInventarioService (Inventario item){
-    return dao.agregarItemInventario(item);
-}
-    
- public boolean eliminarItemInventarioService(String idActivo){
-     return dao.eliminarItemInventario(idActivo);
- }   
-    
- public boolean actualizarItemInventarioService(String idActivo, Inventario item){
-     return dao.actualizarItemInventario(idActivo, item);
- }   
-    
-public Inventario[] verItemsInventario(){
-    return dao.verItemsInventario();
-}  
- 
-public Inventario verItemInventario(String idActivo){
-    return dao.verItemInventario(idActivo);
-}
-    
-}        
+    InventarioDao dao;
 
+    public InventarioService() {
+        dao = new InventarioDao();
+
+    }
+
+    public boolean agregarItemInventarioService(Inventario item) {
+        return dao.agregarItemInventario(item);
+    }
+
+    public boolean eliminarItemInventarioService(String idActivo) {
+        return dao.eliminarItemInventario(idActivo);
+    }
+
+    public boolean actualizarItemInventarioService(String idActivo, Inventario item) {
+        return dao.actualizarItemInventario(idActivo, item);
+    }
+
+    public List<Inventario> verItemsInventario() throws SQLException {
+        return dao.listarTodos();
+    }
+}

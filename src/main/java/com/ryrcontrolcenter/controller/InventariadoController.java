@@ -4,14 +4,19 @@
  */
 package com.ryrcontrolcenter.controller;
 
+import com.ryrcontrolcenter.dao.InventarioDao;
+import com.ryrcontrolcenter.modelo.Inventario;
+import com.ryrcontrolcenter.util.SceneManager;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -40,116 +46,79 @@ public class InventariadoController implements Initializable {
     private Label lblTotalActivos;
     @FXML
     private Button btnAgregarActivo;
+     @FXML
+    private Button btnEliminarActivo;
     @FXML
-    private TableView<?> tablaInventario;
+    private Button btnModificarActivo;
     @FXML
-    private TableColumn<?, ?> colCodigo;
+    private TableView<Inventario> tablaInventario;
     @FXML
-    private TableColumn<?, ?> colDescripcion;
+    private TableColumn<Inventario, String> colCodigo;
     @FXML
-    private TableColumn<?, ?> colTipo;
+    private TableColumn<Inventario, String> colDescripcion;
     @FXML
-    private TableColumn<?, ?> colEstadoSst;
+    private TableColumn<Inventario, String> colTipo;
     @FXML
-    private TableColumn<?, ?> colAcciones;
+    private TableColumn<Inventario, String> colEstadoSst;
+    @FXML
+    private TableColumn<Inventario, String> colObservaciones;
     @FXML
     private BorderPane mainPane;
-
-    /**
-     * Initializes the controller class.
-     */
+    
+    private final InventarioDao inventarioD = new InventarioDao();
+  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("idActivo"));
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoActivo"));
+        colEstadoSst.setCellValueFactory(new PropertyValueFactory<>("estadoSst"));
+        colObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
+        cargarDatosTabla();
     }
 
     @FXML
     private void irADashboard(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/DashboardVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/DashboardVista.fxml");
     }
 
     @FXML
     private void irAPrestamos(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/PrestamosVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/PrestamosVista.fxml");
+    }
+
+    @FXML
+    private void irAInventariado(ActionEvent event) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/InventariadoVista.fxml");
     }
 
     @FXML
     private void irAMatrizFiltro(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml");
     }
 
     @FXML
     private void irAKardex(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/KardexVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
-            stage.setFullScreen(true);
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/KardexVista.fxml");
     }
 
     @FXML
     private void irAUsuariosBitacora(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
-            stage.setFullScreen(true);
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml");
     }
 
     @FXML
     private void onLogoutClick(ActionEvent event) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml");
+    }
+
+    private void cargarDatosTabla() {
         try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/LoginVista.fxml"));
-            stage.setFullScreen(true);
-            stage.setScene(new Scene(root));
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+            List<Inventario> lista = inventarioD.listarTodos();
+            ObservableList<Inventario> datos = FXCollections.observableArrayList(lista);
+            tablaInventario.setItems(datos);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -176,6 +145,4 @@ public class InventariadoController implements Initializable {
         }
     }
 
-    
-    
 }

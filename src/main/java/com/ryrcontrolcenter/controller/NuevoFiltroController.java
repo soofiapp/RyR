@@ -28,8 +28,6 @@ public class NuevoFiltroController implements Initializable {
     @FXML
     private ComboBox<?> cmbCategoria;
     @FXML
-    private ComboBox<?> cmbUnidadMedida;
-    @FXML
     private TextField txtStockActual;
     @FXML
     private TextField txtPuntoReorden;
@@ -39,6 +37,8 @@ public class NuevoFiltroController implements Initializable {
     private Button btnCancelar;
     @FXML
     private Button btnGuardar;
+    @FXML
+    private TextField txtUnidadMedida;
 
     /**
      * Initializes the controller class.

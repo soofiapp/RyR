@@ -4,6 +4,7 @@
  */
 package com.ryrcontrolcenter.controller;
 
+import com.ryrcontrolcenter.util.SceneManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,95 +63,37 @@ public class KardexController implements Initializable {
 
     @FXML
     private void irADashboard(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/DashboardVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/DashboardVista.fxml");
     }
 
     @FXML
     private void irAPrestamos(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/PrestamosVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/PrestamosVista.fxml");
     }
 
     @FXML
     private void irAInventariado(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/InventariadoVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void irAKardex(ActionEvent event) {
-    }
-
-    @FXML
-    private void irAUsuariosBitacora(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
-            stage.setFullScreen(true);
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @FXML
-    private void onLogoutClick(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/LoginVista.fxml"));
-            stage.setFullScreen(true);
-            stage.setScene(new Scene(root));
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/InventariadoVista.fxml");
     }
 
     @FXML
     private void irAMatrizFiltro(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml");
+    }
+
+    @FXML
+    private void irAKardex(ActionEvent event) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/KardexVista.fxml");
+    }
+
+    @FXML
+    private void irAUsuariosBitacora(ActionEvent event) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml");
+    }
+
+    @FXML
+    private void onLogoutClick(ActionEvent event) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml");
     }
 
     @FXML
