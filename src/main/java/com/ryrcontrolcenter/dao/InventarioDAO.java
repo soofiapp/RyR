@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.ryrcontrolcenter.dao;
 
 import com.ryrcontrolcenter.config.ConexionBD;
@@ -13,13 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author sofia
- */
-public class InventarioDAO {
+
+public class InventarioDao {
     
-    public boolean agregarItemInventario (Inventario item){
+    public boolean agregarItemInventario(Inventario item) {
         String sql = "INSERT INTO inventario (id_activo, descripcion, tipo_activo, estado_sst, ubicacion, fecha_registro, observaciones) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConexionBD.conectar();
@@ -32,35 +26,32 @@ public class InventarioDAO {
             st.setString(5, item.getUbicacion());
             st.setString(6, item.getFechaRegistro());
             st.setString(7, item.getObservaciones());
-            
-            try (ResultSet rs = st.executeQuery()) {
-                return true;
-            }
+
+            int filasAfectadas = st.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;   
+        return false;
     }
-    
-    public boolean eliminarItemInventario(String idActivo){
-        String sql = "DELETE FROM inventario WHERE id_activo = ? ";
+
+    public boolean eliminarItemInventario(String idActivo) {
+        String sql = "DELETE FROM inventario WHERE id_activo = ?";
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement st = conn.prepareStatement(sql)) {
 
             st.setString(1, idActivo);
-          
-            try (ResultSet rs = st.executeQuery()) {
-                return true;
-            }
+            int filasAfectadas = st.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false; 
+        return false;
     }
-    
-    public boolean actualizarItemInventario(String idActivo, Inventario item){
-        String sql = "UPDATE inventario SET (descripcion, tipo_activo, estado_sst, ubicacion, fecha_registro, observaciones) "
-                   + "VALUES (?, ?, ?, ?, ?, ?) WHERE idActivo=? ";
+
+    public boolean actualizarItemInventario(String idActivo, Inventario item) {
+        String sql = "UPDATE inventario SET descripcion=?, tipo_activo=?, estado_sst=?, ubicacion=?, fecha_registro=?, observaciones=? "
+                   + "WHERE id_activo=?";
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement st = conn.prepareStatement(sql)) {
 
@@ -69,72 +60,67 @@ public class InventarioDAO {
             st.setString(3, item.getEstadoSst());
             st.setString(4, item.getUbicacion());
             st.setString(5, item.getFechaRegistro());
-            st.setString(6, item.getObservaciones());  
-            
-            //idActivo es para actualizar
-            st.setString(7, item.getIdActivo()); 
-          
-            try (ResultSet rs = st.executeQuery()) {
-                return true;
-            }
+            st.setString(6, item.getObservaciones());
+            st.setString(7, idActivo); // se usa el parametro recibido, no item.getIdActivo()
+
+            int filasAfectadas = st.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false; 
-    }  
-    
-    public Inventario[] verItemsInventario() {
-        String sql = "SELECT id_activo, descripcion, tipo_activo, estado_sst, ubicacion, fecha_registro, observaciones "
-                   + "FROM inventario";
+        return false;
+    }
 
-        List lista = new ArrayList<>();
-
+    public List<Inventario> listarTodos() throws SQLException {
+        String sql = "SELECT * FROM inventario ORDER BY id_activo";
+        List<Inventario> lista = new ArrayList<>();
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement st = conn.prepareStatement(sql);
              ResultSet rs = st.executeQuery()) {
-
             while (rs.next()) {
-                lista.add(formatearData(rs));
+                lista.add(mapear(rs));
             }
-
         } catch (SQLException e) {
-            System.err.println("Error al consultar el inventario: " + e.getMessage());
             e.printStackTrace();
         }
+        return lista;
+    }
 
-        // Convierte la lista temporal al arreglo requerido
-        return (Inventario[]) lista.toArray(new Inventario[0]);
-    } 
-        
-    private Inventario formatearData(ResultSet rs) throws SQLException {
-    Inventario i = new Inventario();
-    i.setIdActivo(rs.getString("id_activo"));
-    i.setDescripcion(rs.getString("descripcion"));
-    i.setTipoActivo(rs.getString("tipo_activo"));
-    i.setEstadoSst(rs.getString("estado_sst"));
-    i.setUbicacion(rs.getString("ubicacion"));
-    i.setFechaRegistro(rs.getString("fecha_registro"));
-    i.setObservaciones(rs.getString("observacion"));  
+    /**
+     * Activos disponibles para prestamo: Herramienta o Maquinaria (los Kits
+     * se prestan por su propio flujo), que ademas no tengan ya un prestamo
+     * abierto ni esten bloqueados/en mantenimiento por SST.
+     */
+    public List<Inventario> listarActivosDisponiblesParaPrestamo() {
+        String sql = """
+            SELECT * FROM inventario
+            WHERE tipo_activo IN ('Herramienta', 'Maquinaria')
+              AND estado_sst = 'Operativa'
+              AND id_activo NOT IN (SELECT id_activo FROM prestamos WHERE estado = 'En Uso')
+            ORDER BY id_activo
+            """;
+        List<Inventario> lista = new ArrayList<>();
+        try (Connection conn = ConexionBD.conectar();
+             PreparedStatement st = conn.prepareStatement(sql);
+             ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                lista.add(mapear(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    private Inventario mapear(ResultSet rs) throws SQLException {
+        Inventario i = new Inventario();
+        i.setIdActivo(rs.getString("id_activo"));
+        i.setDescripcion(rs.getString("descripcion"));
+        i.setTipoActivo(rs.getString("tipo_activo"));
+        i.setEstadoSst(rs.getString("estado_sst"));
+        i.setUbicacion(rs.getString("ubicacion"));
+        i.setFechaRegistro(rs.getString("fecha_registro"));
+        i.setObservaciones(rs.getString("observaciones"));
         return i;
     }
-    
-    public Inventario verItemInventario(String idActivo) {
-        String sql = "SELECT id_activo, descripcion, tipo_activo, estado_sst, ubicacion, fecha_registro, observaciones "
-                   + "FROM inventario WHERE idActivo = ?";
-
-        try (Connection conn = ConexionBD.conectar();
-             PreparedStatement st = conn.prepareStatement(sql)) {
-
-            st.setString(1, idActivo);
-         
-            try (ResultSet rs = st.executeQuery()) {
-                return formatearData(rs);
-                
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }   
-     
 }

@@ -10,16 +10,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefWidth="460.0" spacing="12" style="-fx-background-color: white;"
-      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.ryrcontrolcenter.controller.NuevoInventarioController">
+<VBox prefWidth="460.0" spacing="12" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.NuevoInventarioController">
 
     <padding><Insets bottom="20" left="20" right="20" top="16" /></padding>
 
-    <Label style="-fx-background-color: #2447c4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10;"
-           maxWidth="Infinity" text="AGREGAR AL INVENTARIO" />
+    <Label maxWidth="Infinity" style="-fx-background-color: #2447c4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10;" text="AGREGAR AL INVENTARIO" />
 
-    <Label text="Código QR / ID" />
+    <Label text="Código / ID" />
     <TextField fx:id="txtIdActivo" promptText="Ej: HERR-0103" />
 
     <Label text="Descripción del Activo" />
@@ -39,7 +36,7 @@
     <HBox spacing="14">
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Ubicación" />
-            <ComboBox fx:id="cmbUbicacion" maxWidth="Infinity" />
+         <TextField fx:id="txtUbicacion" />
         </VBox>
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Fecha de Registro" />
@@ -52,7 +49,6 @@
 
     <HBox alignment="CENTER_RIGHT" spacing="10">
         <Button fx:id="btnCancelar" onAction="#onCancelarClick" style="-fx-background-color: #b0b6c1; -fx-text-fill: white;" text="Cancelar" />
-        <Button fx:id="btnGuardar" onAction="#onGuardarClick"
-                style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar" />
+        <Button fx:id="btnGuardar" onAction="#onGuardarClick" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar" />
     </HBox>
 </VBox>

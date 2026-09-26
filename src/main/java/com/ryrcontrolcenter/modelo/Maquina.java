@@ -1,7 +1,7 @@
 
 package com.ryrcontrolcenter.modelo;
 
-public class Maquinas{
+public class Maquina{
     private String idMaquina;
     private String marca;
     private String modelo;
@@ -9,7 +9,7 @@ public class Maquinas{
     private Double horometro;
     private String areaDepartamento;
 
-    public Maquinas() {
+    public Maquina() {
     }
 
     public String getIdMaquina() {

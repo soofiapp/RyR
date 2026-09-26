@@ -35,8 +35,6 @@ public class NuevoPrestamoController implements Initializable {
     @FXML
     private ComboBox<?> cmbActivoDisponible;
     @FXML
-    private ComboBox<?> cmbUbicacion;
-    @FXML
     private DatePicker dpDevolucionEstimada;
     @FXML
     private TextArea txtObservaciones;
@@ -44,6 +42,12 @@ public class NuevoPrestamoController implements Initializable {
     private Button btnCancelar;
     @FXML
     private Button btnAutorizarSalida;
+    @FXML
+    private RadioButton rbMaquinaria;
+    @FXML
+    private DatePicker dpFechaSalida;
+    @FXML
+    private TextField txtUbicacion;
 
     /**
      * Initializes the controller class.
