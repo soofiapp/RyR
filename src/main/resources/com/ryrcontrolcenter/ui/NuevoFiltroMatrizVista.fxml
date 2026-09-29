@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefWidth="440.0" spacing="12" style="-fx-background-color: white;"
+<VBox prefWidth="460.0" spacing="10" style="-fx-background-color: white;"
       xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.ryrcontrolcenter.controller.NuevoFiltroMatrizController">
 
@@ -25,8 +25,35 @@
     <Label text="Código OEM Original" />
     <TextField fx:id="txtCodigoOem" promptText="Ej: CAT 1R-1808" />
 
-    <Label text="Filtro en Stock (Kárdex)" />
-    <ComboBox fx:id="cmbFiltroStock" maxWidth="Infinity" promptText="Seleccionar filtro del catálogo" />
+    <Label style="-fx-font-weight: bold; -fx-padding: 8 0 0 0;" text="Filtro en el catálogo" />
+
+    <Label text="Código del Filtro (existente o nuevo)" />
+    <ComboBox fx:id="cmbCodigoFiltro" editable="true" maxWidth="Infinity" promptText="Escriba o seleccione un código" />
+
+    <Label text="Descripción" />
+    <TextField fx:id="txtDescripcionFiltro" promptText="Solo si es un filtro nuevo" />
+
+    <HBox spacing="14">
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Categoría" />
+            <ComboBox fx:id="cmbCategoria" maxWidth="Infinity" />
+        </VBox>
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Unidad de Medida" />
+            <TextField fx:id="txtUnidadMedida" promptText="Unidad" />
+        </VBox>
+    </HBox>
+
+    <HBox spacing="14">
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Stock Inicial" />
+            <TextField fx:id="txtStockActual" promptText="0" />
+        </VBox>
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Punto de Reorden" />
+            <TextField fx:id="txtPuntoReorden" promptText="0" />
+        </VBox>
+    </HBox>
 
     <Label fx:id="lblError" style="-fx-text-fill: #d1453b;" />
 

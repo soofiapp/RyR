@@ -2,7 +2,9 @@ package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.modelo.Usuario;
 import com.ryrcontrolcenter.service.AuthService;
+import com.ryrcontrolcenter.service.BitacoraService;
 import com.ryrcontrolcenter.util.SceneManager;
+import com.ryrcontrolcenter.util.SesionActual;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -35,14 +37,17 @@ public class LoginController implements Initializable {
         String usuario = txtUsuario.getText();
         String contrasena = txtPassword.getText();
         Usuario u = authService.iniciarSesion(usuario, contrasena);
-
         if (u != null) {
             lblError.setText("");
             System.out.println("Bienvenid@, " + u.getNombreCompleto() + " (" + u.getRol() + ")");
+            SesionActual.iniciar(u);
             SceneManager.cambiarA("/com/ryrcontrolcenter/ui/DashboardVista.fxml");
+            BitacoraService.registrar(
+                "Inicio de sesión de " + u.getUsuarioLogin(),
+                "Usuarios y Bitacora",
+                u.getUsuarioLogin());
         } else {
             lblError.setText("Usuario o contraseña incorrectos");
         }
     }
 }
-

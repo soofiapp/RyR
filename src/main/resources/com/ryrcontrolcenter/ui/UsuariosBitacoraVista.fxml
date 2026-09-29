@@ -42,8 +42,8 @@
                      <VBox HBox.hgrow="ALWAYS" />
                      <ButtonBar prefHeight="40.0" prefWidth="329.0">
                         <buttons>
-                           <Button fx:id="btnEliminarUsuario" minWidth="71.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
-                           <Button fx:id="btnModificarUsuario" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
+                           <Button fx:id="btnEliminarUsuario" minWidth="71.0" mnemonicParsing="false" onAction="#onEliminarUsuarioClick" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
+                           <Button fx:id="btnModificarUsuario" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarUsuarioClick" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
                            <Button fx:id="btnRegistrarUsuario" mnemonicParsing="false" onAction="#onRegistrarUsuarioClick" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Registrar" />
                         </buttons>
                      </ButtonBar>

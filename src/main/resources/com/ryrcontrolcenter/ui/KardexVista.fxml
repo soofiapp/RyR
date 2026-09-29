@@ -35,8 +35,8 @@
              <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Kárdex de Insumos y Filtros" />
 
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="txtBuscar" prefHeight="25.0" prefWidth="486.0" promptText="Busca por código o descripción del filtro" HBox.hgrow="ALWAYS" />
-                <VBox HBox.hgrow="ALWAYS" />
+                <TextField fx:id="txtBuscar" prefHeight="25.0" prefWidth="432.0" promptText="Busca por código o descripción del filtro" HBox.hgrow="ALWAYS" />
+                <VBox prefHeight="25.0" prefWidth="69.0" HBox.hgrow="ALWAYS" />
                 <Button fx:id="btnRegistrarMovimiento" onAction="#onRegistrarMovimientoClick" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Registrar movimiento" />
             </HBox>
 

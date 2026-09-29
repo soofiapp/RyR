@@ -43,7 +43,7 @@
             <ButtonBar prefHeight="40.0" prefWidth="359.0">
                <buttons>
                   <Button fx:id="btnEliminarFiltro" minWidth="71.0" mnemonicParsing="false" onAction="#onEliminarFiltroClick" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
-                  <Button fx:id="btnModificarFiltro" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
+                  <Button fx:id="btnModificarFiltro" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarFiltroClick" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
                       <Button fx:id="btnAgregarFiltro" onAction="#onAgregarFiltroClick" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar" />
                </buttons>
             </ButtonBar>
@@ -54,7 +54,7 @@
                     <TableColumn fx:id="colTipoFiltro" prefWidth="200" text="Tipo Filtro" />
                     <TableColumn fx:id="colCodigoOem" prefWidth="160" text="Código OEM" />
                     <TableColumn fx:id="colRefStock" prefWidth="200" text="Ref. En stock" />
-                    <TableColumn fx:id="colAcciones" prefWidth="130.66668701171875" text="Acciones" />
+                    <TableColumn fx:id="colFechaActualizacion" prefWidth="130.66668701171875" text="Fecha Actualización" />
                 </columns>
             <columnResizePolicy>
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
