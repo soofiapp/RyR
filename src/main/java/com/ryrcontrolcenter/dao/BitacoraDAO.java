@@ -9,7 +9,7 @@ import java.util.List;
 public class BitacoraDao {
 
     public boolean registrar(int idUsuario, String accion, String modulo, String referenciaId) {
-        String sql = "INSERT INTO bitacora (id_usuario, accion_realizada, modulo_afectado, referencia_id) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO bitacora (id_usuario, fecha_hora, accion_realizada, modulo_afectado, referencia_id) VALUES (?,datetime('now', 'localtime'),?,?,?)";
         try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql)) {
             st.setInt(1, idUsuario);
             st.setString(2, accion);
@@ -29,7 +29,7 @@ public class BitacoraDao {
                    u.nombre_completo AS nombre_usuario
             FROM bitacora b
             JOIN usuarios u ON b.id_usuario = u.id_usuario
-            ORDER BY b.fecha_hora DESC
+            ORDER BY b.id_bitacora DESC
             """;
         try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
