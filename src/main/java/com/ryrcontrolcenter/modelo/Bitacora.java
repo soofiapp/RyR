@@ -8,6 +8,7 @@ public class Bitacora {
     private String moduloAfectado;
     private String referenciaId;
     private int idUsuario;
+    private String nombreUsuario;
 
     public Bitacora() {
     }
@@ -53,4 +54,13 @@ public class Bitacora {
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }   
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+    
+    
 }
