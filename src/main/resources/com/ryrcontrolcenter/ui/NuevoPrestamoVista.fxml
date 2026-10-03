@@ -28,8 +28,16 @@
         <RadioButton fx:id="rbKitCompleto" text="Kit Completo Configurado" toggleGroup="$grupoTipoItem" />
     </HBox>
 
-    <Label text="Nombre del Operario / Cédula" />
-    <TextField fx:id="txtOperario" promptText="Nombre - Cédula" />
+    <HBox spacing="14">
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Nombre del Operario" />
+            <TextField fx:id="txtOperario" promptText="Ej. Carlos Ricardo" />
+        </VBox>
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Cédula del Operario" />
+            <TextField fx:id="txtOperarioCedula" promptText="Ej. 1098765432" />
+        </VBox>
+    </HBox>
 
     <Label text="Seleccionar Inventario Disponible" />
     <ComboBox fx:id="cmbActivoDisponible" maxWidth="Infinity" />

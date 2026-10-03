@@ -42,12 +42,12 @@ public class PrestamosController implements Initializable {
     @FXML private Button btnAnadirPrestamo;
     
     @FXML private TableView<Prestamos> tablaPrestamos;
-    @FXML private TableColumn<Prestamos, Integer> colIdPrestamo;
-    @FXML private TableColumn<Prestamos, Object> colInventario;
+    @FXML private TableColumn<Prestamos, String> colIdPrestamo;
+    @FXML private TableColumn<Prestamos, String> colInventario; // Tipado corregido
     @FXML private TableColumn<Prestamos, String> colOperario;
-    @FXML private TableColumn<Prestamos, Object> colSalida;
+    @FXML private TableColumn<Prestamos, String> colSalida; // Tipado corregido
     @FXML private TableColumn<Prestamos, String> colEstado;
-    @FXML private TableColumn<Prestamos, Object> colDevolucion;
+    @FXML private TableColumn<Prestamos, String> colDevolucion; // Tipado corregido
 
     private final PrestamoDao prestamoDao = new PrestamoDao();
     private ObservableList<Prestamos> listaPrestamos = FXCollections.observableArrayList();
@@ -70,7 +70,6 @@ public class PrestamosController implements Initializable {
     }
 
     private void configurarFiltros() {
-        // Añadimos las opciones al ComboBox como pediste
         cmbFiltro.setItems(FXCollections.observableArrayList("Todos", "Máquina", "Herramienta", "Kit"));
         cmbFiltro.setValue("Todos");
     }
@@ -83,13 +82,9 @@ public class PrestamosController implements Initializable {
                 listaPrestamos.addAll(prestamos);
             }
 
-            // Envolvemos la lista en un FilteredList para habilitar la búsqueda y filtrado dinámico
             filtroPrestamos = new FilteredList<>(listaPrestamos, b -> true);
 
-            // Listener para el campo de texto de búsqueda
             txtBuscar.textProperty().addListener((observable, oldValue, newValue) -> aplicarFiltros());
-            
-            // Listener para el ComboBox de filtro
             cmbFiltro.valueProperty().addListener((observable, oldValue, newValue) -> aplicarFiltros());
 
             SortedList<Prestamos> sortedData = new SortedList<>(filtroPrestamos);
@@ -105,11 +100,10 @@ public class PrestamosController implements Initializable {
     }
 
     private void aplicarFiltros() {
-        String textoBusqueda = txtBuscar.getText() == null ? "" : txtBuscar.getText().toLowerCase();
+        String textoBusqueda = txtBuscar.getText() == null ? "" : txtBuscar.getText().toLowerCase().trim();
         String opcionFiltro = cmbFiltro.getValue() == null ? "Todos" : cmbFiltro.getValue();
 
         filtroPrestamos.setPredicate(prestamo -> {
-            // Filtro por ComboBox (Máquina, Herramienta, Kit o Todos)
             boolean cumpleFiltroCombo = true;
             String idActivo = prestamo.getIdActivo() != null ? prestamo.getIdActivo().toUpperCase() : "";
             
@@ -121,13 +115,12 @@ public class PrestamosController implements Initializable {
                 cumpleFiltroCombo = idActivo.startsWith("KIT");
             }
 
-            // Filtro por texto de búsqueda general (máquina, herramienta, código, operario, etc.)
             if (textoBusqueda.isEmpty()) {
                 return cumpleFiltroCombo;
             }
 
             boolean cumpleBusqueda = false;
-            if (prestamo.getIdPrestamo() != null && prestamo.getIdPrestamo().toLowerCase().contains(textoBusqueda)) {
+            if (prestamo.getIdPrestamo() != null && String.valueOf(prestamo.getIdPrestamo()).toLowerCase().contains(textoBusqueda)) {
                 cumpleBusqueda = true;
             } else if (prestamo.getIdActivo() != null && prestamo.getIdActivo().toLowerCase().contains(textoBusqueda)) {
                 cumpleBusqueda = true;
