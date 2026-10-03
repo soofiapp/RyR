@@ -14,7 +14,7 @@
 
 <BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.PrestamosController">
 
-    <!-- La barra lateral se repite igual que en Dashboard.fxml -->
+    <!-- La barra lateral -->
     <left>
         <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
             <padding><Insets bottom="20" left="16" right="16" top="20" /></padding>
@@ -43,9 +43,10 @@
                 <VBox prefHeight="40.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
             <ButtonBar prefHeight="40.0" prefWidth="339.0">
                <buttons>
-                  <Button fx:id="btnEliminarPrestamo" minWidth="71.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
-                  <Button fx:id="btnModificarPrestamo" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
-                      <Button fx:id="btnAnadirPrestamo" onAction="#onAnadirPrestamoClick" prefHeight="25.0" prefWidth="160.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Añadir" />
+                  <!-- CORREGIDO: Se agregaron los eventos onAction para eliminar y modificar -->
+                  <Button fx:id="btnEliminarPrestamo" minWidth="71.0" mnemonicParsing="false" onAction="#onEliminarPrestamoClick" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
+                  <Button fx:id="btnModificarPrestamo" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarPrestamoClick" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
+                  <Button fx:id="btnAnadirPrestamo" onAction="#onAnadirPrestamoClick" prefHeight="25.0" prefWidth="160.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Añadir" />
                </buttons>
             </ButtonBar>
             </HBox>

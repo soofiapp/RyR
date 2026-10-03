@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BitacoraDao {
+public class BitacoraDAO{
 
     public boolean registrar(int idUsuario, String accion, String modulo, String referenciaId) {
         String sql = "INSERT INTO bitacora (id_usuario, fecha_hora, accion_realizada, modulo_afectado, referencia_id) VALUES (?,datetime('now', 'localtime'),?,?,?)";

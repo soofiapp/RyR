@@ -4,7 +4,7 @@
  */
 package com.ryrcontrolcenter.service;
 
-import com.ryrcontrolcenter.dao.InventarioDao;
+import com.ryrcontrolcenter.dao.InventarioDAO;
 import com.ryrcontrolcenter.modelo.Inventario;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class InventarioService {
 
-    InventarioDao dao;
+    InventarioDAO dao;
 
     public InventarioService() {
-        dao = new InventarioDao();
+        dao = new InventarioDAO();
 
     }
 

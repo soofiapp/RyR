@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class InventarioDao {
+public class InventarioDAO {
     
     public boolean agregarItemInventario(Inventario item) {
         String sql = "INSERT INTO inventario (id_activo, descripcion, tipo_activo, estado_sst, ubicacion, fecha_registro, observaciones) "

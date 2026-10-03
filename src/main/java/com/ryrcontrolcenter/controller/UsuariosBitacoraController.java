@@ -1,7 +1,7 @@
 
 package com.ryrcontrolcenter.controller;
 
-import com.ryrcontrolcenter.dao.BitacoraDao;
+import com.ryrcontrolcenter.dao.BitacoraDAO;
 import com.ryrcontrolcenter.dao.UsuarioDao;
 import com.ryrcontrolcenter.modelo.Bitacora;
 import com.ryrcontrolcenter.modelo.Usuario;
@@ -63,7 +63,7 @@ public class UsuariosBitacoraController implements Initializable {
     private Button btnModificarUsuario;
 
     private final UsuarioDao usuarioD = new UsuarioDao();
-    private final BitacoraDao bitacoraD = new BitacoraDao();
+    private final BitacoraDAO bitacoraD = new BitacoraDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

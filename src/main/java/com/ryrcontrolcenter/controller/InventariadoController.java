@@ -4,7 +4,7 @@
  */
 package com.ryrcontrolcenter.controller;
 
-import com.ryrcontrolcenter.dao.InventarioDao;
+import com.ryrcontrolcenter.dao.InventarioDAO;
 import com.ryrcontrolcenter.modelo.Inventario;
 import com.ryrcontrolcenter.util.SceneManager;
 import java.io.IOException;
@@ -65,7 +65,7 @@ public class InventariadoController implements Initializable {
     @FXML
     private BorderPane mainPane;
     
-    private final InventarioDao inventarioD = new InventarioDao();
+    private final InventarioDAO inventarioD = new InventarioDAO();
   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
