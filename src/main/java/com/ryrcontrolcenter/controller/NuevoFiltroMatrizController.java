@@ -5,6 +5,7 @@ import com.ryrcontrolcenter.dao.MatrizFiltroDao;
 import com.ryrcontrolcenter.modelo.Filtros;
 import com.ryrcontrolcenter.modelo.MatrizFiltro;
 import com.ryrcontrolcenter.service.BitacoraService;
+import com.ryrcontrolcenter.util.AlertaUtil;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,17 +13,13 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author Juanp
- */
 public class NuevoFiltroMatrizController implements Initializable {
 
     @FXML
@@ -52,7 +49,6 @@ public class NuevoFiltroMatrizController implements Initializable {
 
     private final MatrizFiltroDao matrizDao = new MatrizFiltroDao();
     private final FiltroDao filtroDao = new FiltroDao();
-
     private List<Filtros> filtrosExistentes;
     private String idMaquina;
     private Integer idMatrizEdicion;
@@ -77,10 +73,9 @@ public class NuevoFiltroMatrizController implements Initializable {
         txtDescripcionFiltro.setDisable(yaExiste);
         cmbCategoria.setDisable(yaExiste);
         txtUnidadMedida.setDisable(yaExiste);
-        txtStockActual.setDisable(true); // el stock NUNCA se edita desde aqui
+        txtStockActual.setDisable(true);
         txtStockActual.setEditable(false);
-        txtPuntoReorden.setDisable(false); // el punto de reorden siempre se puede ajustar
-
+        txtPuntoReorden.setDisable(false);
         if (yaExiste) {
             txtDescripcionFiltro.setText(existente.getDescripcion());
             cmbCategoria.getSelectionModel().select(existente.getCategoriaFiltro());
@@ -93,7 +88,7 @@ public class NuevoFiltroMatrizController implements Initializable {
             txtUnidadMedida.clear();
             txtPuntoReorden.clear();
             txtStockActual.clear();
-            txtStockActual.setDisable(false); // al crear, si se pide el stock inicial
+            txtStockActual.setDisable(false);
             txtStockActual.setEditable(true);
         }
     }
@@ -109,7 +104,6 @@ public class NuevoFiltroMatrizController implements Initializable {
         lblMaquinaSeleccionada.setText(nombreMaquinaMostrar);
         txtSistemaTipoFiltro.setText(mf.getSistemaTipoFiltro());
         txtCodigoOem.setText(mf.getCodigoOem());
-
         if (mf.getIdFiltro() != null) {
             cmbCodigoFiltro.getEditor().setText(mf.getIdFiltro());
             actualizarCamposSegunCodigo(mf.getIdFiltro());
@@ -126,13 +120,11 @@ public class NuevoFiltroMatrizController implements Initializable {
         String sistema = txtSistemaTipoFiltro.getText();
         String codigoOem = txtCodigoOem.getText();
         String codigoFiltro = cmbCodigoFiltro.getEditor().getText();
-
         if (sistema == null || sistema.isBlank() || codigoOem == null || codigoOem.isBlank()
                 || codigoFiltro == null || codigoFiltro.isBlank()) {
             lblError.setText("Sistema, código OEM y código de filtro son obligatorios");
             return;
         }
-
         Filtros existente = filtroDao.buscarPorId(codigoFiltro);
         if (existente == null) {
             Filtros nuevo = new Filtros();
@@ -164,7 +156,7 @@ public class NuevoFiltroMatrizController implements Initializable {
                 return;
             }
         }
-        
+
         MatrizFiltro mf = new MatrizFiltro();
         mf.setIdMaquina(idMaquina);
         mf.setSistemaTipoFiltro(sistema);
@@ -182,6 +174,7 @@ public class NuevoFiltroMatrizController implements Initializable {
                     ? "Asociación de filtro " + codigoFiltro + " (" + sistema + ") a máquina " + idMaquina
                     : "Modificación de filtro " + sistema + " en máquina " + idMaquina;
             BitacoraService.registrar(accion, "Matriz Filtro", idMaquina);
+            AlertaUtil.mostrar("Éxito", "El filtro fue guardado correctamente.", Alert.AlertType.INFORMATION);
             cerrarVentana();
         } else {
             lblError.setText("No se pudo guardar. Verifique que no exista ya un filtro para ese sistema en esta máquina.");
@@ -192,5 +185,4 @@ public class NuevoFiltroMatrizController implements Initializable {
         Stage stage = (Stage) btnCancelar.getScene().getWindow();
         stage.close();
     }
-
 }

@@ -1,4 +1,3 @@
-
 package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.dao.BitacoraDAO;
@@ -6,6 +5,7 @@ import com.ryrcontrolcenter.dao.UsuarioDao;
 import com.ryrcontrolcenter.modelo.Bitacora;
 import com.ryrcontrolcenter.modelo.Usuario;
 import com.ryrcontrolcenter.service.BitacoraService;
+import com.ryrcontrolcenter.util.AlertaUtil;
 import com.ryrcontrolcenter.util.SceneManager;
 import com.ryrcontrolcenter.util.SesionActual;
 import java.io.IOException;
@@ -20,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -110,6 +111,7 @@ public class UsuariosBitacoraController implements Initializable {
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/KardexVista.fxml");
     }
 
+    @FXML
     private void irAUsuariosBitacora(ActionEvent event) {
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml");
     }
@@ -144,21 +146,36 @@ public class UsuariosBitacoraController implements Initializable {
     private void onEliminarUsuarioClick(ActionEvent event) {
         Usuario seleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
+            AlertaUtil.mostrar("Atención", "Seleccione un usuario de la tabla para eliminar.", Alert.AlertType.WARNING);
             return;
         }
-        usuarioD.eliminar(seleccionado.getIdUsuario());
-        BitacoraService.registrar(
-                "Desactivación de usuario " + seleccionado.getUsuarioLogin(),
-                "Usuarios y Bitacora",
-                seleccionado.getUsuarioLogin());
-        cargarDatosTabla();
-        cargarBitacora();
+        boolean confirmado = AlertaUtil.confirmar(
+                "Confirmar eliminación",
+                "¿Está seguro de desactivar al usuario \"" + seleccionado.getNombreCompleto() + "\"?"
+        );
+        if (!confirmado) {
+            return;
+        }
+        boolean exito = usuarioD.eliminar(seleccionado.getIdUsuario());
+        if (exito) {
+            BitacoraService.registrar(
+                    "Desactivación de usuario " + seleccionado.getUsuarioLogin(),
+                    "Usuarios y Bitacora",
+                    seleccionado.getUsuarioLogin()
+            );
+            AlertaUtil.mostrar("Éxito", "El usuario fue desactivado correctamente.", Alert.AlertType.INFORMATION);
+            cargarDatosTabla();
+            cargarBitacora();
+        } else {
+            AlertaUtil.mostrar("Error", "No se pudo desactivar el usuario.", Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     private void onModificarUsuarioClick(ActionEvent event) {
         Usuario seleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
+            AlertaUtil.mostrar("Atención", "Seleccione un usuario de la tabla para modificar.", Alert.AlertType.WARNING);
             return;
         }
         abrirDialogo(seleccionado);
@@ -182,8 +199,9 @@ public class UsuariosBitacoraController implements Initializable {
             stage.setOnHidden(ev -> {
                 mainPane.setEffect(null);
                 mainPane.setOpacity(1.0);
-                cargarDatosTabla(); 
-                cargarBitacora();});
+                cargarDatosTabla();
+                cargarBitacora();
+            });
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

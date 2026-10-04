@@ -5,6 +5,7 @@ import com.ryrcontrolcenter.dao.MatrizFiltroDao;
 import com.ryrcontrolcenter.modelo.Maquina;
 import com.ryrcontrolcenter.modelo.MatrizFiltro;
 import com.ryrcontrolcenter.service.BitacoraService;
+import com.ryrcontrolcenter.util.AlertaUtil;
 import com.ryrcontrolcenter.util.SceneManager;
 import com.ryrcontrolcenter.util.SesionActual;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -71,7 +73,6 @@ public class MatrizFiltroController implements Initializable {
             public String toString(Maquina m) {
                 return m == null ? "" : m.getIdMaquina() + " | " + m.getMarca() + " " + m.getModelo();
             }
-
             @Override
             public Maquina fromString(String s) {
                 return null;
@@ -106,6 +107,7 @@ public class MatrizFiltroController implements Initializable {
     private void onAgregarFiltroClick(ActionEvent event) {
         Maquina seleccionada = cmbMaquina.getSelectionModel().getSelectedItem();
         if (seleccionada == null) {
+            AlertaUtil.mostrar("Atención", "Seleccione primero una máquina.", Alert.AlertType.WARNING);
             return;
         }
         abrirDialogo(null, seleccionada);
@@ -115,7 +117,11 @@ public class MatrizFiltroController implements Initializable {
     private void onModificarFiltroClick(ActionEvent event) {
         MatrizFiltro seleccionado = tablaMatriz.getSelectionModel().getSelectedItem();
         Maquina maquinaActual = cmbMaquina.getSelectionModel().getSelectedItem();
-        if (seleccionado == null || maquinaActual == null) {
+        if (seleccionado == null) {
+            AlertaUtil.mostrar("Atención", "Seleccione un filtro de la tabla para modificar.", Alert.AlertType.WARNING);
+            return;
+        }
+        if (maquinaActual == null) {
             return;
         }
         abrirDialogo(seleccionado, maquinaActual);
@@ -130,13 +136,11 @@ public class MatrizFiltroController implements Initializable {
             Parent root = loader.load();
             NuevoFiltroMatrizController dialogController = loader.getController();
             String nombreMostrar = maquina.getIdMaquina() + " | " + maquina.getMarca() + " " + maquina.getModelo();
-
             if (paraEditar == null) {
                 dialogController.setMaquinaContexto(maquina.getIdMaquina(), nombreMostrar);
             } else {
                 dialogController.cargarParaEdicion(paraEditar, nombreMostrar);
             }
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initModality(Modality.WINDOW_MODAL);
@@ -158,14 +162,28 @@ public class MatrizFiltroController implements Initializable {
     private void onEliminarFiltroClick(ActionEvent event) {
         MatrizFiltro seleccionado = tablaMatriz.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
+            AlertaUtil.mostrar("Atención", "Seleccione un filtro de la tabla para eliminar.", Alert.AlertType.WARNING);
             return;
         }
-        matrizD.eliminar(seleccionado.getIdMatriz());
-        BitacoraService.registrar(
-                "Eliminación de filtro " + seleccionado.getSistemaTipoFiltro() + " de máquina " + seleccionado.getIdMaquina(),
-                "Matriz Filtro",
-                seleccionado.getIdMaquina());
-        recargarTablaActual();
+        boolean confirmado = AlertaUtil.confirmar(
+                "Confirmar eliminación",
+                "¿Está seguro de eliminar el filtro \"" + seleccionado.getSistemaTipoFiltro() + "\" de esta máquina?"
+        );
+        if (!confirmado) {
+            return;
+        }
+        boolean exito = matrizD.eliminar(seleccionado.getIdMatriz());
+        if (exito) {
+            BitacoraService.registrar(
+                    "Eliminación de filtro " + seleccionado.getSistemaTipoFiltro() + " de máquina " + seleccionado.getIdMaquina(),
+                    "Matriz Filtro",
+                    seleccionado.getIdMaquina()
+            );
+            AlertaUtil.mostrar("Éxito", "El filtro fue eliminado correctamente.", Alert.AlertType.INFORMATION);
+            recargarTablaActual();
+        } else {
+            AlertaUtil.mostrar("Error", "No se pudo eliminar el filtro.", Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -183,6 +201,7 @@ public class MatrizFiltroController implements Initializable {
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/InventariadoVista.fxml");
     }
 
+    @FXML
     private void irAMatrizFiltro(ActionEvent event) {
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml");
     }

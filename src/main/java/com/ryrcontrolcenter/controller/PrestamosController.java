@@ -2,10 +2,11 @@ package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.dao.PrestamoDao;
 import com.ryrcontrolcenter.modelo.Prestamos;
+import com.ryrcontrolcenter.service.BitacoraService;
+import com.ryrcontrolcenter.util.AlertaUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +21,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -33,21 +33,34 @@ import javafx.stage.Stage;
 
 public class PrestamosController implements Initializable {
 
-    @FXML private BorderPane mainPane;
-    @FXML private Label lblTotalPrestamos;
-    @FXML private ComboBox<String> cmbFiltro;
-    @FXML private TextField txtBuscar;
-    @FXML private Button btnEliminarPrestamo;
-    @FXML private Button btnModificarPrestamo;
-    @FXML private Button btnAnadirPrestamo;
-    
-    @FXML private TableView<Prestamos> tablaPrestamos;
-    @FXML private TableColumn<Prestamos, String> colIdPrestamo;
-    @FXML private TableColumn<Prestamos, String> colInventario; // Tipado corregido
-    @FXML private TableColumn<Prestamos, String> colOperario;
-    @FXML private TableColumn<Prestamos, String> colSalida; // Tipado corregido
-    @FXML private TableColumn<Prestamos, String> colEstado;
-    @FXML private TableColumn<Prestamos, String> colDevolucion; // Tipado corregido
+    @FXML
+    private BorderPane mainPane;
+    @FXML
+    private Label lblTotalPrestamos;
+    @FXML
+    private ComboBox<String> cmbFiltro;
+    @FXML
+    private TextField txtBuscar;
+    @FXML
+    private Button btnEliminarPrestamo;
+    @FXML
+    private Button btnModificarPrestamo;
+    @FXML
+    private Button btnAnadirPrestamo;
+    @FXML
+    private TableView<Prestamos> tablaPrestamos;
+    @FXML
+    private TableColumn<Prestamos, String> colIdPrestamo;
+    @FXML
+    private TableColumn<Prestamos, String> colInventario;
+    @FXML
+    private TableColumn<Prestamos, String> colOperario;
+    @FXML
+    private TableColumn<Prestamos, String> colSalida;
+    @FXML
+    private TableColumn<Prestamos, String> colEstado;
+    @FXML
+    private TableColumn<Prestamos, String> colDevolucion;
 
     private final PrestamoDao prestamoDao = new PrestamoDao();
     private ObservableList<Prestamos> listaPrestamos = FXCollections.observableArrayList();
@@ -81,18 +94,14 @@ public class PrestamosController implements Initializable {
             if (prestamos != null) {
                 listaPrestamos.addAll(prestamos);
             }
-
             filtroPrestamos = new FilteredList<>(listaPrestamos, b -> true);
-
             txtBuscar.textProperty().addListener((observable, oldValue, newValue) -> aplicarFiltros());
             cmbFiltro.valueProperty().addListener((observable, oldValue, newValue) -> aplicarFiltros());
 
             SortedList<Prestamos> sortedData = new SortedList<>(filtroPrestamos);
             sortedData.comparatorProperty().bind(tablaPrestamos.comparatorProperty());
             tablaPrestamos.setItems(sortedData);
-
             actualizarContador(sortedData.size());
-
         } catch (Exception e) {
             System.err.println("Error al obtener los préstamos desde la BD: " + e.getMessage());
             e.printStackTrace();
@@ -102,11 +111,9 @@ public class PrestamosController implements Initializable {
     private void aplicarFiltros() {
         String textoBusqueda = txtBuscar.getText() == null ? "" : txtBuscar.getText().toLowerCase().trim();
         String opcionFiltro = cmbFiltro.getValue() == null ? "Todos" : cmbFiltro.getValue();
-
         filtroPrestamos.setPredicate(prestamo -> {
             boolean cumpleFiltroCombo = true;
             String idActivo = prestamo.getIdActivo() != null ? prestamo.getIdActivo().toUpperCase() : "";
-            
             if ("Máquina".equals(opcionFiltro)) {
                 cumpleFiltroCombo = idActivo.startsWith("MAQ") || idActivo.contains("MAQUINA");
             } else if ("Herramienta".equals(opcionFiltro)) {
@@ -114,11 +121,9 @@ public class PrestamosController implements Initializable {
             } else if ("Kit".equals(opcionFiltro)) {
                 cumpleFiltroCombo = idActivo.startsWith("KIT");
             }
-
             if (textoBusqueda.isEmpty()) {
                 return cumpleFiltroCombo;
             }
-
             boolean cumpleBusqueda = false;
             if (prestamo.getIdPrestamo() != null && String.valueOf(prestamo.getIdPrestamo()).toLowerCase().contains(textoBusqueda)) {
                 cumpleBusqueda = true;
@@ -129,7 +134,6 @@ public class PrestamosController implements Initializable {
             } else if (prestamo.getEstado() != null && prestamo.getEstado().toLowerCase().contains(textoBusqueda)) {
                 cumpleBusqueda = true;
             }
-
             return cumpleFiltroCombo && cumpleBusqueda;
         });
 
@@ -147,13 +151,11 @@ public class PrestamosController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ryrcontrolcenter/ui/NuevoPrestamoVista.fxml"));
             Parent root = loader.load();
-
             Stage stage = new Stage();
             stage.setTitle("Registrar Nuevo Préstamo");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root));
             stage.showAndWait();
-
             cargarDatosBD();
         } catch (IOException e) {
             System.err.println("Error al abrir NuevoPrestamoVista.fxml: " + e.getMessage());
@@ -164,25 +166,20 @@ public class PrestamosController implements Initializable {
     @FXML
     private void onModificarPrestamoClick(ActionEvent event) {
         Prestamos seleccionado = tablaPrestamos.getSelectionModel().getSelectedItem();
-        
         if (seleccionado == null) {
-            mostrarAlerta("Atención", "Por favor seleccione un préstamo de la tabla para modificar.", Alert.AlertType.WARNING);
+            AlertaUtil.mostrar("Atención", "Por favor seleccione un préstamo de la tabla para modificar.", Alert.AlertType.WARNING);
             return;
         }
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ryrcontrolcenter/ui/NuevoPrestamoVista.fxml"));
             Parent root = loader.load();
-
             NuevoPrestamoController controller = loader.getController();
             controller.setPrestamoParaEditar(seleccionado);
-
             Stage stage = new Stage();
             stage.setTitle("Modificar Préstamo - " + seleccionado.getIdPrestamo());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root));
             stage.showAndWait();
-
             cargarDatosBD();
         } catch (IOException e) {
             System.err.println("Error al abrir modal para editar: " + e.getMessage());
@@ -193,37 +190,61 @@ public class PrestamosController implements Initializable {
     @FXML
     private void onEliminarPrestamoClick(ActionEvent event) {
         Prestamos seleccionado = tablaPrestamos.getSelectionModel().getSelectedItem();
-
         if (seleccionado == null) {
-            mostrarAlerta("Atención", "Por favor seleccione un préstamo de la tabla para eliminar.", Alert.AlertType.WARNING);
+            AlertaUtil.mostrar("Atención", "Por favor seleccione un préstamo de la tabla para eliminar.", Alert.AlertType.WARNING);
             return;
         }
-
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmar devolución");
-        confirmacion.setHeaderText(null);
-        confirmacion.setContentText("¿Está seguro de marcar como devuelto el préstamo " + seleccionado.getIdPrestamo() + "?");
-
-        Optional<ButtonType> resultado = confirmacion.showAndWait();
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            boolean exito = prestamoDao.eliminarLogico(seleccionado.getIdPrestamo());
-            if (exito) {
-                mostrarAlerta("Éxito", "El préstamo ha sido marcado como devuelto.", Alert.AlertType.INFORMATION);
-                cargarDatosBD();
-            } else {
-                mostrarAlerta("Error", "No se pudo actualizar el estado del préstamo en la base de datos.", Alert.AlertType.ERROR);
-            }
+        boolean confirmado = AlertaUtil.confirmar(
+                "Confirmar devolución",
+                "¿Está seguro de marcar como devuelto el préstamo " + seleccionado.getIdPrestamo() + "?"
+        );
+        if (!confirmado) {
+            return;
+        }
+        boolean exito = prestamoDao.eliminarLogico(seleccionado.getIdPrestamo());
+        if (exito) {
+            BitacoraService.registrar(
+                    "Registro de devolución del préstamo " + seleccionado.getIdPrestamo(),
+                    "Prestamos",
+                    seleccionado.getIdPrestamo()
+            );
+            AlertaUtil.mostrar("Éxito", "El préstamo ha sido marcado como devuelto.", Alert.AlertType.INFORMATION);
+            cargarDatosBD();
+        } else {
+            AlertaUtil.mostrar("Error", "No se pudo actualizar el estado del préstamo en la base de datos.", Alert.AlertType.ERROR);
         }
     }
 
-    // --- MÉTODOS DE NAVEGACIÓN ---
+    @FXML
+    private void irADashboard(ActionEvent event) {
+        cargarVista("/com/ryrcontrolcenter/ui/DashboardVista.fxml", event);
+    }
 
-    @FXML private void irADashboard(ActionEvent event) { cargarVista("/com/ryrcontrolcenter/ui/DashboardVista.fxml", event); }
-    @FXML private void irAInventariado(ActionEvent event) { cargarVista("/com/ryrcontrolcenter/ui/InventariadoVista.fxml", event); }
-    @FXML private void irAMatrizFiltro(ActionEvent event) { cargarVista("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml", event); }
-    @FXML private void irAKardex(ActionEvent event) { cargarVista("/com/ryrcontrolcenter/ui/KardexVista.fxml", event); }
-    @FXML private void irAUsuariosBitacora(ActionEvent event) { cargarVista("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml", event); }
-    @FXML private void onLogoutClick(ActionEvent event) { cargarVista("/com/ryrcontrolcenter/ui/LoginVista.fxml", event); }
+    @FXML
+    private void irAInventariado(ActionEvent event) {
+        cargarVista("/com/ryrcontrolcenter/ui/InventariadoVista.fxml", event);
+    }
+
+    @FXML
+    private void irAMatrizFiltro(ActionEvent event) {
+        cargarVista("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml", event);
+    }
+
+    @FXML
+    private void irAKardex(ActionEvent event) {
+        cargarVista("/com/ryrcontrolcenter/ui/KardexVista.fxml", event);
+    }
+
+    @FXML
+    private void irAUsuariosBitacora(ActionEvent event) {
+        cargarVista("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml", event);
+    }
+
+    @FXML
+    private void onLogoutClick(ActionEvent event) {
+        com.ryrcontrolcenter.util.SesionActual.cerrar();
+        cargarVista("/com/ryrcontrolcenter/ui/LoginVista.fxml", event);
+    }
 
     private void cargarVista(String fxmlPath, ActionEvent event) {
         try {
@@ -236,13 +257,5 @@ public class PrestamosController implements Initializable {
             System.err.println("Error al redirigir a " + fxmlPath + ": " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
     }
 }

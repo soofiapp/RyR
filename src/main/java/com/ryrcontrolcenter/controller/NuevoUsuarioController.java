@@ -3,6 +3,7 @@ package com.ryrcontrolcenter.controller;
 import com.ryrcontrolcenter.dao.UsuarioDao;
 import com.ryrcontrolcenter.modelo.Usuario;
 import com.ryrcontrolcenter.service.BitacoraService;
+import com.ryrcontrolcenter.util.AlertaUtil;
 import com.ryrcontrolcenter.util.PasswordUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -78,7 +80,6 @@ public class NuevoUsuarioController implements Initializable {
         u.setUsuarioLogin(login);
         u.setRol(rol);
         u.setFrentePlanta(frentePlanta);
-
         boolean exito;
         if (idUsuarioEdicion == null) {
             if (password == null || password.isBlank()) {
@@ -94,24 +95,22 @@ public class NuevoUsuarioController implements Initializable {
                 exito = usuarioDao.actualizar(u);
             } else {
                 String nuevoHash = PasswordUtil.generarHash(password);
-                exito = usuarioDao.actualizarConPassword(u,nuevoHash);
+                exito = usuarioDao.actualizarConPassword(u, nuevoHash);
             }
         }
         if (exito) {
-            String accion;
-            if (idUsuarioEdicion == null) {
-                accion = "Creación de usuario " + login + " (rol " + rol + ")";
-            } else {
-                accion = "Modificación de usuario " + login;
-            }
+            String accion = (idUsuarioEdicion == null)
+                    ? "Creación de usuario " + login + " (rol " + rol + ")"
+                    : "Modificación de usuario " + login;
             try {
-                BitacoraService.registrar(accion,"Usuarios y Bitacora",login);
+                BitacoraService.registrar(accion, "Usuarios y Bitacora", login);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            AlertaUtil.mostrar("Éxito", "El usuario fue guardado correctamente.", Alert.AlertType.INFORMATION);
             cerrarVentana();
         } else {
-            lblError.setText("No se pudo guardar. Verifique que el usuario " + (login) + " no esté repetido.");
+            lblError.setText("No se pudo guardar. Verifique que el usuario " + login + " no esté repetido.");
         }
     }
 
@@ -119,5 +118,4 @@ public class NuevoUsuarioController implements Initializable {
         Stage stage = (Stage) btnCancelar.getScene().getWindow();
         stage.close();
     }
-
 }
