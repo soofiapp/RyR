@@ -39,14 +39,14 @@
             <HBox alignment="CENTER_LEFT">
    
                <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="40.0" prefWidth="345.0" spacing="10">
-                   <ComboBox fx:id="cmbFiltro" prefHeight="25.0" prefWidth="99.0" promptText="Filtrar" />
-                   <TextField fx:id="txtBuscar" prefHeight="25.0" prefWidth="285.0" promptText="Busca por máquina, herramienta o kit" HBox.hgrow="ALWAYS" />
+                   <ComboBox fx:id="cmbFiltro" prefHeight="25.0" prefWidth="130.0" />
+                    <TextField fx:id="txtBuscar" prefHeight="25.0" prefWidth="285.0" promptText="Escribe para buscar..." HBox.hgrow="ALWAYS" />
                </HBox>
                 <VBox HBox.hgrow="ALWAYS" />
             <ButtonBar prefHeight="40.0" prefWidth="329.0">
               <buttons>
-                <Button fx:id="btnEliminarActivo" minWidth="71.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
-                  <Button fx:id="btnModificarActivo" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
+                 <Button fx:id="btnEliminarActivo" onAction="#onEliminarActivoClick" minWidth="71.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
+                  <Button fx:id="btnModificarActivo" onAction="#onModificarActivoClick" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
                       <Button fx:id="btnAgregarActivo" onAction="#onAgregarActivoClick" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar" />
               </buttons>
             </ButtonBar>

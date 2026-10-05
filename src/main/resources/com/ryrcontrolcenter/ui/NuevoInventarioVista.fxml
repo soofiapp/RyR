@@ -14,9 +14,9 @@
 
     <padding><Insets bottom="20" left="20" right="20" top="16" /></padding>
 
-    <Label maxWidth="Infinity" style="-fx-background-color: #2447c4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10;" text="AGREGAR AL INVENTARIO" />
-
-    <Label text="Código / ID" />
+   <Label fx:id="lblTitulo" maxWidth="Infinity" style="-fx-background-color: #2447c4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10;" text="AGREGAR AL INVENTARIO" />
+   
+   <Label text="Código / ID" />
     <TextField fx:id="txtIdActivo" promptText="Ej: HERR-0103" />
 
     <Label text="Descripción del Activo" />
@@ -25,18 +25,19 @@
     <HBox spacing="14">
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Tipo de Activo" />
-            <ComboBox fx:id="cmbTipoActivo" maxWidth="Infinity" />
+            <TextField fx:id="txtTipoActivo" promptText="Herramienta, Maquinaria o Kit Agrupado" />
         </VBox>
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Estado SST" />
-            <ComboBox fx:id="cmbEstadoSst" maxWidth="Infinity" />
+            <TextField fx:id="txtEstadoSst" promptText="Operativa, Bloqueada, Mantenimiento o Completo" />
         </VBox>
     </HBox>
+
 
     <HBox spacing="14">
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Ubicación" />
-         <TextField fx:id="txtUbicacion" />
+         <TextField fx:id="txtUbicacion" promptText="Fábrica 12A"  />
         </VBox>
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Fecha de Registro" />
