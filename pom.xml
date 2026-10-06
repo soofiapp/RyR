@@ -31,6 +31,11 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.46.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.13</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -41,6 +46,9 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.ryrcontrolcenter.MainApp</mainClass>
+                    <options>
+                        <option>--enable-native-access=javafx.graphics,ALL-UNNAMED</option>
+                    </options>
                 </configuration>
                 <executions>
                     <execution>
@@ -53,24 +61,29 @@
                         <id>debug</id>
                         <configuration>
                             <options>
+                                <option>--enable-native-access=javafx.graphics,ALL-UNNAMED</option>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
                             </options>
                         </configuration>
                     </execution>
                     <execution>
                         <!-- Configuracion para debug automatico desde el IDE -->
+                        <!-- Usage: mvn clean javafx:run@ide-debug -->
                         <id>ide-debug</id>
                         <configuration>
                             <options>
+                                <option>--enable-native-access=javafx.graphics,ALL-UNNAMED</option>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
                             </options>
                         </configuration>
                     </execution>
                     <execution>
                         <!-- Configuracion para profiling automatico desde el IDE -->
+                        <!-- Usage: mvn clean javafx:run@ide-profile -->
                         <id>ide-profile</id>
                         <configuration>
                             <options>
+                                <option>--enable-native-access=javafx.graphics,ALL-UNNAMED</option>
                                 <option>${profiler.jvmargs.arg1}</option>
                                 <option>${profiler.jvmargs.arg2}</option>
                                 <option>${profiler.jvmargs.arg3}</option>
