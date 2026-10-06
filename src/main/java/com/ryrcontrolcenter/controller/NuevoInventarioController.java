@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.modelo.Inventario;
+import com.ryrcontrolcenter.service.BitacoraService;
 import com.ryrcontrolcenter.service.InventarioService;
 import java.net.URL;
 import java.time.LocalDate;
@@ -29,37 +26,47 @@ import javafx.stage.Stage;
  * @author Juanp
  */
 public class NuevoInventarioController implements Initializable {
-   
-    private static final List<String> TIPOS_VALIDOS =
-            Arrays.asList("Herramienta", "Maquinaria", "Kit Agrupado");
-    private static final List<String> ESTADOS_VALIDOS =
-            Arrays.asList("Operativa", "Bloqueada", "Mantenimiento", "Completo");
-    
-    
-    
-    @FXML private TextField txtIdActivo;
-    @FXML private TextField txtDescripcion;
-    @FXML private TextField txtTipoActivo;
-    @FXML private TextField txtEstadoSst;
-    @FXML private TextField txtUbicacion;
-    @FXML private DatePicker dpFechaRegistro;
-    @FXML private TextArea txtObservaciones;
-    @FXML private Button btnCancelar;
-    @FXML private Button btnGuardar;
-    @FXML private Label lblTitulo;
-    
+
+    private static final List<String> TIPOS_VALIDOS
+            = Arrays.asList("Herramienta", "Maquinaria", "Kit Agrupado");
+    private static final List<String> ESTADOS_VALIDOS
+            = Arrays.asList("Operativa", "Bloqueada", "Mantenimiento", "Completo");
+
+    @FXML
+    private TextField txtIdActivo;
+    @FXML
+    private TextField txtDescripcion;
+    @FXML
+    private TextField txtTipoActivo;
+    @FXML
+    private TextField txtEstadoSst;
+    @FXML
+    private TextField txtUbicacion;
+    @FXML
+    private DatePicker dpFechaRegistro;
+    @FXML
+    private TextArea txtObservaciones;
+    @FXML
+    private Button btnCancelar;
+    @FXML
+    private Button btnGuardar;
+    @FXML
+    private Label lblTitulo;
+
     private final InventarioService service = new InventarioService();
 
     private boolean modoEdicion = false;
     private String idOriginal;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dpFechaRegistro.setValue(LocalDate.now());
-    }   
+    }
 
-    
-        /** Llama a este método antes de mostrar la ventana para entrar en modo modificar. */
+    /**
+     * Llama a este método antes de mostrar la ventana para entrar en modo
+     * modificar.
+     */
     public void setInventarioAEditar(Inventario item) {
         modoEdicion = true;
         idOriginal = item.getIdActivo();
@@ -84,13 +91,12 @@ public class NuevoInventarioController implements Initializable {
             dpFechaRegistro.setValue(LocalDate.now());
         }
     }
-    
+
     @FXML
     private void onCancelarClick(ActionEvent event) {
         cerrarVentana();
     }
 
-   
     @FXML
     private void onGuardarClick(ActionEvent event) {
         String idActivo = txtIdActivo.getText().trim();
@@ -141,6 +147,10 @@ public class NuevoInventarioController implements Initializable {
                 : service.agregarItemInventarioService(item);
 
         if (ok) {
+            String accion = modoEdicion
+                    ? "Modificación de activo " + idActivo + " (" + descripcion + ")"
+                    : "Creación de activo " + idActivo + " (" + descripcion + ")";
+            BitacoraService.registrar(accion, "Inventariado", idActivo);
             cerrarVentana();
         } else {
             mostrarAlerta("Error", modoEdicion
@@ -151,7 +161,9 @@ public class NuevoInventarioController implements Initializable {
 
     private String buscarValido(String texto, List<String> validos) {
         for (String v : validos) {
-            if (v.equalsIgnoreCase(texto)) return v;
+            if (v.equalsIgnoreCase(texto)) {
+                return v;
+            }
         }
         return null;
     }

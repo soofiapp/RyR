@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.modelo.Inventario;
+import com.ryrcontrolcenter.service.BitacoraService;
 import com.ryrcontrolcenter.service.InventarioService;
 import com.ryrcontrolcenter.util.SceneManager;
+import com.ryrcontrolcenter.util.SesionActual;
 import java.io.IOException;
 import java.net.URL;
 import java.text.Normalizer;
@@ -39,19 +37,32 @@ import javafx.stage.Stage;
 
 public class InventariadoController implements Initializable {
 
-    @FXML private ComboBox<String> cmbFiltro;
-    @FXML private TextField txtBuscar;
-    @FXML private Label lblTotalActivos;
-    @FXML private Button btnAgregarActivo;
-    @FXML private Button btnEliminarActivo;
-    @FXML private Button btnModificarActivo;
-    @FXML private TableView<Inventario> tablaInventario;
-    @FXML private TableColumn<Inventario, String> colCodigo;
-    @FXML private TableColumn<Inventario, String> colDescripcion;
-    @FXML private TableColumn<Inventario, String> colTipo;
-    @FXML private TableColumn<Inventario, String> colEstadoSst;
-    @FXML private TableColumn<Inventario, String> colObservaciones;
-    @FXML private BorderPane mainPane;
+    @FXML
+    private ComboBox<String> cmbFiltro;
+    @FXML
+    private TextField txtBuscar;
+    @FXML
+    private Label lblTotalActivos;
+    @FXML
+    private Button btnAgregarActivo;
+    @FXML
+    private Button btnEliminarActivo;
+    @FXML
+    private Button btnModificarActivo;
+    @FXML
+    private TableView<Inventario> tablaInventario;
+    @FXML
+    private TableColumn<Inventario, String> colCodigo;
+    @FXML
+    private TableColumn<Inventario, String> colDescripcion;
+    @FXML
+    private TableColumn<Inventario, String> colTipo;
+    @FXML
+    private TableColumn<Inventario, String> colEstadoSst;
+    @FXML
+    private TableColumn<Inventario, String> colObservaciones;
+    @FXML
+    private BorderPane mainPane;
 
     private final InventarioService service = new InventarioService();
 
@@ -72,14 +83,17 @@ public class InventariadoController implements Initializable {
         SortedList<Inventario> ordenados = new SortedList<>(datosFiltrados);
         ordenados.comparatorProperty().bind(tablaInventario.comparatorProperty());
         tablaInventario.setItems(ordenados);
-
         cmbFiltro.setItems(FXCollections.observableArrayList(
                 "Todos", "Código", "Descripción", "Tipo", "Estado SST", "Observaciones"));
         cmbFiltro.getSelectionModel().selectFirst();
-
         txtBuscar.textProperty().addListener((obs, anterior, nuevo) -> aplicarFiltro());
         cmbFiltro.valueProperty().addListener((obs, anterior, nuevo) -> aplicarFiltro());
 
+        if (!SesionActual.puedeEditar()) {
+            btnAgregarActivo.setVisible(false);
+            btnModificarActivo.setVisible(false);
+            btnEliminarActivo.setVisible(false);
+        }
         cargarDatosTabla();
     }
 
@@ -93,17 +107,23 @@ public class InventariadoController implements Initializable {
                 return true;
             }
             return switch (campo) {
-                case "Código" -> coincide(item.getIdActivo(), texto);
-                case "Descripción" -> coincide(item.getDescripcion(), texto);
-                case "Tipo" -> coincide(item.getTipoActivo(), texto);
-                case "Estado SST" -> coincide(item.getEstadoSst(), texto);
-                case "Observaciones" -> coincide(item.getObservaciones(), texto);
-                default -> coincide(item.getIdActivo(), texto)
-                        || coincide(item.getDescripcion(), texto)
-                        || coincide(item.getTipoActivo(), texto)
-                        || coincide(item.getEstadoSst(), texto)
-                        || coincide(item.getUbicacion(), texto)
-                        || coincide(item.getObservaciones(), texto);
+                case "Código" ->
+                    coincide(item.getIdActivo(), texto);
+                case "Descripción" ->
+                    coincide(item.getDescripcion(), texto);
+                case "Tipo" ->
+                    coincide(item.getTipoActivo(), texto);
+                case "Estado SST" ->
+                    coincide(item.getEstadoSst(), texto);
+                case "Observaciones" ->
+                    coincide(item.getObservaciones(), texto);
+                default ->
+                    coincide(item.getIdActivo(), texto)
+                    || coincide(item.getDescripcion(), texto)
+                    || coincide(item.getTipoActivo(), texto)
+                    || coincide(item.getEstadoSst(), texto)
+                    || coincide(item.getUbicacion(), texto)
+                    || coincide(item.getObservaciones(), texto);
             };
         });
 
@@ -114,9 +134,13 @@ public class InventariadoController implements Initializable {
         return normalizar(valor).contains(textoNormalizado);
     }
 
-    /** Minúsculas y sin tildes, para que "maquina" encuentre "Máquina". */
+    /**
+     * Minúsculas y sin tildes, para que "maquina" encuentre "Máquina".
+     */
     private String normalizar(String s) {
-        if (s == null) return "";
+        if (s == null) {
+            return "";
+        }
         return Normalizer.normalize(s, Normalizer.Form.NFD)
                 .replaceAll("\\p{M}", "")
                 .toLowerCase()
@@ -129,13 +153,41 @@ public class InventariadoController implements Initializable {
     }
 
     // ---------- Navegación ----------
-    @FXML private void irADashboard(ActionEvent e) { SceneManager.cambiarA("/com/ryrcontrolcenter/ui/DashboardVista.fxml"); }
-    @FXML private void irAPrestamos(ActionEvent e) { SceneManager.cambiarA("/com/ryrcontrolcenter/ui/PrestamosVista.fxml"); }
-    @FXML private void irAInventariado(ActionEvent e) { SceneManager.cambiarA("/com/ryrcontrolcenter/ui/InventariadoVista.fxml"); }
-    @FXML private void irAMatrizFiltro(ActionEvent e) { SceneManager.cambiarA("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml"); }
-    @FXML private void irAKardex(ActionEvent e) { SceneManager.cambiarA("/com/ryrcontrolcenter/ui/KardexVista.fxml"); }
-    @FXML private void irAUsuariosBitacora(ActionEvent e) { SceneManager.cambiarA("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml"); }
-    @FXML private void onLogoutClick(ActionEvent e) { SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml"); }
+    @FXML
+    private void irADashboard(ActionEvent e) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/DashboardVista.fxml");
+    }
+
+    @FXML
+    private void irAPrestamos(ActionEvent e) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/PrestamosVista.fxml");
+    }
+
+    @FXML
+    private void irAInventariado(ActionEvent e) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/InventariadoVista.fxml");
+    }
+
+    @FXML
+    private void irAMatrizFiltro(ActionEvent e) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml");
+    }
+
+    @FXML
+    private void irAKardex(ActionEvent e) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/KardexVista.fxml");
+    }
+
+    @FXML
+    private void irAUsuariosBitacora(ActionEvent e) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml");
+    }
+
+    @FXML
+    private void onLogoutClick(ActionEvent e) {
+        SesionActual.cerrar();
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml");
+    }
 
     // ---------- Tabla ----------
     private void cargarDatosTabla() {
@@ -185,6 +237,11 @@ public class InventariadoController implements Initializable {
         Optional<ButtonType> respuesta = confirmar.showAndWait();
         if (respuesta.isPresent() && respuesta.get() == ButtonType.OK) {
             if (service.eliminarItemInventarioService(seleccionado.getIdActivo())) {
+                BitacoraService.registrar(
+                        "Eliminación de activo " + seleccionado.getIdActivo() + " (" + seleccionado.getDescripcion() + ")",
+                        "Inventariado",
+                        seleccionado.getIdActivo()
+                );
                 cargarDatosTabla();
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "No se pudo eliminar",
