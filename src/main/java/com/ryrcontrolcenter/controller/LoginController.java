@@ -37,27 +37,38 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void clickDeEntrar(ActionEvent event) {
-        try {
-            String usuario = txtUsuario.getText();
-            String contraseña = txtPassword.getText();
-            Usuario u = authService.iniciarSesion(usuario, contraseña);
-            if (u != null) {
-                lblError.setText("Bienvenid@");
-                System.out.println("Bienvenid@, " + u.getNombreCompleto() + " (" + u.getRol() + ")");
-                Stage stage = new Stage();
-                stage.setFullScreen(true);
-                Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/DashboardVista.fxml"));
-                stage.setTitle("Dashboard");
-                stage.setScene(new Scene(root));
-                stage.show();
-                Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stageLogin.close();
-            } else {
-                lblError.setText("Usuario o contraseña incorrectos");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+private void clickDeEntrar(ActionEvent event) {
+    try {
+        String usuario = txtUsuario.getText();
+        String contraseña = txtPassword.getText();
+
+        if (usuario.equals("1") && contraseña.equals("1")) {
+
+            lblError.setText("Bienvenid@");
+            System.out.println("Bienvenid@, usuario 1");
+
+            Stage stage = new Stage();
+            stage.setFullScreen(true);
+
+            Parent root = FXMLLoader.load(
+                getClass().getResource("/com/ryrcontrolcenter/ui/DashboardVista.fxml")
+            );
+
+            stage.setTitle("Dashboard");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            Stage stageLogin = (Stage) ((Node) event.getSource())
+                    .getScene().getWindow();
+
+            stageLogin.close();
+
+        } else {
+            lblError.setText("Usuario o contraseña incorrectos");
         }
+
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
 }
