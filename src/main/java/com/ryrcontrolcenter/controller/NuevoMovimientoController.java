@@ -19,7 +19,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-/** Dialogo para registrar una Entrada, Salida o Ajuste en el Kardex. */
+
 public class NuevoMovimientoController implements Initializable {
 
     @FXML
@@ -63,7 +63,7 @@ public class NuevoMovimientoController implements Initializable {
                 return null;
             }
         });
-        // Solo digitos en la cantidad
+
         txtCantidad.setTextFormatter(new TextFormatter<String>(c -> c.getControlNewText().matches("\\d{0,7}") ? c : null));
 
         cmbFiltro.valueProperty().addListener((o, a, b) -> actualizarVista());
@@ -72,7 +72,7 @@ public class NuevoMovimientoController implements Initializable {
         actualizarVista();
     }
 
-    /** Deja el insumo ya seleccionado (por ejemplo, el que estaba marcado en la tabla). */
+
     public void setFiltroInicial(String idFiltro) {
         if (idFiltro == null) {
             return;

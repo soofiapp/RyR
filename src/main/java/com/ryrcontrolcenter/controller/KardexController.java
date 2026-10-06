@@ -53,11 +53,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * Pantalla de Kardex: libro de movimientos de insumos (entradas, salidas,
- * ajustes y saldo) y existencias con semaforo por punto de reorden, con
- * exportacion a PDF y Excel.
- */
+
 public class KardexController implements Initializable {
 
     private static final String TODAS = "Todas";
@@ -134,7 +130,6 @@ public class KardexController implements Initializable {
     @FXML
     private Label lblConteoMov;
 
-    // Pestaña Existencias
     @FXML
     private ComboBox<String> cmbEstado;
     @FXML
@@ -170,7 +165,7 @@ public class KardexController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Solo el rol que puede editar registra movimientos (RF-5 / RNF-5)
+
         if (!SesionActual.puedeEditar()) {
             btnRegistrarMovimiento.setVisible(false);
             btnRegistrarMovimiento.setManaged(false);
@@ -192,7 +187,7 @@ public class KardexController implements Initializable {
         configurarFiltros();
         cargarDatos();
 
-        // Doble clic en un insumo: abre su "tarjeta" (movimientos de ese insumo)
+
         tablaExistencias.setOnMouseClicked(ev -> {
             Filtros sel = tablaExistencias.getSelectionModel().getSelectedItem();
             if (ev.getClickCount() == 2 && sel != null) {
@@ -202,10 +197,10 @@ public class KardexController implements Initializable {
         });
     }
 
-    // ------------------------------------------------------------- configuracion
+
 
     private void configurarTablaMovimientos() {
-        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaHora")); // orden cronologico correcto
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaHora")); 
         colFecha.setCellFactory(c -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -255,7 +250,7 @@ public class KardexController implements Initializable {
                 }
                 setText(String.valueOf(item));
                 setAlignment(Pos.CENTER_RIGHT);
-                // Color segun el punto de reorden actual del insumo
+
                 setStyle("-fx-font-weight: bold; -fx-text-fill: "
                         + colorSemaforo(KardexService.semaforo(item, fila.getPuntoReorden())) + ";");
             }
@@ -334,7 +329,7 @@ public class KardexController implements Initializable {
         dpHasta.valueProperty().addListener((o, a, b) -> aplicarFiltros());
     }
 
-    // ------------------------------------------------------------------- datos
+
 
     private void cargarDatos() {
         movimientos.setAll(kardexDao.listarMovimientos());
@@ -377,7 +372,7 @@ public class KardexController implements Initializable {
                 return false;
             }
             String fh = k.getFechaHora() == null ? "" : k.getFechaHora();
-            String dia = fh.length() >= 10 ? fh.substring(0, 10) : fh; // yyyy-MM-dd compara bien como texto
+            String dia = fh.length() >= 10 ? fh.substring(0, 10) : fh; 
             if (desde != null && dia.compareTo(desde.toString()) < 0) {
                 return false;
             }
@@ -445,11 +440,9 @@ public class KardexController implements Initializable {
         actualizarGraficas();
     }
 
-    // ------------------------------------------------------------------ graficas
 
-    /** Recalcula las cuatro graficas con los datos que dejan pasar los filtros activos. */
     private void actualizarGraficas() {
-        // 1) entradas y salidas por mes
+
         Map<String, int[]> porMes = new TreeMap<>();
         for (KardexFila k : movFiltrados) {
             String fh = k.getFechaHora();
@@ -470,7 +463,7 @@ public class KardexController implements Initializable {
         }
         chartMovMes.getData().setAll(List.of(sEnt, sSal));
 
-        // 2) semaforo de existencias (siempre rojo, amarillo, verde: los colores van por posicion)
+
         int[] sem = new int[3];
         for (Filtros f : exFiltrados) {
             switch (KardexService.semaforo(f.getStockActual(), f.getPuntoReorden())) {
@@ -484,7 +477,7 @@ public class KardexController implements Initializable {
                 new PieChart.Data("Amarillo - pedir pronto (" + sem[1] + ")", sem[1]),
                 new PieChart.Data("Verde - OK (" + sem[2] + ")", sem[2]));
 
-        // 3) insumos con mas movimiento (los 8 con mas salidas), el mayor arriba
+
         Map<String, int[]> porInsumo = new java.util.LinkedHashMap<>();
         for (KardexFila k : movFiltrados) {
             int[] a = porInsumo.computeIfAbsent(k.getIdFiltro(), x -> new int[2]);
@@ -507,7 +500,6 @@ public class KardexController implements Initializable {
         }
         chartTopInsumos.getData().setAll(List.of(tEnt, tSal));
 
-        // 4) stock vs punto de reorden de los 8 mas criticos (stock - reorden de menor a mayor)
         List<Filtros> crit = new ArrayList<>(exFiltrados);
         crit.sort(java.util.Comparator.comparingInt((Filtros f) -> f.getStockActual() - f.getPuntoReorden())
                 .thenComparing(Filtros::getIdFiltro));
@@ -526,7 +518,6 @@ public class KardexController implements Initializable {
         chartCriticos.getData().setAll(List.of(cStock, cReorden));
     }
 
-    // ------------------------------------------------------------------ colores
 
     private static String colorSemaforo(String s) {
         return switch (s) {
@@ -548,7 +539,7 @@ public class KardexController implements Initializable {
         return KardexService.ROJO.equals(s) ? 0 : KardexService.AMARILLO.equals(s) ? 1 : 2;
     }
 
-    // ------------------------------------------------------------------ acciones
+
 
     @FXML
     private void onLimpiarClick(ActionEvent event) {
@@ -602,7 +593,7 @@ public class KardexController implements Initializable {
         exportar(false);
     }
 
-    /** Exporta la pestaña activa tal como se ve (filtros y orden actuales). */
+
     private void exportar(boolean pdf) {
         boolean enMovimientos = tabs.getSelectionModel().getSelectedItem() == tabMovimientos;
         File destino = ExportacionUtil.elegirArchivo(mainPane.getScene().getWindow(),
@@ -661,7 +652,6 @@ public class KardexController implements Initializable {
         return partes.isEmpty() ? "Sin filtros (todos los registros)." : "Filtros aplicados: " + String.join("; ", partes) + ".";
     }
 
-    // ---------------------------------------------------------------- navegacion
 
     @FXML
     private void irADashboard(ActionEvent event) {

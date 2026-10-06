@@ -25,11 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 
-/**
- * Dashboard gerencial: indicadores del inventario rotativo (bodega vs.
- * prestado), semaforo de insumos y tendencia mensual, con exportacion a PDF
- * y Excel.
- */
+
 public class DashboardController implements Initializable {
 
     private static final String[] PERIODOS = {"Últimos 3 meses", "Últimos 6 meses", "Últimos 12 meses"};
@@ -95,7 +91,7 @@ public class DashboardController implements Initializable {
         chartBarras.setLegendVisible(true);
 
         cmbPeriodo.setItems(FXCollections.observableArrayList(PERIODOS));
-        cmbPeriodo.getSelectionModel().select(1); // 6 meses por defecto
+        cmbPeriodo.getSelectionModel().select(1); 
         cmbPeriodo.valueProperty().addListener((o, a, b) -> cargar());
         cargar();
     }
@@ -176,7 +172,6 @@ public class DashboardController implements Initializable {
     }
 
     private void pintarSemaforoYPrestamos(DashboardResumen r) {
-        // los colores del CSS van por posicion: rojo, amarillo, verde
         chartSemaforo.setData(FXCollections.observableArrayList(
                 new PieChart.Data("Rojo - reponer (" + r.semRojo + ")", r.semRojo),
                 new PieChart.Data("Amarillo - pedir pronto (" + r.semAmarillo + ")", r.semAmarillo),
@@ -207,7 +202,7 @@ public class DashboardController implements Initializable {
         chartMeses.getData().add(salidas);
     }
 
-    /** Escribe el valor encima de la barra (omite los ceros para no ensuciar el grafico). */
+    
     private void valorSobreBarra(XYChart.Data<String, Number> d) {
         d.nodeProperty().addListener((o, a, nodo) -> {
             if (nodo instanceof javafx.scene.layout.StackPane sp && d.getYValue().doubleValue() > 0) {
@@ -221,7 +216,7 @@ public class DashboardController implements Initializable {
         });
     }
 
-    /** El nodo de cada barra se crea al dibujar; el tooltip se instala cuando existe. */
+
     private void tooltipAlCrear(XYChart.Data<String, Number> d, String texto) {
         d.nodeProperty().addListener((o, a, nodo) -> {
             if (nodo != null) {
@@ -230,7 +225,7 @@ public class DashboardController implements Initializable {
         });
     }
 
-    // ------------------------------------------------------------------ acciones
+
 
     @FXML
     private void onExportarPdfClick(ActionEvent event) {
@@ -243,7 +238,6 @@ public class DashboardController implements Initializable {
     }
 
     private void exportar(boolean pdf) {
-        // Se vuelve a leer la BD para que el reporte sea el estado actual, no el de cuando se abrio la pantalla
         cargar();
         File destino = ExportacionUtil.elegirArchivo(chartPie.getScene().getWindow(), "Dashboard_RyR", pdf);
         if (destino == null) {
@@ -262,8 +256,6 @@ public class DashboardController implements Initializable {
                     "No se pudo crear el archivo. Verifique que no esté abierto en otro programa.\n" + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
-    // ---------------------------------------------------------------- navegacion
 
     @FXML
     private void irADashboard(ActionEvent event) {
