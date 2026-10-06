@@ -5,116 +5,153 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.DashboardController">
+<BorderPane prefHeight="600.0" prefWidth="960.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.DashboardController">
 
-    <!-- ===================== BARRA LATERAL ===================== -->
     <left>
         <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
             <padding><Insets bottom="20" left="16" right="16" top="20" /></padding>
             <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="RyR Global" />
             <VBox spacing="2" style="-fx-padding: 20 0 0 0;">
-                <Button fx:id="btnDashboard" maxWidth="Infinity" onAction="#irADashboard" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Dashboard" />
-                <Button fx:id="btnPrestamos" maxWidth="Infinity" onAction="#irAPrestamos" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Préstamos" />
-                <Button fx:id="btnInventariado" maxWidth="Infinity" onAction="#irAInventariado" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Inventariado" />
-                <Button fx:id="btnMatrizFiltro" maxWidth="Infinity" onAction="#irAMatrizFiltro" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Matriz Filtro" />
-                <Button fx:id="btnKardex" maxWidth="Infinity" onAction="#irAKardex" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Insumos / Kárdex" />
-                <Button fx:id="btnUsuarios" defaultButton="true" maxWidth="Infinity" onAction="#irAUsuariosBitacora" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Usuarios y bitácora" />
+                <Button maxWidth="Infinity" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Dashboard" />
+                <Button maxWidth="Infinity" onAction="#irAPrestamos" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Préstamos" />
+                <Button maxWidth="Infinity" onAction="#irAInventariado" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Inventariado" />
+                <Button maxWidth="Infinity" onAction="#irAMatrizFiltro" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Matriz Filtro" />
+                <Button maxWidth="Infinity" onAction="#irAKardex" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Insumos / Kárdex" />
+                <Button maxWidth="Infinity" onAction="#irAUsuariosBitacora" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Usuarios y bitácora" />
             </VBox>
             <VBox VBox.vgrow="ALWAYS" />
-            <Button fx:id="btnLogout" maxWidth="Infinity" onAction="#onLogoutClick" style="-fx-background-color: white; -fx-text-fill: #2447c4;" text="Logout" />
+            <Button maxWidth="Infinity" onAction="#onLogoutClick" style="-fx-background-color: white; -fx-text-fill: #2447c4;" text="Logout" />
         </VBox>
     </left>
 
-    <!-- ===================== CONTENIDO ===================== -->
     <center>
-        <VBox spacing="16">
-            <padding><Insets bottom="20" left="24" right="24" top="16" /></padding>
-             <VBox />
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;">
+            <content>
+                <VBox spacing="14">
+                    <padding><Insets bottom="20" left="24" right="24" top="16" /></padding>
 
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label style="-fx-text-fill: #6b7280;" text="You're logged as" />
-                <Label fx:id="lblRolUsuario" style="-fx-font-weight: bold;" text="Tipo_usuario" />
-                <Label fx:id="lblNombreUsuario" style="-fx-font-weight: bold;" text="Usuario" />
-            </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label style="-fx-text-fill: #6b7280;" text="Sesión iniciada como" />
+                        <Label fx:id="lblRolUsuario" style="-fx-font-weight: bold;" text="Tipo_usuario" />
+                        <Label fx:id="lblNombreUsuario" style="-fx-font-weight: bold;" text="Usuario" />
+                    </HBox>
 
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Admin dashboard" />
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label maxWidth="Infinity" minWidth="-Infinity" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Dashboard gerencial" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmbPeriodo" minWidth="-Infinity" prefWidth="150.0" />
+                        <Button fx:id="btnExportarPdf" minWidth="-Infinity" onAction="#onExportarPdfClick" style="-fx-background-color: #ffffff; -fx-border-color: #2447c4; -fx-text-fill: #2447c4; -fx-font-weight: bold;" text="Exportar PDF" />
+                        <Button fx:id="btnExportarExcel" minWidth="-Infinity" onAction="#onExportarExcelClick" style="-fx-background-color: #ffffff; -fx-border-color: #2e7d32; -fx-text-fill: #2e7d32; -fx-font-weight: bold;" text="Exportar Excel" />
+                    </HBox>
 
-            <GridPane hgap="14" vgap="14">
-                <columnConstraints>
-                    <javafx.scene.layout.ColumnConstraints percentWidth="25" />
-                    <javafx.scene.layout.ColumnConstraints percentWidth="25" />
-                    <javafx.scene.layout.ColumnConstraints percentWidth="25" />
-                    <javafx.scene.layout.ColumnConstraints percentWidth="25" />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints />
-                    <RowConstraints />
-                </rowConstraints>
+                    <GridPane hgap="12" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="25" />
+                            <ColumnConstraints percentWidth="25" />
+                            <ColumnConstraints percentWidth="25" />
+                            <ColumnConstraints percentWidth="25" />
+                        </columnConstraints>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2447c4;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Máquinas" />
+                    <Label fx:id="lblTotalMaquinas" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2447c4;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Herramientas" />
+                    <Label fx:id="lblTotalHerramientas" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2447c4;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Préstamos activos" />
+                    <Label fx:id="lblTotalPrestamos" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2447c4;" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Devoluciones" />
+                    <Label fx:id="lblTotalDevoluciones" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #f9a825;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Ocupación" />
+                    <Label fx:id="lblOcupacion" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2447c4;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Insumos (filtros)" />
+                    <Label fx:id="lblTotalFiltros" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2e7d32;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Aprobados SST" />
+                    <Label fx:id="lblTotalAprobados" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #c62828;" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Bloqueados / mant." />
+                    <Label fx:id="lblTotalEstados" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
+                </VBox>
+                    </GridPane>
 
-                <VBox opacity="0.8" style="-fx-background-color: #2447c4; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <padding><Insets bottom="12" left="14" right="14" top="12" /></padding>
-                    <Label style="-fx-text-fill: white;" text="Máquinas" />
-                    <Label fx:id="lblTotalMaquinas" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="0" />
-                </VBox>
-                <VBox opacity="0.8" style="-fx-background-color: #2447c4; -fx-background-radius: 8;" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                    <padding><Insets bottom="12" left="14" right="14" top="12" /></padding>
-                    <Label style="-fx-text-fill: white;" text="Préstamos" />
-                    <Label fx:id="lblTotalPrestamos" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="0" />
-                </VBox>
-                <VBox opacity="0.8" style="-fx-background-color: #2447c4; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                    <padding><Insets bottom="12" left="14" right="14" top="12" /></padding>
-                    <Label style="-fx-text-fill: white;" text="Herramientas" />
-                    <Label fx:id="lblTotalHerramientas" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="0" />
-                </VBox>
-                <VBox opacity="0.8" style="-fx-background-color: #2447c4; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);" GridPane.columnIndex="3" GridPane.rowIndex="0">
-                    <padding><Insets bottom="12" left="14" right="14" top="12" /></padding>
-                    <Label style="-fx-text-fill: white;" text="Estados" />
-                    <Label fx:id="lblTotalEstados" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="0" />
-                </VBox>
+                    <!-- Semáforo de insumos (RF-3) -->
+                    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 6; -fx-padding: 8 12 8 12;">
+                        <Label style="-fx-font-weight: bold;" text="Semáforo de insumos" />
+                        <Label fx:id="lblSemRojo" style="-fx-background-color: #fdecea; -fx-text-fill: #c62828; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 2 10 2 10;" text="Rojo: 0" />
+                        <Label fx:id="lblSemAmarillo" style="-fx-background-color: #fff3cd; -fx-text-fill: #8a5a00; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 2 10 2 10;" text="Amarillo: 0" />
+                        <Label fx:id="lblSemVerde" style="-fx-background-color: #e8f5e9; -fx-text-fill: #2e7d32; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 2 10 2 10;" text="Verde: 0" />
+                        <Label maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+                        <Button onAction="#irAKardex" style="-fx-background-color: #2447c4; -fx-text-fill: white;" text="Ver Kárdex" />
+                    </HBox>
 
-                <VBox opacity="0.8" style="-fx-background-color: #2447c4; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                    <padding><Insets bottom="12" left="14" right="14" top="12" /></padding>
-                    <Label style="-fx-text-fill: white;" text="Ocupación" />
-                    <Label fx:id="lblOcupacion" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="0%" />
-                </VBox>
-                <VBox opacity="0.8" style="-fx-background-color: #2447c4; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <padding><Insets bottom="12" left="14" right="14" top="12" /></padding>
-                    <Label style="-fx-text-fill: white;" text="Devoluciones" />
-                    <Label fx:id="lblTotalDevoluciones" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="0" />
-                </VBox>
-                <VBox opacity="0.8" style="-fx-background-color: #2447c4; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                    <padding><Insets bottom="12" left="14" right="14" top="12" /></padding>
-                    <Label style="-fx-text-fill: white;" text="Filtros" />
-                    <Label fx:id="lblTotalFiltros" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="0" />
-                </VBox>
-                <VBox opacity="0.8" style="-fx-background-color: #2447c4; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                    <padding><Insets bottom="12" left="14" right="14" top="12" /></padding>
-                    <Label style="-fx-text-fill: white;" text="Aprobados" />
-                    <Label fx:id="lblTotalAprobados" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="0" />
-                </VBox>
-            </GridPane>
+                    <Label style="-fx-font-weight: bold;" text="Inventario rotativo e insumos" />
+                    <HBox spacing="12">
+                        <VBox styleClass="chart-card" prefWidth="280.0" minWidth="240.0">
+                            <PieChart fx:id="chartPie" id="chartPie" animated="false" labelsVisible="false" legendSide="BOTTOM" minHeight="270.0" prefHeight="280.0" title="Bodega vs. prestado" />
+                        </VBox>
+                        <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
+                            <BarChart fx:id="chartBarras" id="chartBarras" animated="false" minHeight="270.0" prefHeight="280.0" title="Stock vs. punto de reorden (más críticos)">
+                                <xAxis><CategoryAxis /></xAxis>
+                                <yAxis><NumberAxis label="Unidades" /></yAxis>
+                            </BarChart>
+                        </VBox>
+                    </HBox>
 
-            <Label style="-fx-font-weight: bold;" text="Analytic the overall performance" />
+                    <HBox spacing="12">
+                        <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
+                            <PieChart fx:id="chartSemaforo" id="chartSemaforo" animated="false" labelsVisible="false" legendSide="BOTTOM" minHeight="270.0" prefHeight="280.0" title="Semáforo de existencias" />
+                        </VBox>
+                        <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
+                            <PieChart fx:id="chartPrestamos" id="chartPrestamos" animated="false" labelsVisible="false" legendSide="BOTTOM" minHeight="270.0" prefHeight="280.0" title="Préstamos por estado" />
+                        </VBox>
+                    </HBox>
 
-            <HBox spacing="14" VBox.vgrow="ALWAYS">
-                <BarChart fx:id="chartBarras" HBox.hgrow="ALWAYS">
-                    <xAxis><CategoryAxis fx:id="ejeXBarras" /></xAxis>
-                    <yAxis><NumberAxis fx:id="ejeYBarras" /></yAxis>
-                </BarChart>
-                <LineChart fx:id="chartLinea" HBox.hgrow="ALWAYS">
-                    <xAxis><CategoryAxis fx:id="ejeXLinea" /></xAxis>
-                    <yAxis><NumberAxis fx:id="ejeYLinea" /></yAxis>
-                </LineChart>
-            </HBox>
-        </VBox>
+                    <Label style="-fx-font-weight: bold;" text="Actividad mensual" />
+                    <HBox spacing="12">
+                        <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
+                            <BarChart fx:id="chartMeses" id="chartMeses" animated="false" minHeight="270.0" prefHeight="280.0" title="Entradas y salidas por mes (uds)">
+                                <xAxis><CategoryAxis /></xAxis>
+                                <yAxis><NumberAxis /></yAxis>
+                            </BarChart>
+                        </VBox>
+                        <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
+                            <LineChart fx:id="chartLinea" id="chartLinea" animated="false" minHeight="270.0" prefHeight="280.0" title="Tendencia: entradas, salidas y préstamos">
+                                <xAxis><CategoryAxis /></xAxis>
+                                <yAxis><NumberAxis /></yAxis>
+                            </LineChart>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </content>
+        </ScrollPane>
     </center>
 </BorderPane>

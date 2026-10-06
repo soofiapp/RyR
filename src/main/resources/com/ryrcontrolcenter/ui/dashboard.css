@@ -1,0 +1,60 @@
+/* Bodega (verde) vs. prestado (azul) */
+#chartPie .default-color0.chart-pie { -fx-pie-color: #2e7d32; }
+#chartPie .default-color1.chart-pie { -fx-pie-color: #2447c4; }
+#chartPie .default-color0.chart-legend-item-symbol { -fx-background-color: #2e7d32; }
+#chartPie .default-color1.chart-legend-item-symbol { -fx-background-color: #2447c4; }
+
+/* Stock (azul) vs. punto de reorden (rojo) */
+#chartBarras .default-color0.chart-bar { -fx-bar-fill: #2447c4; }
+#chartBarras .default-color1.chart-bar { -fx-bar-fill: #d1453b; }
+#chartBarras .default-color0.chart-legend-item-symbol { -fx-background-color: #2447c4; }
+#chartBarras .default-color1.chart-legend-item-symbol { -fx-background-color: #d1453b; }
+
+/* Entradas (verde), salidas (rojo), prestamos (azul) */
+#chartLinea .default-color0.chart-series-line { -fx-stroke: #2e7d32; }
+#chartLinea .default-color1.chart-series-line { -fx-stroke: #d1453b; }
+#chartLinea .default-color2.chart-series-line { -fx-stroke: #2447c4; }
+#chartLinea .default-color0.chart-line-symbol { -fx-background-color: #2e7d32, white; }
+#chartLinea .default-color1.chart-line-symbol { -fx-background-color: #d1453b, white; }
+#chartLinea .default-color2.chart-line-symbol { -fx-background-color: #2447c4, white; }
+#chartLinea .default-color0.chart-legend-item-symbol { -fx-background-color: #2e7d32; }
+#chartLinea .default-color1.chart-legend-item-symbol { -fx-background-color: #d1453b; }
+#chartLinea .default-color2.chart-legend-item-symbol { -fx-background-color: #2447c4; }
+
+/* ---- Tarjetas de graficas */
+.chart-card {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 6;
+    -fx-padding: 6;
+}
+.chart-title { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #111827; }
+.chart-plot-background { -fx-background-color: transparent; }
+.chart-vertical-grid-lines { -fx-stroke: #eef0f3; }
+.chart-horizontal-grid-lines { -fx-stroke: #eef0f3; }
+.chart-legend { -fx-background-color: transparent; }
+.axis { -fx-tick-label-fill: #374151; -fx-tick-label-font-size: 11px; }
+.chart-bar-valor { -fx-font-size: 10px; -fx-text-fill: #111827; -fx-font-weight: bold; }
+
+/* Semaforo: rojo, amarillo, verde (siempre en ese orden) */
+#chartSemaforo .default-color0.chart-pie { -fx-pie-color: #c62828; }
+#chartSemaforo .default-color1.chart-pie { -fx-pie-color: #f9a825; }
+#chartSemaforo .default-color2.chart-pie { -fx-pie-color: #2e7d32; }
+#chartSemaforo .default-color0.chart-legend-item-symbol { -fx-background-color: #c62828; }
+#chartSemaforo .default-color1.chart-legend-item-symbol { -fx-background-color: #f9a825; }
+#chartSemaforo .default-color2.chart-legend-item-symbol { -fx-background-color: #2e7d32; }
+
+/* Prestamos: en uso (azul), atrasados (rojo), devueltos (gris) */
+#chartPrestamos .default-color0.chart-pie { -fx-pie-color: #2447c4; }
+#chartPrestamos .default-color1.chart-pie { -fx-pie-color: #c62828; }
+#chartPrestamos .default-color2.chart-pie { -fx-pie-color: #9ca3af; }
+#chartPrestamos .default-color0.chart-legend-item-symbol { -fx-background-color: #2447c4; }
+#chartPrestamos .default-color1.chart-legend-item-symbol { -fx-background-color: #c62828; }
+#chartPrestamos .default-color2.chart-legend-item-symbol { -fx-background-color: #9ca3af; }
+
+/* Entradas (verde) y salidas (rojo) por mes */
+#chartMeses .default-color0.chart-bar { -fx-bar-fill: #2e7d32; }
+#chartMeses .default-color1.chart-bar { -fx-bar-fill: #c62828; }
+#chartMeses .default-color0.chart-legend-item-symbol { -fx-background-color: #2e7d32; }
+#chartMeses .default-color1.chart-legend-item-symbol { -fx-background-color: #c62828; }

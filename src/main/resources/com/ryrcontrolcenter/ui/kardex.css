@@ -1,0 +1,75 @@
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 6 16 6 16;
+    -fx-border-color: transparent transparent #e5e7eb transparent;
+    -fx-border-width: 0 0 2 0;
+}
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-border-color: transparent transparent #2447c4 transparent;
+    -fx-border-width: 0 0 3 0;
+}
+.tab-pane > .tab-header-area > .headers-region > .tab .tab-label { -fx-text-fill: #6b7280; -fx-font-size: 13px; }
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .tab-label { -fx-text-fill: #2447c4; -fx-font-weight: bold; }
+.tab-pane > .tab-header-area > .tab-header-background { -fx-background-color: transparent; }
+.tab-pane { -fx-focus-color: transparent; -fx-faint-focus-color: transparent; }
+
+
+.table-view { -fx-background-color: white; -fx-border-color: #d1d5db; -fx-border-radius: 4; -fx-background-radius: 4; }
+.table-view .column-header-background { -fx-background-color: #1f2937; }
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: #1f2937;
+    -fx-size: 34;
+    -fx-border-color: #374151;
+    -fx-border-width: 0 1 0 0;
+}
+.table-view .column-header .label { -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px; }
+.table-view .column-header .arrow, .table-view .column-header .sort-order-dots-container .label { -fx-background-color: white; -fx-text-fill: white; }
+.table-row-cell { -fx-cell-size: 30; -fx-border-color: transparent transparent #eef0f3 transparent; }
+.table-row-cell:odd { -fx-background-color: #f8f9fb; }
+.table-row-cell:even { -fx-background-color: white; }
+.table-row-cell:filled:hover { -fx-background-color: #eef2ff; }
+.table-row-cell:filled:selected { -fx-background-color: #dbe4ff; }
+.table-row-cell:filled:selected .table-cell { -fx-text-fill: #111827; }
+.table-cell { -fx-alignment: CENTER-LEFT; -fx-text-fill: #111827; }
+
+.text-field, .combo-box-base, .date-picker { -fx-background-radius: 4; -fx-border-radius: 4; }
+.text-field:focused, .combo-box-base:focused { -fx-border-color: #2447c4; }
+
+.chart-card {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 6;
+    -fx-padding: 6;
+}
+.chart-title { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #111827; }
+.chart-plot-background { -fx-background-color: transparent; }
+.chart-vertical-grid-lines { -fx-stroke: #eef0f3; }
+.chart-horizontal-grid-lines { -fx-stroke: #eef0f3; }
+.chart-legend { -fx-background-color: transparent; }
+.axis { -fx-tick-label-fill: #374151; -fx-tick-label-font-size: 11px; }
+
+#chartMovMes .default-color0.chart-bar { -fx-bar-fill: #2e7d32; }
+#chartMovMes .default-color1.chart-bar { -fx-bar-fill: #c62828; }
+#chartMovMes .default-color0.chart-legend-item-symbol { -fx-background-color: #2e7d32; }
+#chartMovMes .default-color1.chart-legend-item-symbol { -fx-background-color: #c62828; }
+
+#chartSemaforo .default-color0.chart-pie { -fx-pie-color: #c62828; }
+#chartSemaforo .default-color1.chart-pie { -fx-pie-color: #f9a825; }
+#chartSemaforo .default-color2.chart-pie { -fx-pie-color: #2e7d32; }
+#chartSemaforo .default-color0.chart-legend-item-symbol { -fx-background-color: #c62828; }
+#chartSemaforo .default-color1.chart-legend-item-symbol { -fx-background-color: #f9a825; }
+#chartSemaforo .default-color2.chart-legend-item-symbol { -fx-background-color: #2e7d32; }
+
+#chartTopInsumos .default-color0.chart-bar { -fx-bar-fill: #2e7d32; }
+#chartTopInsumos .default-color1.chart-bar { -fx-bar-fill: #c62828; }
+#chartTopInsumos .default-color0.chart-legend-item-symbol { -fx-background-color: #2e7d32; }
+#chartTopInsumos .default-color1.chart-legend-item-symbol { -fx-background-color: #c62828; }
+
+#chartCriticos .default-color0.chart-bar { -fx-bar-fill: #2447c4; }
+#chartCriticos .default-color1.chart-bar { -fx-bar-fill: #9ca3af; }
+#chartCriticos .default-color0.chart-legend-item-symbol { -fx-background-color: #2447c4; }
+#chartCriticos .default-color1.chart-legend-item-symbol { -fx-background-color: #9ca3af; }
