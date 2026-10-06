@@ -6,10 +6,11 @@ package com.ryrcontrolcenter.service;
 
 import com.ryrcontrolcenter.dao.UsuarioDao;
 import com.ryrcontrolcenter.modelo.Usuario;
+import com.ryrcontrolcenter.util.PasswordUtil;
+import com.ryrcontrolcenter.util.SesionActual;
 
 public class AuthService {
-    private Usuario usuario;
-    
+
     private final UsuarioDao usuarioDao = new UsuarioDao();
 
     public Usuario iniciarSesion(String usuarioLogin, String passwordPlano) {
@@ -17,18 +18,27 @@ public class AuthService {
         if (u == null) {
             return null;
         }
-        // NOTA: comparacion simple por ahora. Mas adelante deberiamos
-        // usar un hash real (BCrypt) en vez de comparar texto plano.
-        if (u.getPasswordHash().equals(passwordPlano)) {
+        if (PasswordUtil.verificarPassword(passwordPlano,u.getPasswordHash())) {
             usuarioDao.actualizarUltimoAcceso(u.getIdUsuario());
-            usuario = u;
+            SesionActual.iniciar(u);
             return u;
         }
         return null;
     }
 
-    public Usuario cerrarSesion() {
-        usuario = null;
-        return null;
+    public boolean cambiarPassword(int idUsuario,String passwordActual,String nuevaPassword) {
+        Usuario u = usuarioDao.buscarPorId(idUsuario);
+        if (u == null) {
+            return false;
+        }
+        if (!PasswordUtil.verificarPassword(passwordActual,u.getPasswordHash())) {
+            return false;
+        }
+        String nuevoHash = PasswordUtil.generarHash(nuevaPassword);
+        return usuarioDao.actualizarPassword(idUsuario,nuevoHash);
+    }
+    
+    public void cerrarSesion() {
+        SesionActual.cerrar();
     }
 }

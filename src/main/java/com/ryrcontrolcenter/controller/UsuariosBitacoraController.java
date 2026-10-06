@@ -1,171 +1,206 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.ryrcontrolcenter.controller;
 
+import com.ryrcontrolcenter.dao.BitacoraDAO;
+import com.ryrcontrolcenter.dao.UsuarioDao;
+import com.ryrcontrolcenter.modelo.Bitacora;
+import com.ryrcontrolcenter.modelo.Usuario;
+import com.ryrcontrolcenter.service.BitacoraService;
+import com.ryrcontrolcenter.util.AlertaUtil;
+import com.ryrcontrolcenter.util.SceneManager;
+import com.ryrcontrolcenter.util.SesionActual;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author Juanp
- */
 public class UsuariosBitacoraController implements Initializable {
 
     @FXML
-    private TableView<?> tablaUsuarios;
+    private TableView<Usuario> tablaUsuarios;
     @FXML
-    private TableColumn<?, ?> colUsuario;
+    private TableColumn<Usuario, String> colID;
     @FXML
-    private TableColumn<?, ?> colRol;
+    private TableColumn<Usuario, String> colUsuario;
     @FXML
-    private TableColumn<?, ?> colFrentePlanta;
+    private TableColumn<Usuario, String> colRol;
     @FXML
-    private TableColumn<?, ?> colUltimoAcceso;
+    private TableColumn<Usuario, String> colFrentePlanta;
     @FXML
-    private TableView<?> tablaBitacora;
+    private TableColumn<Usuario, String> colUltimoAcceso;
     @FXML
-    private TableColumn<?, ?> colFechaHora;
+    private TableView<Bitacora> tablaBitacora;
     @FXML
-    private TableColumn<?, ?> colUsuarioBitacora;
+    private TableColumn<Bitacora, String> colFechaHora;
     @FXML
-    private TableColumn<?, ?> colAccion;
+    private TableColumn<Bitacora, String> colUsuarioBitacora;
     @FXML
-    private TableColumn<?, ?> colModulo;
+    private TableColumn<Bitacora, String> colAccion;
+    @FXML
+    private TableColumn<Bitacora, String> colModulo;
     @FXML
     private BorderPane mainPane;
     @FXML
     private Button btnRegistrarUsuario;
+    @FXML
+    private Button btnEliminarUsuario;
+    @FXML
+    private Button btnModificarUsuario;
 
-    /**
-     * Initializes the controller class.
-     */
+    private final UsuarioDao usuarioD = new UsuarioDao();
+    private final BitacoraDAO bitacoraD = new BitacoraDAO();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        if (!SesionActual.puedeEditar()) {
+            btnRegistrarUsuario.setVisible(false);
+            btnModificarUsuario.setVisible(false);
+            btnEliminarUsuario.setVisible(false);
+        }
+        colID.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
+        colUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreCompleto"));
+        colRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
+        colFrentePlanta.setCellValueFactory(new PropertyValueFactory<>("frentePlanta"));
+        colUltimoAcceso.setCellValueFactory(new PropertyValueFactory<>("ultimoAcceso"));
+        colFechaHora.setCellValueFactory(new PropertyValueFactory<>("fechaHora"));
+        colUsuarioBitacora.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
+        colAccion.setCellValueFactory(new PropertyValueFactory<>("accionRealizada"));
+        colModulo.setCellValueFactory(new PropertyValueFactory<>("moduloAfectado"));
+        cargarDatosTabla();
+        cargarBitacora();
     }
 
     @FXML
     private void irADashboard(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/DashboardVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/DashboardVista.fxml");
     }
 
     @FXML
     private void irAPrestamos(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/PrestamosVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/PrestamosVista.fxml");
     }
 
     @FXML
     private void irAInventariado(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/InventariadoVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/InventariadoVista.fxml");
     }
 
     @FXML
     private void irAMatrizFiltro(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setFullScreen(true);
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml");
     }
 
     @FXML
     private void irAKardex(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/KardexVista.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
-            stage.setFullScreen(true);
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/KardexVista.fxml");
+    }
+
+    @FXML
+    private void irAUsuariosBitacora(ActionEvent event) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml");
     }
 
     @FXML
     private void onLogoutClick(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/LoginVista.fxml"));
-            stage.setFullScreen(true);
-            stage.setScene(new Scene(root));
-            stage.show();
-            Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stageLogin.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        SesionActual.cerrar();
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml");
     }
 
     @FXML
     private void onRegistrarUsuarioClick(ActionEvent event) {
+        abrirDialogo(null);
+    }
+
+    private void cargarDatosTabla() {
+        try {
+            List<Usuario> lista1 = usuarioD.listarTodos();
+            ObservableList<Usuario> datos = FXCollections.observableArrayList(lista1);
+            tablaUsuarios.setItems(datos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void cargarBitacora() {
+        List<Bitacora> lista = bitacoraD.listarTodas();
+        tablaBitacora.setItems(FXCollections.observableArrayList(lista));
+    }
+
+    @FXML
+    private void onEliminarUsuarioClick(ActionEvent event) {
+        Usuario seleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            AlertaUtil.mostrar("Atención", "Seleccione un usuario de la tabla para eliminar.", Alert.AlertType.WARNING);
+            return;
+        }
+        boolean confirmado = AlertaUtil.confirmar(
+                "Confirmar eliminación",
+                "¿Está seguro de desactivar al usuario \"" + seleccionado.getNombreCompleto() + "\"?"
+        );
+        if (!confirmado) {
+            return;
+        }
+        boolean exito = usuarioD.eliminar(seleccionado.getIdUsuario());
+        if (exito) {
+            BitacoraService.registrar(
+                    "Desactivación de usuario " + seleccionado.getUsuarioLogin(),
+                    "Usuarios y Bitacora",
+                    seleccionado.getUsuarioLogin()
+            );
+            AlertaUtil.mostrar("Éxito", "El usuario fue desactivado correctamente.", Alert.AlertType.INFORMATION);
+            cargarDatosTabla();
+            cargarBitacora();
+        } else {
+            AlertaUtil.mostrar("Error", "No se pudo desactivar el usuario.", Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void onModificarUsuarioClick(ActionEvent event) {
+        Usuario seleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            AlertaUtil.mostrar("Atención", "Seleccione un usuario de la tabla para modificar.", Alert.AlertType.WARNING);
+            return;
+        }
+        abrirDialogo(seleccionado);
+    }
+
+    private void abrirDialogo(Usuario paraEditar) {
         BoxBlur blur = new BoxBlur(5, 5, 3);
         mainPane.setEffect(blur);
         mainPane.setOpacity(0.6);
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ryrcontrolcenter/ui/NuevoUsuarioVista.fxml"));
+            Parent root = loader.load();
+            NuevoUsuarioController dialogController = loader.getController();
+            if (paraEditar != null) {
+                dialogController.cargarParaEdicion(paraEditar);
+            }
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/ryrcontrolcenter/ui/NuevoUsuarioVista.fxml"));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(mainPane.getScene().getWindow());
             stage.setOnHidden(ev -> {
                 mainPane.setEffect(null);
                 mainPane.setOpacity(1.0);
+                cargarDatosTabla();
+                cargarBitacora();
             });
             stage.show();
         } catch (IOException e) {
@@ -174,5 +209,4 @@ public class UsuariosBitacoraController implements Initializable {
             mainPane.setOpacity(1.0);
         }
     }
-
 }

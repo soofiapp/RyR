@@ -1,4 +1,3 @@
-
 package com.ryrcontrolcenter.modelo;
 
 public class Prestamos {
@@ -15,9 +14,30 @@ public class Prestamos {
     private String idActivo;
     private int idUusarioRegistro;
 
+    // Constructor vacío
     public Prestamos() {
     }
 
+    // Constructor completo (para cuando leemos de la BD)
+    public Prestamos(String idPrestamo, String operarioNombre, String operarioCedula, 
+                     String ubicacionFrente, String fechaSalida, String fechaDevolucionEstimada, 
+                     String fechaDevolucionReal, String estado, String observacionesSalida, 
+                     String descripcionEstadoDevolucion, String idActivo, int idUusarioRegistro) {
+        this.idPrestamo = idPrestamo;
+        this.operarioNombre = operarioNombre;
+        this.operarioCedula = operarioCedula;
+        this.ubicacionFrente = ubicacionFrente;
+        this.fechaSalida = fechaSalida;
+        this.fechaDevolucionEstimada = fechaDevolucionEstimada;
+        this.fechaDevolucionReal = fechaDevolucionReal;
+        this.estado = estado;
+        this.observacionesSalida = observacionesSalida;
+        this.descripcionEstadoDevolucion = descripcionEstadoDevolucion;
+        this.idActivo = idActivo;
+        this.idUusarioRegistro = idUusarioRegistro;
+    }
+
+    // Getters y Setters
     public String getIdPrestamo() {
         return idPrestamo;
     }
