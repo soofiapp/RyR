@@ -13,7 +13,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="907.0" style="-fx-background-color: #eef1f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.LoginController">
    <ImageView fitHeight="556.0" fitWidth="907.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="46.88028971354163" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="46.0">
       <image>
-         <Image url="@../images/Login%20carga.png" />
+         <Image url="@../images/Login_carga.png" />
       </image>
    </ImageView>
 
