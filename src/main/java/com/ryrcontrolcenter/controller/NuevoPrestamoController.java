@@ -27,7 +27,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class NuevoPrestamoController implements Initializable {
@@ -224,7 +223,7 @@ public class NuevoPrestamoController implements Initializable {
                 .findFirst()
                 .orElse(null);
 
-        if (activoSeleccionado != null && cantidadSolicitada > activoSeleccionado.getStockActual()) {
+        if (activoSeleccionado != null && cantidadSolicitada > activoSeleccionado.getStockDisponible()) {
             AlertaUtil.mostrar("Stock insuficiente",
                     "Solo hay " + activoSeleccionado.getStockActual() + " unidades disponibles.",
                     Alert.AlertType.WARNING);

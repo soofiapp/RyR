@@ -60,20 +60,46 @@
     </HBox>
     
     <VBox fx:id="seccionComponentesKit" managed="false" spacing="8" visible="false">
-    <Label style="-fx-font-weight: bold; -fx-padding: 8 0 0 0;" text="Componentes del Kit" />
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <ComboBox fx:id="cmbHerramientaDisponible" prefWidth="280" promptText="Seleccionar herramienta" />
-        <TextField fx:id="txtCantidadComponente" prefWidth="60" promptText="Cant." />
-        <Button fx:id="btnAgregarComponente" onAction="#onAgregarComponenteClick" text="+ Añadir" />
-    </HBox>
-    <TableView fx:id="tablaComponentes" prefHeight="140">
-        <columns>
-            <TableColumn fx:id="colComponente" prefWidth="280" text="Componente" />
-            <TableColumn fx:id="colCantidadComponente" prefWidth="70" text="Cantidad" />
-            <TableColumn fx:id="colQuitar" prefWidth="80" text="Quitar" />
-        </columns>
-    </TableView>
-</VBox>
+        <Label style="-fx-font-weight: bold; -fx-padding: 8 0 0 0;" text="Componentes del Kit" />
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <ComboBox fx:id="cmbHerramientaDisponible" prefWidth="280" promptText="Seleccionar herramienta" />
+            <TextField fx:id="txtCantidadComponente" prefWidth="60" promptText="Cant." />
+            <Button fx:id="btnAgregarComponente" onAction="#onAgregarComponenteClick" text="+ Añadir" />
+        </HBox>
+        <TableView fx:id="tablaComponentes" prefHeight="140">
+            <columns>
+                <TableColumn fx:id="colComponente" prefWidth="280" text="Componente" />
+                <TableColumn fx:id="colCantidadComponente" prefWidth="70" text="Cantidad" />
+                <TableColumn fx:id="colQuitar" prefWidth="80" text="Quitar" />
+            </columns>
+        </TableView>
+    </VBox>
+
+    <VBox fx:id="seccionFichaTecnica" spacing="8" visible="false" managed="false">
+        <Label style="-fx-font-weight: bold; -fx-padding: 8 0 0 0;" text="Ficha Técnica de la Máquina" />
+        <HBox spacing="14">
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="Marca" />
+                <TextField fx:id="txtMarca" promptText="Ej: Caterpillar" />
+            </VBox>
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="Modelo" />
+                <TextField fx:id="txtModelo" promptText="Ej: 320D" />
+            </VBox>
+        </HBox>
+        <HBox spacing="14">
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="Número de Serie" />
+                <TextField fx:id="txtNumeroSerie" promptText="Ej: KAC01245" />
+            </VBox>
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="Horómetro" />
+                <TextField fx:id="txtHorometro" promptText="0.0" text="0.0" />
+            </VBox>
+        </HBox>
+        <Label text="Área / Departamento" />
+        <TextField fx:id="txtAreaDepartamento" promptText="Ej: Operaciones" />
+    </VBox>
 
     <Label text="Observaciones" />
     <TextArea fx:id="txtObservaciones" prefRowCount="3" promptText="Observaciones iniciales..." />

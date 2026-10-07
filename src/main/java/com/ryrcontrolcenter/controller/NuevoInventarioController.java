@@ -2,8 +2,10 @@ package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.dao.InventarioDAO;
 import com.ryrcontrolcenter.dao.KitDetalleDao;
+import com.ryrcontrolcenter.dao.MaquinaDao;
 import com.ryrcontrolcenter.modelo.Inventario;
 import com.ryrcontrolcenter.modelo.KitDetalle;
+import com.ryrcontrolcenter.modelo.Maquina;
 import com.ryrcontrolcenter.service.BitacoraService;
 import com.ryrcontrolcenter.service.InventarioService;
 import java.net.URL;
@@ -29,7 +31,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 
 public class NuevoInventarioController implements Initializable {
 
@@ -62,7 +63,6 @@ public class NuevoInventarioController implements Initializable {
     private Button btnGuardar;
     @FXML
     private Label lblTitulo;
-
     @FXML
     private VBox seccionComponentesKit;
     @FXML
@@ -77,11 +77,26 @@ public class NuevoInventarioController implements Initializable {
     private TableColumn<KitDetalle, Integer> colCantidadComponente;
     @FXML
     private TableColumn<KitDetalle, Void> colQuitar;
+    @FXML
+    private Button btnAgregarComponente;
+    @FXML
+    private VBox seccionFichaTecnica;
+    @FXML
+    private TextField txtMarca;
+    @FXML
+    private TextField txtModelo;
+    @FXML
+    private TextField txtNumeroSerie;
+    @FXML
+    private TextField txtHorometro;
+    @FXML
+    private TextField txtAreaDepartamento;
 
     private final InventarioService service = new InventarioService();
     private final InventarioDAO inventarioDao = new InventarioDAO();
     private final KitDetalleDao kitDetalleDao = new KitDetalleDao();
     private final List<KitDetalle> componentesActuales = new ArrayList<>();
+    private final MaquinaDao maquinaDao = new MaquinaDao();
 
     private boolean modoEdicion = false;
     private String idOriginal;
@@ -89,7 +104,6 @@ public class NuevoInventarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dpFechaRegistro.setValue(LocalDate.now());
-
         cmbTipoActivo.setItems(FXCollections.observableArrayList(TIPOS_VALIDOS));
         cmbTipoActivo.getSelectionModel().selectedItemProperty().addListener((obs, anterior, nuevo) -> {
             boolean esKit = "Kit Agrupado".equals(nuevo);
@@ -98,8 +112,10 @@ public class NuevoInventarioController implements Initializable {
             if (esKit) {
                 cargarHerramientasDisponibles();
             }
+            boolean esMaquina = "Maquinaria".equals(nuevo);
+            seccionFichaTecnica.setVisible(esMaquina);
+            seccionFichaTecnica.setManaged(esMaquina);
         });
-
         configurarTablaComponentes();
     }
 
@@ -123,7 +139,6 @@ public class NuevoInventarioController implements Initializable {
                 setGraphic(empty ? null : btn);
             }
         });
-
         tablaComponentes.setItems(FXCollections.observableArrayList(componentesActuales));
     }
 
@@ -213,6 +228,16 @@ public class NuevoInventarioController implements Initializable {
             componentesActuales.addAll(existentes);
             tablaComponentes.setItems(FXCollections.observableArrayList(componentesActuales));
         }
+        if ("Maquinaria".equals(item.getTipoActivo())) {
+            Maquina m = maquinaDao.buscarPorId(item.getIdActivo());
+            if (m != null) {
+                txtMarca.setText(m.getMarca());
+                txtModelo.setText(m.getModelo());
+                txtNumeroSerie.setText(m.getNumero_serie());
+                txtHorometro.setText(String.valueOf(m.getHorometro()));
+                txtAreaDepartamento.setText(m.getAreaDepartamento());
+            }
+        }
     }
 
     @FXML
@@ -266,7 +291,20 @@ public class NuevoInventarioController implements Initializable {
             mostrarAlerta("Kit sin componentes", "Agregue al menos un componente al kit.");
             return;
         }
-
+        boolean esMaquina = "Maquinaria".equals(tipoActivo);
+        double horometro = 0.0;
+        if (esMaquina) {
+            if (txtMarca.getText().trim().isEmpty() || txtModelo.getText().trim().isEmpty()) {
+                mostrarAlerta("Datos incompletos", "Marca y modelo son obligatorios para una máquina.");
+                return;
+            }
+            try {
+                horometro = Double.parseDouble(txtHorometro.getText().trim());
+            } catch (NumberFormatException e) {
+                mostrarAlerta("Horómetro inválido", "El horómetro debe ser un número.");
+                return;
+            }
+        }
         Inventario item = new Inventario();
         item.setIdActivo(idActivo);
         item.setDescripcion(descripcion);
@@ -277,18 +315,44 @@ public class NuevoInventarioController implements Initializable {
         item.setObservaciones(observaciones);
         item.setStockActual(esKit ? 1 : stockActual); // un kit es 1 unidad agrupada
         item.setPuntoReorden(puntoReorden);
-
         boolean ok = modoEdicion
                 ? service.actualizarItemInventarioService(idOriginal, item)
                 : service.agregarItemInventarioService(item);
-
         if (!ok) {
             mostrarAlerta("Error", modoEdicion
                     ? "No se pudo actualizar el activo."
                     : "No se pudo guardar. Revisa si el código ya existe.");
             return;
         }
+        if (esMaquina) {
 
+            Maquina maquina = new Maquina();
+
+            maquina.setIdMaquina(idActivo);
+            maquina.setMarca(txtMarca.getText().trim());
+            maquina.setModelo(txtModelo.getText().trim());
+            maquina.setNumero_serie(txtNumeroSerie.getText().trim());
+            maquina.setHorometro(horometro);
+            maquina.setAreaDepartamento(txtAreaDepartamento.getText().trim());
+
+            boolean okMaquina;
+
+            if (modoEdicion) {
+                okMaquina = maquinaDao.actualizar(maquina);
+            } else {
+                okMaquina = maquinaDao.insertar(maquina);
+            }
+
+            if (!okMaquina) {
+                mostrarAlerta(
+                        "Error",
+                        modoEdicion
+                                ? "El inventario se actualizó, pero no se pudo actualizar la ficha de la máquina."
+                                : "El inventario se creó, pero no se pudo guardar la ficha de la máquina."
+                );
+                return;
+            }
+        }
         if (esKit) {
             guardarComponentesKit(idActivo);
         }
