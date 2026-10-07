@@ -1,13 +1,18 @@
 package com.ryrcontrolcenter.controller;
 
+import com.ryrcontrolcenter.dao.InventarioDAO;
+import com.ryrcontrolcenter.dao.KitDetalleDao;
 import com.ryrcontrolcenter.modelo.Inventario;
+import com.ryrcontrolcenter.modelo.KitDetalle;
 import com.ryrcontrolcenter.service.BitacoraService;
 import com.ryrcontrolcenter.service.InventarioService;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,15 +21,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author Juanp
- */
+
 public class NuevoInventarioController implements Initializable {
 
     private static final List<String> TIPOS_VALIDOS
@@ -37,7 +43,7 @@ public class NuevoInventarioController implements Initializable {
     @FXML
     private TextField txtDescripcion;
     @FXML
-    private TextField txtTipoActivo;
+    private ComboBox<String> cmbTipoActivo;
     @FXML
     private TextField txtEstadoSst;
     @FXML
@@ -47,13 +53,35 @@ public class NuevoInventarioController implements Initializable {
     @FXML
     private TextArea txtObservaciones;
     @FXML
+    private TextField txtStockActual;
+    @FXML
+    private TextField txtPuntoReorden;
+    @FXML
     private Button btnCancelar;
     @FXML
     private Button btnGuardar;
     @FXML
     private Label lblTitulo;
 
+    @FXML
+    private VBox seccionComponentesKit;
+    @FXML
+    private ComboBox<Inventario> cmbHerramientaDisponible;
+    @FXML
+    private TextField txtCantidadComponente;
+    @FXML
+    private TableView<KitDetalle> tablaComponentes;
+    @FXML
+    private TableColumn<KitDetalle, String> colComponente;
+    @FXML
+    private TableColumn<KitDetalle, Integer> colCantidadComponente;
+    @FXML
+    private TableColumn<KitDetalle, Void> colQuitar;
+
     private final InventarioService service = new InventarioService();
+    private final InventarioDAO inventarioDao = new InventarioDAO();
+    private final KitDetalleDao kitDetalleDao = new KitDetalleDao();
+    private final List<KitDetalle> componentesActuales = new ArrayList<>();
 
     private boolean modoEdicion = false;
     private String idOriginal;
@@ -61,6 +89,92 @@ public class NuevoInventarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dpFechaRegistro.setValue(LocalDate.now());
+
+        cmbTipoActivo.setItems(FXCollections.observableArrayList(TIPOS_VALIDOS));
+        cmbTipoActivo.getSelectionModel().selectedItemProperty().addListener((obs, anterior, nuevo) -> {
+            boolean esKit = "Kit Agrupado".equals(nuevo);
+            seccionComponentesKit.setVisible(esKit);
+            seccionComponentesKit.setManaged(esKit);
+            if (esKit) {
+                cargarHerramientasDisponibles();
+            }
+        });
+
+        configurarTablaComponentes();
+    }
+
+    private void configurarTablaComponentes() {
+        colComponente.setCellValueFactory(new PropertyValueFactory<>("descripcionHerramienta"));
+        colCantidadComponente.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colQuitar.setCellFactory(col -> new TableCell<>() {
+            private final Button btn = new Button("Quitar");
+
+            {
+                btn.setOnAction(e -> {
+                    KitDetalle item = getTableView().getItems().get(getIndex());
+                    componentesActuales.remove(item);
+                    tablaComponentes.setItems(FXCollections.observableArrayList(componentesActuales));
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+
+        tablaComponentes.setItems(FXCollections.observableArrayList(componentesActuales));
+    }
+
+    private void cargarHerramientasDisponibles() {
+        cmbHerramientaDisponible.setConverter(new javafx.util.StringConverter<Inventario>() {
+            @Override
+            public String toString(Inventario i) {
+                return i == null ? "" : i.getIdActivo() + " - " + i.getDescripcion();
+            }
+
+            @Override
+            public Inventario fromString(String s) {
+                return null;
+            }
+        });
+        try {
+            List<Inventario> herramientas = inventarioDao.listarTodos().stream()
+                    .filter(i -> "Herramienta".equals(i.getTipoActivo()))
+                    .toList();
+            cmbHerramientaDisponible.setItems(FXCollections.observableArrayList(herramientas));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onAgregarComponenteClick(ActionEvent event) {
+        Inventario seleccionada = cmbHerramientaDisponible.getSelectionModel().getSelectedItem();
+        if (seleccionada == null) {
+            mostrarAlerta("Atención", "Seleccione una herramienta para agregar al kit.");
+            return;
+        }
+        int cantidad;
+        try {
+            cantidad = Integer.parseInt(txtCantidadComponente.getText().trim());
+            if (cantidad <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Cantidad inválida", "Ingrese una cantidad válida (mayor a 0).");
+            return;
+        }
+
+        KitDetalle kd = new KitDetalle();
+        kd.setIdHerramienta(seleccionada.getIdActivo());
+        kd.setDescripcionHerramienta(seleccionada.getIdActivo() + " - " + seleccionada.getDescripcion());
+        kd.setCantidad(cantidad);
+
+        componentesActuales.add(kd);
+        tablaComponentes.setItems(FXCollections.observableArrayList(componentesActuales));
+        txtCantidadComponente.clear();
     }
 
     /**
@@ -75,12 +189,14 @@ public class NuevoInventarioController implements Initializable {
         btnGuardar.setText("Actualizar");
 
         txtIdActivo.setText(item.getIdActivo());
-        txtIdActivo.setDisable(true); // el código es la clave, no se cambia
+        txtIdActivo.setDisable(true);
         txtDescripcion.setText(item.getDescripcion());
-        txtTipoActivo.setText(item.getTipoActivo());
+        cmbTipoActivo.getSelectionModel().select(item.getTipoActivo());
         txtEstadoSst.setText(item.getEstadoSst());
         txtUbicacion.setText(item.getUbicacion());
         txtObservaciones.setText(item.getObservaciones() == null ? "" : item.getObservaciones());
+        txtStockActual.setText(String.valueOf(item.getStockActual()));
+        txtPuntoReorden.setText(String.valueOf(item.getPuntoReorden()));
 
         try {
             String f = item.getFechaRegistro();
@@ -89,6 +205,13 @@ public class NuevoInventarioController implements Initializable {
             }
         } catch (Exception e) {
             dpFechaRegistro.setValue(LocalDate.now());
+        }
+
+        if ("Kit Agrupado".equals(item.getTipoActivo())) {
+            List<KitDetalle> existentes = kitDetalleDao.listarPorKit(idOriginal);
+            componentesActuales.clear();
+            componentesActuales.addAll(existentes);
+            tablaComponentes.setItems(FXCollections.observableArrayList(componentesActuales));
         }
     }
 
@@ -101,23 +224,16 @@ public class NuevoInventarioController implements Initializable {
     private void onGuardarClick(ActionEvent event) {
         String idActivo = txtIdActivo.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
-        String tipoIngresado = txtTipoActivo.getText().trim();
+        String tipoActivo = cmbTipoActivo.getSelectionModel().getSelectedItem();
         String estadoIngresado = txtEstadoSst.getText().trim();
         String ubicacion = txtUbicacion.getText().trim();
         String observaciones = txtObservaciones.getText().trim();
         LocalDate fecha = dpFechaRegistro.getValue();
 
-        if (idActivo.isEmpty() || descripcion.isEmpty() || tipoIngresado.isEmpty()
+        if (idActivo.isEmpty() || descripcion.isEmpty() || tipoActivo == null
                 || estadoIngresado.isEmpty() || ubicacion.isEmpty()) {
             mostrarAlerta("Campos incompletos",
                     "Código, descripción, tipo, estado y ubicación son obligatorios.");
-            return;
-        }
-
-        String tipoActivo = buscarValido(tipoIngresado, TIPOS_VALIDOS);
-        if (tipoActivo == null) {
-            mostrarAlerta("Tipo no válido",
-                    "El tipo debe ser uno de: " + String.join(", ", TIPOS_VALIDOS));
             return;
         }
 
@@ -133,6 +249,24 @@ public class NuevoInventarioController implements Initializable {
             return;
         }
 
+        int stockActual, puntoReorden;
+        try {
+            stockActual = Integer.parseInt(txtStockActual.getText().trim());
+            puntoReorden = Integer.parseInt(txtPuntoReorden.getText().trim());
+            if (stockActual < 0 || puntoReorden < 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Valores inválidos", "Stock y punto de reorden deben ser números positivos.");
+            return;
+        }
+
+        boolean esKit = "Kit Agrupado".equals(tipoActivo);
+        if (esKit && componentesActuales.isEmpty()) {
+            mostrarAlerta("Kit sin componentes", "Agregue al menos un componente al kit.");
+            return;
+        }
+
         Inventario item = new Inventario();
         item.setIdActivo(idActivo);
         item.setDescripcion(descripcion);
@@ -141,21 +275,44 @@ public class NuevoInventarioController implements Initializable {
         item.setUbicacion(ubicacion);
         item.setFechaRegistro(fecha.toString());
         item.setObservaciones(observaciones);
+        item.setStockActual(esKit ? 1 : stockActual); // un kit es 1 unidad agrupada
+        item.setPuntoReorden(puntoReorden);
 
         boolean ok = modoEdicion
                 ? service.actualizarItemInventarioService(idOriginal, item)
                 : service.agregarItemInventarioService(item);
 
-        if (ok) {
-            String accion = modoEdicion
-                    ? "Modificación de activo " + idActivo + " (" + descripcion + ")"
-                    : "Creación de activo " + idActivo + " (" + descripcion + ")";
-            BitacoraService.registrar(accion, "Inventariado", idActivo);
-            cerrarVentana();
-        } else {
+        if (!ok) {
             mostrarAlerta("Error", modoEdicion
                     ? "No se pudo actualizar el activo."
                     : "No se pudo guardar. Revisa si el código ya existe.");
+            return;
+        }
+
+        if (esKit) {
+            guardarComponentesKit(idActivo);
+        }
+
+        String accion = modoEdicion
+                ? "Modificación de activo " + idActivo + " (" + descripcion + ")"
+                : "Creación de activo " + idActivo + " (" + descripcion + ")";
+        BitacoraService.registrar(accion, "Inventariado", idActivo);
+        cerrarVentana();
+    }
+
+    /**
+     * Reemplaza por completo los componentes guardados del kit por la lista
+     * actual en pantalla (se borran los que ya no estan y se insertan los
+     * nuevos).
+     */
+    private void guardarComponentesKit(String idKit) {
+        List<KitDetalle> yaGuardados = kitDetalleDao.listarPorKit(idKit);
+        for (KitDetalle existente : yaGuardados) {
+            kitDetalleDao.eliminar(existente.getIdDetalle());
+        }
+        for (KitDetalle kd : componentesActuales) {
+            kd.setIdKit(idKit);
+            kitDetalleDao.insertar(kd);
         }
     }
 

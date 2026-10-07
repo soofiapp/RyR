@@ -53,8 +53,16 @@
         </VBox>
     </HBox>
 
-    <Label text="Ubicación / Frente de Trabajo" />
-    <TextField fx:id="txtUbicacion" />
+    <HBox spacing="14">
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Ubicación / Frente de Trabajo" />
+            <TextField fx:id="txtUbicacion" promptText="Ingrese la ubicación del préstamo" />
+        </VBox>
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Cantidad" />
+            <TextField fx:id="txtCantidad" promptText="1" text="1" />
+        </VBox>
+    </HBox>
 
     <Label text="Observaciones Iniciales" />
     <TextArea fx:id="txtObservaciones" prefRowCount="3" promptText="Inspección SST previa realizada sin novedades..." />

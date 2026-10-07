@@ -1,4 +1,3 @@
-
 package com.ryrcontrolcenter.dao;
 
 import com.ryrcontrolcenter.config.ConexionBD;
@@ -10,15 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class InventarioDAO {
-    
-    public boolean agregarItemInventario(Inventario item) {
-        String sql = "INSERT INTO inventario (id_activo, descripcion, tipo_activo, estado_sst, ubicacion, fecha_registro, observaciones) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = ConexionBD.conectar();
-             PreparedStatement st = conn.prepareStatement(sql)) {
 
+    public boolean agregarItemInventario(Inventario item) {
+        String sql = "INSERT INTO inventario "
+                + "(id_activo, descripcion, tipo_activo, estado_sst, ubicacion, "
+                + "fecha_registro, observaciones, stock_actual, punto_reorden) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql)) {
             st.setString(1, item.getIdActivo());
             st.setString(2, item.getDescripcion());
             st.setString(3, item.getTipoActivo());
@@ -26,7 +24,8 @@ public class InventarioDAO {
             st.setString(5, item.getUbicacion());
             st.setString(6, item.getFechaRegistro());
             st.setString(7, item.getObservaciones());
-
+            st.setInt(8, item.getStockActual());
+            st.setInt(9, item.getPuntoReorden());
             int filasAfectadas = st.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException e) {
@@ -36,10 +35,8 @@ public class InventarioDAO {
     }
 
     public boolean eliminarItemInventario(String idActivo) {
-        String sql = "DELETE FROM inventario WHERE id_activo = ?";
-        try (Connection conn = ConexionBD.conectar();
-             PreparedStatement st = conn.prepareStatement(sql)) {
-
+        String sql = "UPDATE inventario SET visible = 0 WHERE id_activo = ?";
+        try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql)) {
             st.setString(1, idActivo);
             int filasAfectadas = st.executeUpdate();
             return filasAfectadas > 0;
@@ -50,19 +47,26 @@ public class InventarioDAO {
     }
 
     public boolean actualizarItemInventario(String idActivo, Inventario item) {
-        String sql = "UPDATE inventario SET descripcion=?, tipo_activo=?, estado_sst=?, ubicacion=?, fecha_registro=?, observaciones=? "
-                   + "WHERE id_activo=?";
-        try (Connection conn = ConexionBD.conectar();
-             PreparedStatement st = conn.prepareStatement(sql)) {
-
+        String sql = "UPDATE inventario SET "
+                + "descripcion=?, "
+                + "tipo_activo=?, "
+                + "estado_sst=?, "
+                + "ubicacion=?, "
+                + "fecha_registro=?, "
+                + "observaciones=?, "
+                + "stock_actual=?, "
+                + "punto_reorden=? "
+                + "WHERE id_activo=?";
+        try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql)) {
             st.setString(1, item.getDescripcion());
             st.setString(2, item.getTipoActivo());
             st.setString(3, item.getEstadoSst());
             st.setString(4, item.getUbicacion());
             st.setString(5, item.getFechaRegistro());
             st.setString(6, item.getObservaciones());
-            st.setString(7, idActivo); // se usa el parametro recibido, no item.getIdActivo()
-
+            st.setInt(7, item.getStockActual());
+            st.setInt(8, item.getPuntoReorden());
+            st.setString(9, idActivo);
             int filasAfectadas = st.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException e) {
@@ -72,11 +76,25 @@ public class InventarioDAO {
     }
 
     public List<Inventario> listarTodos() throws SQLException {
-        String sql = "SELECT * FROM inventario ORDER BY id_activo";
+        String sql = """
+        SELECT i.*,
+               (
+                   i.stock_actual - COALESCE(
+                       (
+                           SELECT SUM(p.cantidad)
+                           FROM prestamos p
+                           WHERE p.id_activo = i.id_activo
+                             AND p.estado IN ('En Uso', 'Atrasado')
+                       ), 0
+                   )
+               ) AS stock_disponible
+        FROM inventario i
+        WHERE i.visible = 1
+        ORDER BY i.id_activo
+        """;
         List<Inventario> lista = new ArrayList<>();
-        try (Connection conn = ConexionBD.conectar();
-             PreparedStatement st = conn.prepareStatement(sql);
-             ResultSet rs = st.executeQuery()) {
+        try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+
             while (rs.next()) {
                 lista.add(mapear(rs));
             }
@@ -87,24 +105,35 @@ public class InventarioDAO {
     }
 
     /**
-     * Activos disponibles para prestamo: Herramienta o Maquinaria (los Kits
-     * se prestan por su propio flujo), que ademas no tengan ya un prestamo
-     * abierto ni esten bloqueados/en mantenimiento por SST.
+     * Activos disponibles para prestamo: Herramienta o Maquinaria (los Kits se
+     * prestan por su propio flujo), que ademas no tengan ya un prestamo abierto
+     * ni esten bloqueados/en mantenimiento por SST.
      */
     public List<Inventario> listarActivosDisponiblesParaPrestamo() {
         String sql = """
-            SELECT * FROM inventario
-            WHERE tipo_activo IN ('Herramienta', 'Maquinaria')
-              AND estado_sst = 'Operativa'
-              AND id_activo NOT IN (SELECT id_activo FROM prestamos WHERE estado = 'En Uso')
-            ORDER BY id_activo
-            """;
+        SELECT *
+        FROM (
+            SELECT i.*, 
+                   (i.stock_actual - COALESCE(
+                       (SELECT SUM(p.cantidad)
+                        FROM prestamos p
+                        WHERE p.id_activo = i.id_activo
+                          AND p.estado IN ('En Uso', 'Atrasado')), 0)
+                   ) AS stock_disponible
+            FROM inventario i
+            WHERE i.tipo_activo IN ('Herramienta', 'Maquinaria', 'Kit Agrupado')
+              AND i.estado_sst = 'Operativa'
+              AND i.visible = 1
+        )
+        WHERE stock_disponible > 0
+        ORDER BY id_activo
+        """;
         List<Inventario> lista = new ArrayList<>();
-        try (Connection conn = ConexionBD.conectar();
-             PreparedStatement st = conn.prepareStatement(sql);
-             ResultSet rs = st.executeQuery()) {
+        try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
-                lista.add(mapear(rs));
+                Inventario i = mapear(rs);
+                i.setStockActual(rs.getInt("stock_disponible"));
+                lista.add(i);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -121,6 +150,9 @@ public class InventarioDAO {
         i.setUbicacion(rs.getString("ubicacion"));
         i.setFechaRegistro(rs.getString("fecha_registro"));
         i.setObservaciones(rs.getString("observaciones"));
+        i.setStockActual(rs.getInt("stock_actual"));
+        i.setPuntoReorden(rs.getInt("punto_reorden"));
+        i.setStockActual(rs.getInt("stock_disponible"));
         return i;
     }
 }
