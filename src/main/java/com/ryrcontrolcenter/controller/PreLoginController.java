@@ -1,4 +1,4 @@
-package com.ryrcontrolcenter.controller;
+/*package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.config.ConexionBD;
 import com.ryrcontrolcenter.util.FondoUtil;
@@ -55,7 +55,7 @@ import javafx.util.Duration;
  * - Circulo de carga: Carga.gif. Si no existe, dibuja uno de reemplazo.
  * - Debajo del titulo van cambiando frases; cada una corresponde a una
  *   verificacion real de la base de datos SQLite.
- */
+ *
 public class PreLoginController implements Initializable {
 
     private static final String IMG = "/com/ryrcontrolcenter/images/";
@@ -63,7 +63,7 @@ public class PreLoginController implements Initializable {
     private static final long MS_FINAL = 400;      // pausa tras el ultimo paso
     private static final boolean MOSTRAR_ICONOS_CRUD = true; // + ojo recargar papelera (wireframe)
 
-    /** Un paso de la carga: frase a mostrar y, opcionalmente, una consulta real a la BD. */
+    /** Un paso de la carga: frase a mostrar y, opcionalmente, una consulta real a la BD. *
     private record Paso(String frase, String sql) {
     }
 
@@ -159,7 +159,7 @@ public class PreLoginController implements Initializable {
         hilo.start();
     }
 
-    /** Cambia la frase con un pequeno fundido para que no sea brusco. */
+    /** Cambia la frase con un pequeno fundido para que no sea brusco. *
     private void cambiarFrase(String frase) {
         if (transicionFrase != null) {
             transicionFrase.stop();
@@ -194,7 +194,7 @@ public class PreLoginController implements Initializable {
     }
 
     // ------------------------------------------------------- logo (video) / gif
-    /** Reproduce logo_ryr_sprite.png (video sin fondo negro, convertido con tools/convertir_logo.py). */
+    /** Reproduce logo_ryr_sprite.png (video sin fondo negro, convertido con tools/convertir_logo.py). *
     private boolean cargarLogoAnimado() {
         URL png = getClass().getResource(IMG + "logo_ryr_sprite.png");
         URL cfg = getClass().getResource(IMG + "logo_ryr_sprite.properties");
@@ -231,7 +231,7 @@ public class PreLoginController implements Initializable {
         }
     }
 
-    /** Carga.gif (JavaFX reproduce los GIF animados dentro de un ImageView). */
+    /** Carga.gif (JavaFX reproduce los GIF animados dentro de un ImageView). *
     private boolean cargarSpinnerGif() {
         URL gif = getClass().getResource(IMG + "Carga.gif");
         if (gif == null) {
@@ -378,3 +378,4 @@ public class PreLoginController implements Initializable {
         return inclinado;
     }
 }
+*/
