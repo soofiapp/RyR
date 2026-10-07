@@ -4,6 +4,8 @@ import com.ryrcontrolcenter.dao.PrestamoDao;
 import com.ryrcontrolcenter.modelo.Prestamos;
 import com.ryrcontrolcenter.service.BitacoraService;
 import com.ryrcontrolcenter.util.AlertaUtil;
+import com.ryrcontrolcenter.util.SceneManager;
+import com.ryrcontrolcenter.util.SesionActual;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -68,6 +70,11 @@ public class PrestamosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if (!SesionActual.puedeEditar()) {
+            btnModificarPrestamo.setVisible(false);
+            btnEliminarPrestamo.setVisible(false);
+            btnAnadirPrestamo.setVisible(false);
+        }
         configurarTabla();
         configurarFiltros();
         cargarDatosBD();
@@ -217,45 +224,37 @@ public class PrestamosController implements Initializable {
 
     @FXML
     private void irADashboard(ActionEvent event) {
-        cargarVista("/com/ryrcontrolcenter/ui/DashboardVista.fxml", event);
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/DashboardVista.fxml");
+    }
+
+    @FXML
+    private void irAPrestamos(ActionEvent event) {
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/PrestamosVista.fxml");
     }
 
     @FXML
     private void irAInventariado(ActionEvent event) {
-        cargarVista("/com/ryrcontrolcenter/ui/InventariadoVista.fxml", event);
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/InventariadoVista.fxml");
     }
 
     @FXML
     private void irAMatrizFiltro(ActionEvent event) {
-        cargarVista("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml", event);
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml");
     }
 
     @FXML
     private void irAKardex(ActionEvent event) {
-        cargarVista("/com/ryrcontrolcenter/ui/KardexVista.fxml", event);
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/KardexVista.fxml");
     }
 
     @FXML
     private void irAUsuariosBitacora(ActionEvent event) {
-        cargarVista("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml", event);
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml");
     }
 
     @FXML
     private void onLogoutClick(ActionEvent event) {
-        com.ryrcontrolcenter.util.SesionActual.cerrar();
-        cargarVista("/com/ryrcontrolcenter/ui/LoginVista.fxml", event);
-    }
-
-    private void cargarVista(String fxmlPath, ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            System.err.println("Error al redirigir a " + fxmlPath + ": " + e.getMessage());
-            e.printStackTrace();
-        }
+        SesionActual.cerrar();
+        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml");
     }
 }

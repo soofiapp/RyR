@@ -5,6 +5,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -12,11 +14,13 @@
 
 <VBox prefWidth="460.0" spacing="12" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.NuevoInventarioController">
 
-    <padding><Insets bottom="20" left="20" right="20" top="16" /></padding>
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="16" />
+    </padding>
 
-   <Label fx:id="lblTitulo" maxWidth="Infinity" style="-fx-background-color: #2447c4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10;" text="AGREGAR AL INVENTARIO" />
+    <Label fx:id="lblTitulo" maxWidth="Infinity" style="-fx-background-color: #2447c4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10;" text="AGREGAR AL INVENTARIO" />
    
-   <Label text="Código / ID" />
+    <Label text="Código / ID" />
     <TextField fx:id="txtIdActivo" promptText="Ej: HERR-0103" />
 
     <Label text="Descripción del Activo" />
@@ -25,25 +29,51 @@
     <HBox spacing="14">
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Tipo de Activo" />
-            <TextField fx:id="txtTipoActivo" promptText="Herramienta, Maquinaria o Kit Agrupado" />
+            <ComboBox fx:id="cmbTipoActivo" maxWidth="Infinity" prefHeight="25.0" prefWidth="148.0" />
         </VBox>
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Estado SST" />
-            <TextField fx:id="txtEstadoSst" promptText="Operativa, Bloqueada, Mantenimiento o Completo" />
+            <TextField fx:id="txtEstadoSst" />
         </VBox>
     </HBox>
-
-
+    
     <HBox spacing="14">
-        <VBox spacing="6" HBox.hgrow="ALWAYS">
+        <VBox prefHeight="49.0" prefWidth="174.0" spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Ubicación" />
-         <TextField fx:id="txtUbicacion" promptText="Fábrica 12A"  />
+            <TextField fx:id="txtUbicacion" promptText="Fábrica 12A" />
         </VBox>
         <VBox spacing="6" HBox.hgrow="ALWAYS">
             <Label text="Fecha de Registro" />
             <DatePicker fx:id="dpFechaRegistro" maxWidth="Infinity" />
         </VBox>
     </HBox>
+    
+    <HBox spacing="14">
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Stock Inicial" />
+            <TextField fx:id="txtStockActual" promptText="1" text="1" />
+        </VBox>
+        <VBox spacing="6" HBox.hgrow="ALWAYS">
+            <Label text="Punto de Reorden" />
+            <TextField fx:id="txtPuntoReorden" promptText="0" text="0" />
+        </VBox>
+    </HBox>
+    
+    <VBox fx:id="seccionComponentesKit" managed="false" spacing="8" visible="false">
+    <Label style="-fx-font-weight: bold; -fx-padding: 8 0 0 0;" text="Componentes del Kit" />
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <ComboBox fx:id="cmbHerramientaDisponible" prefWidth="280" promptText="Seleccionar herramienta" />
+        <TextField fx:id="txtCantidadComponente" prefWidth="60" promptText="Cant." />
+        <Button fx:id="btnAgregarComponente" onAction="#onAgregarComponenteClick" text="+ Añadir" />
+    </HBox>
+    <TableView fx:id="tablaComponentes" prefHeight="140">
+        <columns>
+            <TableColumn fx:id="colComponente" prefWidth="280" text="Componente" />
+            <TableColumn fx:id="colCantidadComponente" prefWidth="70" text="Cantidad" />
+            <TableColumn fx:id="colQuitar" prefWidth="80" text="Quitar" />
+        </columns>
+    </TableView>
+</VBox>
 
     <Label text="Observaciones" />
     <TextArea fx:id="txtObservaciones" prefRowCount="3" promptText="Observaciones iniciales..." />

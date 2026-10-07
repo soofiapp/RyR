@@ -1,6 +1,7 @@
 package com.ryrcontrolcenter.modelo;
 
 public class Prestamos {
+
     private String idPrestamo;
     private String operarioNombre;
     private String operarioCedula;
@@ -13,16 +14,17 @@ public class Prestamos {
     private String descripcionEstadoDevolucion;
     private String idActivo;
     private int idUusarioRegistro;
+    private int cantidad;
 
     // Constructor vacío
     public Prestamos() {
     }
 
     // Constructor completo (para cuando leemos de la BD)
-    public Prestamos(String idPrestamo, String operarioNombre, String operarioCedula, 
-                     String ubicacionFrente, String fechaSalida, String fechaDevolucionEstimada, 
-                     String fechaDevolucionReal, String estado, String observacionesSalida, 
-                     String descripcionEstadoDevolucion, String idActivo, int idUusarioRegistro) {
+    public Prestamos(String idPrestamo, String operarioNombre, String operarioCedula,
+            String ubicacionFrente, String fechaSalida, String fechaDevolucionEstimada,
+            String fechaDevolucionReal, String estado, String observacionesSalida,
+            String descripcionEstadoDevolucion, String idActivo, int idUusarioRegistro) {
         this.idPrestamo = idPrestamo;
         this.operarioNombre = operarioNombre;
         this.operarioCedula = operarioCedula;
@@ -41,6 +43,7 @@ public class Prestamos {
     public String getIdPrestamo() {
         return idPrestamo;
     }
+
     public void setIdPrestamo(String idPrestamo) {
         this.idPrestamo = idPrestamo;
     }
@@ -48,6 +51,7 @@ public class Prestamos {
     public String getOperarioNombre() {
         return operarioNombre;
     }
+
     public void setOperarioNombre(String operarioNombre) {
         this.operarioNombre = operarioNombre;
     }
@@ -55,6 +59,7 @@ public class Prestamos {
     public String getOperarioCedula() {
         return operarioCedula;
     }
+
     public void setOperarioCedula(String operarioCedula) {
         this.operarioCedula = operarioCedula;
     }
@@ -62,6 +67,7 @@ public class Prestamos {
     public String getUbicacionFrente() {
         return ubicacionFrente;
     }
+
     public void setUbicacionFrente(String ubicacionFrente) {
         this.ubicacionFrente = ubicacionFrente;
     }
@@ -69,6 +75,7 @@ public class Prestamos {
     public String getFechaSalida() {
         return fechaSalida;
     }
+
     public void setFechaSalida(String fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
@@ -76,6 +83,7 @@ public class Prestamos {
     public String getFechaDevolucionEstimada() {
         return fechaDevolucionEstimada;
     }
+
     public void setFechaDevolucionEstimada(String fechaDevolucionEstimada) {
         this.fechaDevolucionEstimada = fechaDevolucionEstimada;
     }
@@ -83,6 +91,7 @@ public class Prestamos {
     public String getFechaDevolucionReal() {
         return fechaDevolucionReal;
     }
+
     public void setFechaDevolucionReal(String fechaDevolucionReal) {
         this.fechaDevolucionReal = fechaDevolucionReal;
     }
@@ -90,6 +99,7 @@ public class Prestamos {
     public String getEstado() {
         return estado;
     }
+
     public void setEstado(String estado) {
         this.estado = estado;
     }
@@ -97,6 +107,7 @@ public class Prestamos {
     public String getObservacionesSalida() {
         return observacionesSalida;
     }
+
     public void setObservacionesSalida(String observacionesSalida) {
         this.observacionesSalida = observacionesSalida;
     }
@@ -104,6 +115,7 @@ public class Prestamos {
     public String getDescripcionEstadoDevolucion() {
         return descripcionEstadoDevolucion;
     }
+
     public void setDescripcionEstadoDevolucion(String descripcionEstadoDevolucion) {
         this.descripcionEstadoDevolucion = descripcionEstadoDevolucion;
     }
@@ -111,6 +123,7 @@ public class Prestamos {
     public String getIdActivo() {
         return idActivo;
     }
+
     public void setIdActivo(String idActivo) {
         this.idActivo = idActivo;
     }
@@ -118,7 +131,16 @@ public class Prestamos {
     public int getIdUusarioRegistro() {
         return idUusarioRegistro;
     }
+
     public void setIdUusarioRegistro(int idUusarioRegistro) {
         this.idUusarioRegistro = idUusarioRegistro;
-    }   
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 }
