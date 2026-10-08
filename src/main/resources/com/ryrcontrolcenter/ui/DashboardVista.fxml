@@ -41,7 +41,7 @@
                 <VBox spacing="14">
                     <padding><Insets bottom="20" left="24" right="24" top="16" /></padding>
 
-                    <HBox alignment="CENTER_LEFT" spacing="10">
+                    <HBox alignment="CENTER_LEFT" managed="false" spacing="10" visible="false">
                         <Label style="-fx-text-fill: #6b7280;" text="Sesión iniciada como" />
                         <Label fx:id="lblRolUsuario" style="-fx-font-weight: bold;" text="Tipo_usuario" />
                         <Label fx:id="lblNombreUsuario" style="-fx-font-weight: bold;" text="Usuario" />
@@ -103,7 +103,6 @@
                 </VBox>
                     </GridPane>
 
-                    <!-- Semáforo de insumos (RF-3) -->
                     <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 6; -fx-padding: 8 12 8 12;">
                         <Label style="-fx-font-weight: bold;" text="Semáforo de insumos" />
                         <Label fx:id="lblSemRojo" style="-fx-background-color: #fdecea; -fx-text-fill: #c62828; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 2 10 2 10;" text="Rojo: 0" />

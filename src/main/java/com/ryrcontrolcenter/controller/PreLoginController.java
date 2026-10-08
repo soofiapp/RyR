@@ -1,4 +1,4 @@
-/*package com.ryrcontrolcenter.controller;
+package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.config.ConexionBD;
 import com.ryrcontrolcenter.util.FondoUtil;
@@ -26,7 +26,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -42,28 +41,15 @@ import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.util.Duration;
 
-/**
- * Pantalla de carga previa al login.
- *
- * - Fondo del login + recuadro azul oscuro translucido (ver PreLoginVista.fxml).
- * - Logo animado: hoja de sprites logo_ryr_sprite.png/.properties (video sin fondo).
- *   Si no existe, dibuja un globo animado de reemplazo.
- * - Circulo de carga: Carga.gif. Si no existe, dibuja uno de reemplazo.
- * - Debajo del titulo van cambiando frases; cada una corresponde a una
- *   verificacion real de la base de datos SQLite.
- *
 public class PreLoginController implements Initializable {
 
     private static final String IMG = "/com/ryrcontrolcenter/images/";
-    private static final long MS_POR_PASO = 600;   // cuanto se muestra cada frase como minimo
-    private static final long MS_FINAL = 400;      // pausa tras el ultimo paso
-    private static final boolean MOSTRAR_ICONOS_CRUD = true; // + ojo recargar papelera (wireframe)
+    private static final long MS_POR_PASO = 600;  
+    private static final long MS_FINAL = 400;     
 
-    /** Un paso de la carga: frase a mostrar y, opcionalmente, una consulta real a la BD. *
     private record Paso(String frase, String sql) {
     }
 
@@ -98,16 +84,12 @@ public class PreLoginController implements Initializable {
         if (!cargarLogoAnimado()) {
             construirGloboDeReemplazo();
         }
-        if (MOSTRAR_ICONOS_CRUD) {
-            agregarIconosCrud();
-        }
         if (!cargarSpinnerGif()) {
             construirSpinnerDeReemplazo();
         }
         iniciarCarga();
     }
 
-    // ------------------------------------------------------------------ carga
     private void iniciarCarga() {
         btnReintentar.setVisible(false);
         btnReintentar.setManaged(false);
@@ -159,7 +141,6 @@ public class PreLoginController implements Initializable {
         hilo.start();
     }
 
-    /** Cambia la frase con un pequeno fundido para que no sea brusco. *
     private void cambiarFrase(String frase) {
         if (transicionFrase != null) {
             transicionFrase.stop();
@@ -193,8 +174,6 @@ public class PreLoginController implements Initializable {
         salida.play();
     }
 
-    // ------------------------------------------------------- logo (video) / gif
-    /** Reproduce logo_ryr_sprite.png (video sin fondo negro, convertido con tools/convertir_logo.py). *
     private boolean cargarLogoAnimado() {
         URL png = getClass().getResource(IMG + "logo_ryr_sprite.png");
         URL cfg = getClass().getResource(IMG + "logo_ryr_sprite.properties");
@@ -210,7 +189,7 @@ public class PreLoginController implements Initializable {
             int fh = Integer.parseInt(p.getProperty("frameHeight").trim());
             double fps = Double.parseDouble(p.getProperty("fps").trim());
 
-            ImageView iv = new ImageView(new Image(png.toExternalForm()));
+            ImageView iv = new ImageView(new Image(png.toExternalForm(), true));
             iv.setSmooth(true);
             iv.setPreserveRatio(true);
             iv.setViewport(new Rectangle2D(0, 0, fw, fh));
@@ -231,7 +210,6 @@ public class PreLoginController implements Initializable {
         }
     }
 
-    /** Carga.gif (JavaFX reproduce los GIF animados dentro de un ImageView). *
     private boolean cargarSpinnerGif() {
         URL gif = getClass().getResource(IMG + "Carga.gif");
         if (gif == null) {
@@ -250,40 +228,6 @@ public class PreLoginController implements Initializable {
         }
     }
 
-    // ------------------------------------------------- iconos del wireframe
-    private void agregarIconosCrud() {
-        double cx = globo.getPrefWidth() / 2;
-        double cy = globo.getPrefHeight() / 2;
-        globo.getChildren().addAll(
-                icono("M-6,0 H6 M0,-6 V6", cx - 20, cy - 12),
-                ojo(cx + 20, cy - 12),
-                icono("M5.4,-2.6 A6,6 0 1 0 6,1 M6.8,-6.4 L5.4,-2.6 L1.6,-3.6", cx - 20, cy + 16),
-                icono("M-6.5,-4 H6.5 M-2,-4 V-6.5 H2 V-4 M-4.8,-4 L-3.6,6.5 H3.6 L4.8,-4 M-1.3,-1 V3.5 M1.3,-1 V3.5", cx + 20, cy + 16));
-    }
-
-    private SVGPath icono(String contorno, double x, double y) {
-        SVGPath p = new SVGPath();
-        p.setContent(contorno);
-        p.setFill(Color.TRANSPARENT);
-        p.setStroke(Color.WHITE);
-        p.setStrokeWidth(2);
-        p.setStrokeLineCap(StrokeLineCap.ROUND);
-        p.setLayoutX(x);
-        p.setLayoutY(y);
-        p.setEffect(new DropShadow(4, Color.web("#000000", 0.55)));
-        return p;
-    }
-
-    private Node ojo(double x, double y) {
-        SVGPath contorno = icono("M-8,0 Q0,-8 8,0 Q0,8 -8,0 Z", 0, 0);
-        Circle pupila = new Circle(0, 0, 2.6, Color.WHITE);
-        Group g = new Group(contorno, pupila);
-        g.setLayoutX(x);
-        g.setLayoutY(y);
-        return g;
-    }
-
-    // --------------------------------------- alternativas dibujadas por codigo
     private void construirSpinnerDeReemplazo() {
         Circle pista = new Circle(15);
         pista.setFill(Color.TRANSPARENT);
@@ -378,4 +322,3 @@ public class PreLoginController implements Initializable {
         return inclinado;
     }
 }
-*/

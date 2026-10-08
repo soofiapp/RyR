@@ -7,11 +7,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-/**
- * Reproduce una animacion guardada como "hoja de sprites" (todos los cuadros en
- * una sola imagen, en cuadricula) cambiando el viewport de un ImageView.
- * Los cuadros conservan su transparencia (PNG con canal alfa).
- */
 public class SpriteAnimacion extends Transition {
 
     private final ImageView vista;

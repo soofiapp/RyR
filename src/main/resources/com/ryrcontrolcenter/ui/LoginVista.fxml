@@ -5,38 +5,32 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
 
-<AnchorPane prefHeight="600.0" prefWidth="907.0" style="-fx-background-color: #eef1f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.LoginController">
-   <ImageView fitHeight="556.0" fitWidth="907.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="46.88028971354163" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="46.0">
-      <image>
-         <Image url="@../images/Login_carga.png" />
-      </image>
-   </ImageView>
+<StackPane fx:id="raiz" style="-fx-background-color: #0b1118;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.LoginController">
 
-    <VBox alignment="CENTER" spacing="14" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="140.0">
+    <VBox fx:id="tarjeta" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="340.0" spacing="14" style="-fx-background-color: linear-gradient(to bottom right, rgba(255,255,255,0.30), rgba(255,255,255,0.12)); -fx-background-radius: 16; -fx-border-color: rgba(255,255,255,0.50); -fx-border-radius: 16; -fx-border-width: 1; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 28, 0, 0, 8);">
         <padding>
-            <Insets bottom="30" left="40" right="40" top="30" />
+            <Insets bottom="30" left="32" right="32" top="30" />
         </padding>
 
-        <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2447c4;" text="RyR Global" />
-        <Label style="-fx-text-fill: #8a8f98;" text="Inicia sesión para continuar" />
+        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0">
+            <Circle fill="rgba(255,255,255,0.10)" radius="35.0" stroke="#dbe7ff" strokeWidth="1.6" />
+            <Circle fill="white" radius="9.0" translateY="-10.0" />
+            <SVGPath content="M0,17 C0,3 30,3 30,17 Z" fill="white" translateY="13.0" />
+        </StackPane>
 
-        <VBox spacing="6">
-            <Label text="Usuario" />
-            <TextField fx:id="txtUsuario" promptText="Ingrese suario" />
-        </VBox>
+        <TextField fx:id="txtUsuario" prefHeight="38.0" promptText="Usuario" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 14px; -fx-prompt-text-fill: #8a8f98; -fx-padding: 0 12 0 12;" />
 
-        <VBox spacing="6">
-            <Label text="Contraseña" />
-            <PasswordField fx:id="txtPassword" promptText="Ingrese contraseña" />
-        </VBox>
+        <PasswordField fx:id="txtPassword" prefHeight="38.0" promptText="Contraseña" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 14px; -fx-prompt-text-fill: #8a8f98; -fx-padding: 0 12 0 12;" />
 
-        <Button fx:id="btnEntrar" defaultButton="true" maxWidth="Infinity" onAction="#clickDeEntrar" style="-fx-background-color: #2447c4; -fx-text-fill: white; -fx-font-weight: bold;" text="ENTRAR" />
+        <Button fx:id="btnEntrar" defaultButton="true" maxWidth="Infinity" onAction="#clickDeEntrar" prefHeight="38.0" style="-fx-background-color: #2a64c5; -fx-background-radius: 5; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-cursor: hand;" text="ENTRAR" />
 
-        <Label fx:id="lblError" style="-fx-text-fill: #d1453b;" />
+        <Label fx:id="lblOlvido" onMouseClicked="#onOlvidoClick" style="-fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-cursor: hand;" text="¿Olvidó su contraseña?" />
+
+        <Label fx:id="lblError" style="-fx-text-fill: #ffd2ce; -fx-font-weight: bold;" />
     </VBox>
-</AnchorPane>
+</StackPane>
