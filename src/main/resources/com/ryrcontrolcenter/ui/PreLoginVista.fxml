@@ -17,9 +17,9 @@
         <padding><Insets bottom="14" left="24" right="24" top="10" /></padding>
 
         <HBox alignment="CENTER" spacing="2">
-            <Label style="-fx-text-fill: white; -fx-font-size: 62px; -fx-font-weight: bold;" text="R" />
-            <Label style="-fx-text-fill: #2f6bff; -fx-font-size: 62px; -fx-font-weight: bold;" text="&amp;" />
-            <Label style="-fx-text-fill: white; -fx-font-size: 62px; -fx-font-weight: bold;" text="R" />
+            <Label style="-fx-text-fill: white; -fx-font-size: 82px; -fx-font-weight: bold;" text="R" />
+            <Label style="-fx-text-fill: #2f6bff; -fx-font-size: 82px; -fx-font-weight: bold;" text="&amp;" />
+            <Label style="-fx-text-fill: white; -fx-font-size: 82px; -fx-font-weight: bold;" text="R" />
         </HBox>
 
         <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 15px;" text="Global Technical" />

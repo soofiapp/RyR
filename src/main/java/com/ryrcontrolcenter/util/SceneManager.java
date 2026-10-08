@@ -32,6 +32,7 @@ public class SceneManager {
     private static final double APP_ALTO = 760;
 
     private static final double RADIO_ESQUINAS = 12;
+    private static final boolean ESQUINAS_REDONDEADAS = Boolean.parseBoolean(System.getProperty("ryr.esquinas", "true"));
 
     private static Stage stage;
     private static Rectangle recorte;
@@ -46,7 +47,7 @@ public class SceneManager {
     public static void setStage(Stage s) {
         stage = s;
 
-        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(ESQUINAS_REDONDEADAS ? StageStyle.TRANSPARENT : StageStyle.UNDECORATED);
 
         contenido = new StackPane();
         barra = new BarraTitulo(stage);
@@ -58,7 +59,9 @@ public class SceneManager {
         recorte = new Rectangle();
         recorte.widthProperty().bind(marco.widthProperty());
         recorte.heightProperty().bind(marco.heightProperty());
-        marco.setClip(recorte);
+        if (ESQUINAS_REDONDEADAS) {
+            marco.setClip(recorte);
+        }
 
         borde = new Region();
         borde.setMouseTransparent(true);
@@ -68,7 +71,7 @@ public class SceneManager {
         aplicarEsquinas(true);
 
         Scene scene = new Scene(ventana, FIJO_ANCHO, FIJO_ALTO);
-        scene.setFill(Color.TRANSPARENT);
+        scene.setFill(ESQUINAS_REDONDEADAS ? Color.TRANSPARENT : Color.web("#0b1118"));
         scene.getStylesheets().add(
                 SceneManager.class.getResource("/com/ryrcontrolcenter/ui/titlebar.css").toExternalForm());
         stage.setScene(scene);
@@ -108,6 +111,9 @@ public class SceneManager {
     }
 
     private static void aplicarEsquinas(boolean redondeadas) {
+        if (!ESQUINAS_REDONDEADAS) {
+            redondeadas = false;
+        }
         double r = redondeadas ? RADIO_ESQUINAS : 0;
         recorte.setArcWidth(r * 2);
         recorte.setArcHeight(r * 2);

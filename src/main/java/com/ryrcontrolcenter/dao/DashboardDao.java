@@ -34,7 +34,11 @@ public class DashboardDao {
             r.aprobados = contar(conn,
                     "SELECT COUNT(*) FROM inventario WHERE visible = 1 AND estado_sst IN ('Operativa','Completo')");
             r.prestamosActivos = contar(conn, "SELECT COUNT(*) FROM prestamos WHERE estado IN ('En Uso','Atrasado')");
-            r.prestamosAtrasados = contar(conn, "SELECT COUNT(*) FROM prestamos WHERE estado = 'Atrasado'");
+
+            r.prestamosAtrasados = contar(conn, "SELECT COUNT(*) FROM prestamos WHERE estado = 'Atrasado' "
+                    + "OR (estado = 'En Uso' AND fecha_devolucion_estimada IS NOT NULL "
+                    + "AND fecha_devolucion_estimada <> '' "
+                    + "AND date(fecha_devolucion_estimada) < date('now', 'localtime'))");
             r.devoluciones = contar(conn, "SELECT COUNT(*) FROM prestamos WHERE estado = 'Devuelto'");
             r.filtros = contar(conn, "SELECT COUNT(*) FROM filtros");
 

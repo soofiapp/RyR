@@ -2,6 +2,7 @@ package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.config.ConexionBD;
 import com.ryrcontrolcenter.util.FondoUtil;
+import com.ryrcontrolcenter.util.Precarga;
 import com.ryrcontrolcenter.util.SceneManager;
 import com.ryrcontrolcenter.util.SpriteAnimacion;
 import java.io.InputStream;
@@ -21,6 +22,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -88,6 +90,7 @@ public class PreLoginController implements Initializable {
             construirSpinnerDeReemplazo();
         }
         iniciarCarga();
+        Platform.runLater(Precarga::iniciar);
     }
 
     private void iniciarCarga() {
