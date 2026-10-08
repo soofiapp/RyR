@@ -319,23 +319,6 @@ Fuera del alcance del MVP v1.0 y previsto para fases futuras:
 
 ---
 
-## ▌ Cómo agregar capturas reales
-
-1. Ejecuta la app (`mvn clean javafx:run`) y captura cada vista a **1280 × 720**.
-2. Guarda las imágenes en `docs/screenshots/` con **estos nombres** — sustituyen a los marcos actuales sin tocar el README:
-
-| Archivo | Vista |
-|:--|:--|
-| `login.png` | Inicio de sesión |
-| `dashboard.png` | Dashboard gerencial |
-| `inventariado.png` | Inventariado |
-| `prestamos.png` | Préstamos |
-| `matriz_filtro.png` | Matriz máquina–filtro |
-| `kardex.png` | Insumos / Kárdex |
-| `usuarios_bitacora.png` | Usuarios y bitácora |
-
-3. Cuando todas sean reales, elimina la nota de la sección **Vistas de la aplicación**, y borra este apartado.
-
 <br>
 
 <div align="center">
