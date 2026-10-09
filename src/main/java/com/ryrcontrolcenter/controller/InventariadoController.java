@@ -1,5 +1,6 @@
 package com.ryrcontrolcenter.controller;
 
+import com.ryrcontrolcenter.dao.PrestamoDao;
 import com.ryrcontrolcenter.modelo.Inventario;
 import com.ryrcontrolcenter.service.BitacoraService;
 import com.ryrcontrolcenter.service.InventarioService;
@@ -58,6 +59,10 @@ public class InventariadoController implements Initializable {
     @FXML
     private TableColumn<Inventario, String> colTipo;
     @FXML
+    private TableColumn<Inventario, Integer> colStockActual;
+    @FXML
+    private TableColumn<Inventario, Integer> colPuntoReorden;
+    @FXML
     private TableColumn<Inventario, String> colEstadoSst;
     @FXML
     private TableColumn<Inventario, String> colObservaciones;
@@ -65,19 +70,19 @@ public class InventariadoController implements Initializable {
     private BorderPane mainPane;
 
     private final InventarioService service = new InventarioService();
-
-    // Lista completa (viene de la BD) y su versión filtrada
     private final ObservableList<Inventario> datosMaestros = FXCollections.observableArrayList();
     private FilteredList<Inventario> datosFiltrados;
+    private final PrestamoDao prestamoDao = new PrestamoDao();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("idActivo"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoActivo"));
+        colStockActual.setCellValueFactory(new PropertyValueFactory<>("stockActual"));
+        colPuntoReorden.setCellValueFactory(new PropertyValueFactory<>("puntoReorden"));
         colEstadoSst.setCellValueFactory(new PropertyValueFactory<>("estadoSst"));
         colObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
-
         // Filtro: lista filtrada + ordenable al hacer clic en los encabezados
         datosFiltrados = new FilteredList<>(datosMaestros, i -> true);
         SortedList<Inventario> ordenados = new SortedList<>(datosFiltrados);
@@ -101,7 +106,6 @@ public class InventariadoController implements Initializable {
     private void aplicarFiltro() {
         String texto = normalizar(txtBuscar.getText());
         String campo = cmbFiltro.getValue() == null ? "Todos" : cmbFiltro.getValue();
-
         datosFiltrados.setPredicate(item -> {
             if (texto.isEmpty()) {
                 return true;
@@ -225,6 +229,13 @@ public class InventariadoController implements Initializable {
         if (seleccionado == null) {
             mostrarAlerta(Alert.AlertType.WARNING, "Sin selección",
                     "Selecciona un activo de la tabla para eliminarlo.");
+            return;
+        }
+
+        if (prestamoDao.tienePrestamoActivo(seleccionado.getIdActivo())) {
+            mostrarAlerta(Alert.AlertType.WARNING, "No se puede eliminar",
+                    "Este activo tiene un préstamo abierto actualmente. Debe registrarse "
+                    + "la devolución antes de poder eliminarlo.");
             return;
         }
 

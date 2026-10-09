@@ -16,7 +16,9 @@
 
     <left>
         <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
-            <padding><Insets bottom="20" left="16" right="16" top="20" /></padding>
+            <padding>
+                <Insets bottom="20" left="16" right="16" top="20" />
+            </padding>
             <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="RyR Global" />
             <VBox spacing="2" style="-fx-padding: 20 0 0 0;">
                 <Button maxWidth="Infinity" onAction="#irADashboard" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Dashboard" />
@@ -33,23 +35,25 @@
 
     <center>
         <VBox spacing="14">
-            <padding><Insets bottom="20" left="24" right="24" top="16" /></padding>
-             <Label fx:id="lblTotalActivos" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Inventario General Registrado" />
+            <padding>
+                <Insets bottom="20" left="24" right="24" top="16" />
+            </padding>
+            <Label fx:id="lblTotalActivos" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Inventario General Registrado" />
 
             <HBox alignment="CENTER_LEFT">
    
-               <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="40.0" prefWidth="345.0" spacing="10">
-                   <ComboBox fx:id="cmbFiltro" prefHeight="25.0" prefWidth="130.0" />
+                <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="40.0" prefWidth="345.0" spacing="10">
+                    <ComboBox fx:id="cmbFiltro" prefHeight="25.0" prefWidth="130.0" />
                     <TextField fx:id="txtBuscar" prefHeight="25.0" prefWidth="285.0" promptText="Escribe para buscar..." HBox.hgrow="ALWAYS" />
-               </HBox>
+                </HBox>
                 <VBox HBox.hgrow="ALWAYS" />
-            <ButtonBar prefHeight="40.0" prefWidth="329.0">
-              <buttons>
-                 <Button fx:id="btnEliminarActivo" onAction="#onEliminarActivoClick" minWidth="71.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
-                  <Button fx:id="btnModificarActivo" onAction="#onModificarActivoClick" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
-                      <Button fx:id="btnAgregarActivo" onAction="#onAgregarActivoClick" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar" />
-              </buttons>
-            </ButtonBar>
+                <ButtonBar prefHeight="40.0" prefWidth="329.0">
+                    <buttons>
+                        <Button fx:id="btnEliminarActivo" onAction="#onEliminarActivoClick" minWidth="71.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
+                        <Button fx:id="btnModificarActivo" onAction="#onModificarActivoClick" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
+                        <Button fx:id="btnAgregarActivo" onAction="#onAgregarActivoClick" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar" />
+                    </buttons>
+                </ButtonBar>
             </HBox>
 
             <TableView fx:id="tablaInventario" VBox.vgrow="ALWAYS">
@@ -57,12 +61,14 @@
                     <TableColumn fx:id="colCodigo" prefWidth="86.66667175292969" text="Código / ID" />
                     <TableColumn fx:id="colDescripcion" prefWidth="202.66671752929688" text="Descripción del activo" />
                     <TableColumn fx:id="colTipo" prefWidth="132.66668701171875" text="Tipo" />
+                    <TableColumn fx:id="colStockActual" text="Stock actual" />
+                    <TableColumn fx:id="colPuntoReorden" text="Punto de reorden" />
                     <TableColumn fx:id="colEstadoSst" prefWidth="148.666748046875" text="Estado SSt" />
                     <TableColumn fx:id="colObservaciones" prefWidth="121.333251953125" text="Observaciones" />
                 </columns>
-            <columnResizePolicy>
-               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-            </columnResizePolicy>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
             </TableView>
         </VBox>
     </center>

@@ -1,6 +1,7 @@
 package com.ryrcontrolcenter.controller;
 
 import com.ryrcontrolcenter.dao.InventarioDAO;
+import com.ryrcontrolcenter.dao.KitDetalleDao;
 import com.ryrcontrolcenter.dao.PrestamoDao;
 import com.ryrcontrolcenter.modelo.Inventario;
 import com.ryrcontrolcenter.modelo.Prestamos;
@@ -26,6 +27,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class NuevoPrestamoController implements Initializable {
@@ -58,11 +60,14 @@ public class NuevoPrestamoController implements Initializable {
     private Button btnCancelar;
     @FXML
     private Button btnAutorizarSalida;
+    @FXML
+    private TextField txtCantidad;
 
     private final PrestamoDao prestamoDao = new PrestamoDao();
     private final InventarioDAO inventarioDao = new InventarioDAO();
     private Prestamos prestamoEdicion = null;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final KitDetalleDao kitDetalleDao = new KitDetalleDao();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,7 +111,7 @@ public class NuevoPrestamoController implements Initializable {
                         if (rbMaquinaria != null && rbMaquinaria.isSelected()) {
                             coincideCategoria = tipoActivo.contains("maquinaria") || idActivo.startsWith("MAQ");
                         } else if (rbKitCompleto != null && rbKitCompleto.isSelected()) {
-                            coincideCategoria = tipoActivo.contains("kit") || idActivo.startsWith("KIT");
+                            coincideCategoria = tipoActivo.contains("kit");
                         } else if (rbHerramientaUnica != null && rbHerramientaUnica.isSelected()) {
                             coincideCategoria = tipoActivo.contains("herramienta") || idActivo.startsWith("HERR") || idActivo.startsWith("HER");
                         } else {
@@ -193,6 +198,38 @@ public class NuevoPrestamoController implements Initializable {
         String fechaDevolucion = (fechaDevolucionLD != null) ? fechaDevolucionLD.format(dateFormatter) : "";
         String valorSeleccionado = cmbActivoDisponible.getValue();
         String idActivoLimpio = valorSeleccionado.contains(" - ") ? valorSeleccionado.split(" - ")[0].trim() : valorSeleccionado.trim();
+        if (idActivoLimpio.toUpperCase().startsWith("KIT")) {
+            if (kitDetalleDao.tieneComponenteNoOperativo(idActivoLimpio)) {
+                AlertaUtil.mostrar("Kit no disponible",
+                        "Este kit no se puede prestar porque al menos uno de sus componentes "
+                        + "está bloqueado o en mantenimiento.",
+                        Alert.AlertType.WARNING);
+                return;
+            }
+        }
+        int cantidadSolicitada;
+        try {
+            cantidadSolicitada = Integer.parseInt(txtCantidad.getText().trim());
+            if (cantidadSolicitada <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            AlertaUtil.mostrar("Cantidad inválida", "Ingrese una cantidad válida (mayor a 0).", Alert.AlertType.WARNING);
+            return;
+        }
+
+        List<Inventario> disponibles = inventarioDao.listarActivosDisponiblesParaPrestamo();
+        Inventario activoSeleccionado = disponibles.stream()
+                .filter(i -> i.getIdActivo().equalsIgnoreCase(idActivoLimpio))
+                .findFirst()
+                .orElse(null);
+
+        if (activoSeleccionado != null && cantidadSolicitada > activoSeleccionado.getStockActual()) {
+            AlertaUtil.mostrar("Stock insuficiente",
+                    "Solo hay " + activoSeleccionado.getStockActual() + " unidades disponibles.",
+                    Alert.AlertType.WARNING);
+            return;
+        }
         if (prestamoEdicion == null) {
             Prestamos nuevo = new Prestamos();
             String nuevoIdCorrelativo = "PR-" + System.currentTimeMillis();
@@ -207,6 +244,7 @@ public class NuevoPrestamoController implements Initializable {
             nuevo.setEstado("En Uso");
             nuevo.setDescripcionEstadoDevolucion("PENDIENTE");
             nuevo.setIdUusarioRegistro(SesionActual.getUsuario().getIdUsuario());
+            nuevo.setCantidad(cantidadSolicitada);
             boolean exito = prestamoDao.guardar(nuevo);
             if (exito) {
                 BitacoraService.registrar(
@@ -227,6 +265,7 @@ public class NuevoPrestamoController implements Initializable {
             prestamoEdicion.setFechaDevolucionEstimada(fechaDevolucion);
             prestamoEdicion.setObservacionesSalida(txtObservaciones != null ? txtObservaciones.getText().trim() : "");
             prestamoEdicion.setIdActivo(idActivoLimpio);
+            prestamoEdicion.setCantidad(cantidadSolicitada);
             if (prestamoEdicion.getEstado() == null || prestamoEdicion.getEstado().trim().isEmpty()) {
                 prestamoEdicion.setEstado("En Uso");
             }

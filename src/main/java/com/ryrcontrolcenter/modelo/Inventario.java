@@ -1,7 +1,7 @@
-
 package com.ryrcontrolcenter.modelo;
 
 public class Inventario {
+
     private String idActivo;
     private String descripcion;
     private String tipoActivo;
@@ -9,6 +9,8 @@ public class Inventario {
     private String ubicacion;
     private String fechaRegistro;
     private String observaciones;
+    private int stockActual;
+    private int puntoReorden;
 
     public Inventario() {
     }
@@ -16,6 +18,7 @@ public class Inventario {
     public String getIdActivo() {
         return idActivo;
     }
+
     public void setIdActivo(String idActivo) {
         this.idActivo = idActivo;
     }
@@ -23,6 +26,7 @@ public class Inventario {
     public String getDescripcion() {
         return descripcion;
     }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -30,6 +34,7 @@ public class Inventario {
     public String getTipoActivo() {
         return tipoActivo;
     }
+
     public void setTipoActivo(String tipoActivo) {
         this.tipoActivo = tipoActivo;
     }
@@ -37,6 +42,7 @@ public class Inventario {
     public String getEstadoSst() {
         return estadoSst;
     }
+
     public void setEstadoSst(String estadoSst) {
         this.estadoSst = estadoSst;
     }
@@ -44,6 +50,7 @@ public class Inventario {
     public String getUbicacion() {
         return ubicacion;
     }
+
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
@@ -51,6 +58,7 @@ public class Inventario {
     public String getFechaRegistro() {
         return fechaRegistro;
     }
+
     public void setFechaRegistro(String fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
@@ -58,7 +66,24 @@ public class Inventario {
     public String getObservaciones() {
         return observaciones;
     }
+
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public int getStockActual() {
+        return stockActual;
+    }
+
+    public void setStockActual(int stockActual) {
+        this.stockActual = stockActual;
+    }
+
+    public int getPuntoReorden() {
+        return puntoReorden;
+    }
+
+    public void setPuntoReorden(int puntoReorden) {
+        this.puntoReorden = puntoReorden;
     }
 }
