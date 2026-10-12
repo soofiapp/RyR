@@ -11,6 +11,7 @@ public class Inventario {
     private String observaciones;
     private int stockActual;
     private int puntoReorden;
+    private int stockDisponible;
 
     public Inventario() {
     }
@@ -85,5 +86,13 @@ public class Inventario {
 
     public void setPuntoReorden(int puntoReorden) {
         this.puntoReorden = puntoReorden;
+    }
+
+    public int getStockDisponible() {
+        return stockDisponible;
+    }
+
+    public void setStockDisponible(int stockDisponible) {
+        this.stockDisponible = stockDisponible;
     }
 }
