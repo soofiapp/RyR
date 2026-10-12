@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.ryrcontrolcenter.dao;
 
 import com.ryrcontrolcenter.config.ConexionBD;
@@ -74,9 +71,10 @@ public class MaquinaDao {
     public List<Maquina> listarTodas() {
         List<Maquina> lista = new ArrayList<>();
         String sql = """
-            SELECT m.* FROM maquinas m
+            SELECT m.* 
+            FROM maquinas m
             JOIN inventario i ON m.id_maquina = i.id_activo
-            WHERE i.visible = 1
+            WHERE i.visible = 1 OR i.visible IS NULL
             ORDER BY m.id_maquina
             """;
         try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {

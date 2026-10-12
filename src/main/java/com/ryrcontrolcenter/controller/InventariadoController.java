@@ -79,7 +79,7 @@ public class InventariadoController implements Initializable {
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("idActivo"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoActivo"));
-        colStockActual.setCellValueFactory(new PropertyValueFactory<>("stockActual"));
+        colStockActual.setCellValueFactory(new PropertyValueFactory<>("stockDisponible"));
         colPuntoReorden.setCellValueFactory(new PropertyValueFactory<>("puntoReorden"));
         colEstadoSst.setCellValueFactory(new PropertyValueFactory<>("estadoSst"));
         colObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
@@ -292,7 +292,7 @@ public class InventariadoController implements Initializable {
             mainPane.setOpacity(1.0);
         }
     }
-
+    
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);

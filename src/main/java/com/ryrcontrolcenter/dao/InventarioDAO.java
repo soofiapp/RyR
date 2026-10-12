@@ -132,7 +132,7 @@ public class InventarioDAO {
         try (Connection conn = ConexionBD.conectar(); PreparedStatement st = conn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 Inventario i = mapear(rs);
-                i.setStockActual(rs.getInt("stock_disponible"));
+                i.setStockDisponible(rs.getInt("stock_disponible"));
                 lista.add(i);
             }
         } catch (SQLException e) {
@@ -152,7 +152,7 @@ public class InventarioDAO {
         i.setObservaciones(rs.getString("observaciones"));
         i.setStockActual(rs.getInt("stock_actual"));
         i.setPuntoReorden(rs.getInt("punto_reorden"));
-        i.setStockActual(rs.getInt("stock_disponible"));
+        i.setStockDisponible(rs.getInt("stock_disponible"));
         return i;
     }
 }
