@@ -233,7 +233,7 @@ Nueve tablas relacionales en `data/ryr_controlcenter.db`, con **claves foráneas
 
 ```bash
 # 1. Clonar la rama
-git clone --branch Giuseppe_Vargas https://github.com/soofiapp/RyR.git
+git clone --branch main https://github.com/soofiapp/RyR.git
 cd RyR
 
 # 2. Ejecutar la aplicación
