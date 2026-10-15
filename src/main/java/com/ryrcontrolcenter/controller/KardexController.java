@@ -101,8 +101,7 @@ public class KardexController implements Initializable {
     private BarChart<Number, String> chartTopInsumos;
     @FXML
     private BarChart<Number, String> chartCriticos;
-
-    // Pestaña Movimientos
+    
     @FXML
     private ComboBox<String> cmbTipo;
     @FXML
@@ -681,6 +680,11 @@ public class KardexController implements Initializable {
     @FXML
     private void irAUsuariosBitacora(ActionEvent event) {
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/UsuariosBitacoraVista.fxml");
+    }
+
+    @FXML
+    private void irACopiasSeguridad(ActionEvent event) {
+        BackupController.abrir();
     }
 
     @FXML

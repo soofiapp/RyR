@@ -217,6 +217,11 @@ public class MatrizFiltroController implements Initializable {
     }
 
     @FXML
+    private void irACopiasSeguridad(ActionEvent event) {
+        BackupController.abrir();
+    }
+
+    @FXML
     private void onLogoutClick(ActionEvent event) {
         SesionActual.cerrar();
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml");

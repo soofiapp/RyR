@@ -33,6 +33,7 @@
                 <Button maxWidth="Infinity" onAction="#irAMatrizFiltro" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Matriz Filtro" />
                 <Button maxWidth="Infinity" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Insumos / Kárdex" />
                 <Button maxWidth="Infinity" onAction="#irAUsuariosBitacora" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Usuarios y bitácora" />
+                <Button maxWidth="Infinity" onAction="#irACopiasSeguridad" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Copias de seguridad" />
             </VBox>
             <VBox VBox.vgrow="ALWAYS" />
             <Button maxWidth="Infinity" onAction="#onLogoutClick" style="-fx-background-color: white; -fx-text-fill: #2447c4;" text="Logout" />
@@ -43,7 +44,7 @@
         <VBox spacing="12">
             <padding><Insets bottom="16" left="24" right="24" top="16" /></padding>
 
-            <!-- Encabezado + acciones -->
+
             <HBox alignment="CENTER_LEFT" spacing="8">
                 <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                     <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Kárdex de Insumos" />
@@ -58,7 +59,7 @@
                 <Button fx:id="btnRegistrarMovimiento" minWidth="-Infinity" onAction="#onRegistrarMovimientoClick" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Registrar movimiento" />
             </HBox>
 
-            <!-- Indicadores -->
+
             <HBox spacing="12">
                 <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2447c4;" HBox.hgrow="ALWAYS">
                     <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
@@ -86,7 +87,7 @@
                 </VBox>
             </HBox>
 
-            <!-- Filtros comunes -->
+ 
             <HBox alignment="CENTER_LEFT" spacing="8">
                 <TextField fx:id="txtBuscar" minWidth="120.0" prefWidth="260.0" promptText="Buscar por código o descripción del insumo" HBox.hgrow="ALWAYS" />
                 <ComboBox fx:id="cmbCategoria" minWidth="130.0" promptText="Categoría" />
@@ -95,7 +96,7 @@
 
             <TabPane fx:id="tabs" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                 <tabs>
-                    <!-- Pestaña 1: libro de movimientos (formato contable) -->
+    
                     <Tab fx:id="tabMovimientos" text="Movimientos (Kárdex)">
                         <content>
                             <VBox spacing="8">
@@ -128,7 +129,7 @@
                         </content>
                     </Tab>
 
-                    <!-- Pestaña 2: existencias y reposición (semáforo) -->
+
                     <Tab fx:id="tabExistencias" text="Existencias y reposición">
                         <content>
                             <VBox spacing="8">
@@ -158,7 +159,7 @@
                         </content>
                     </Tab>
 
-                    <!-- Pestaña 3: graficas (siguen los filtros activos) -->
+                
                     <Tab fx:id="tabGraficas" text="Gráficas">
                         <content>
                             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;">
