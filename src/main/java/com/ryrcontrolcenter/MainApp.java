@@ -8,9 +8,9 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        SceneManager.setStage(stage);
         stage.setTitle("RyR ControlCenter");
-        SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml");
+        SceneManager.setStage(stage);
+        SceneManager.cambiarA(SceneManager.PRELOGIN);
     }
 
     public static void main(String[] args) {
