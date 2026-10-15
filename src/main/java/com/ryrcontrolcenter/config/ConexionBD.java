@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConexionBD {
+    public static final java.nio.file.Path RUTA_ARCHIVO = java.nio.file.Path.of("data", "ryr_controlcenter.db");
     private static final String URL = "jdbc:sqlite:data/ryr_controlcenter.db";
 
     public static Connection conectar() throws SQLException {

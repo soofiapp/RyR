@@ -1,1 +1,7 @@
 target/
+
+# Copias de seguridad (RF-6): datos y configuracion locales de cada equipo
+backups/
+data/backup.properties
+data/backup.log
+data/backup.log.old

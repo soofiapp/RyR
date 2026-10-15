@@ -79,11 +79,10 @@ public class InventariadoController implements Initializable {
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("idActivo"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoActivo"));
-        colStockActual.setCellValueFactory(new PropertyValueFactory<>("stockActual"));
+        colStockActual.setCellValueFactory(new PropertyValueFactory<>("stockDisponible"));
         colPuntoReorden.setCellValueFactory(new PropertyValueFactory<>("puntoReorden"));
         colEstadoSst.setCellValueFactory(new PropertyValueFactory<>("estadoSst"));
         colObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
-        // Filtro: lista filtrada + ordenable al hacer clic en los encabezados
         datosFiltrados = new FilteredList<>(datosMaestros, i -> true);
         SortedList<Inventario> ordenados = new SortedList<>(datosFiltrados);
         ordenados.comparatorProperty().bind(tablaInventario.comparatorProperty());
@@ -138,9 +137,6 @@ public class InventariadoController implements Initializable {
         return normalizar(valor).contains(textoNormalizado);
     }
 
-    /**
-     * Minúsculas y sin tildes, para que "maquina" encuentre "Máquina".
-     */
     private String normalizar(String s) {
         if (s == null) {
             return "";
@@ -188,6 +184,11 @@ public class InventariadoController implements Initializable {
     }
 
     @FXML
+    private void irACopiasSeguridad(ActionEvent e) {
+        BackupController.abrir();
+    }
+
+    @FXML
     private void onLogoutClick(ActionEvent e) {
         SesionActual.cerrar();
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/LoginVista.fxml");
@@ -197,7 +198,7 @@ public class InventariadoController implements Initializable {
     private void cargarDatosTabla() {
         try {
             List<Inventario> lista = service.verItemsInventario();
-            datosMaestros.setAll(lista);   // el filtro activo se mantiene
+            datosMaestros.setAll(lista);
             aplicarFiltro();
         } catch (Exception e) {
             e.printStackTrace();
@@ -261,7 +262,7 @@ public class InventariadoController implements Initializable {
         }
     }
 
-    // ---------- Ventana de formulario (agregar o modificar) ----------
+    // ---------- Ventana de formulario agregar o modificar----------
     private void abrirFormulario(Inventario aEditar) {
         BoxBlur blur = new BoxBlur(5, 5, 3);
         mainPane.setEffect(blur);
@@ -292,7 +293,7 @@ public class InventariadoController implements Initializable {
             mainPane.setOpacity(1.0);
         }
     }
-
+    
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);

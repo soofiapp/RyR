@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.InventariadoController">
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.InventariadoController">
 
     <left>
         <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
@@ -27,6 +27,7 @@
                 <Button maxWidth="Infinity" onAction="#irAMatrizFiltro" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Matriz Filtro" />
                 <Button maxWidth="Infinity" onAction="#irAKardex" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Insumos / Kárdex" />
                 <Button maxWidth="Infinity" onAction="#irAUsuariosBitacora" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Usuarios y bitácora" />
+                <Button maxWidth="Infinity" onAction="#irACopiasSeguridad" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Copias de seguridad" />
             </VBox>
             <VBox VBox.vgrow="ALWAYS" />
             <Button maxWidth="Infinity" onAction="#onLogoutClick" style="-fx-background-color: white; -fx-text-fill: #2447c4;" text="Logout" />

@@ -29,6 +29,7 @@
                 <Button maxWidth="Infinity" onAction="#irAMatrizFiltro" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Matriz Filtro" />
                 <Button maxWidth="Infinity" onAction="#irAKardex" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Insumos / Kárdex" />
                 <Button maxWidth="Infinity" onAction="#irAUsuariosBitacora" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Usuarios y bitácora" />
+                <Button maxWidth="Infinity" onAction="#irACopiasSeguridad" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Copias de seguridad" />
             </VBox>
             <VBox VBox.vgrow="ALWAYS" />
             <Button maxWidth="Infinity" onAction="#onLogoutClick" style="-fx-background-color: white; -fx-text-fill: #2447c4;" text="Logout" />
