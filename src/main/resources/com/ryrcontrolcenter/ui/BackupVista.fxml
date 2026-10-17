@@ -16,10 +16,10 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.BackupController">
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.BackupController">
 
     <left>
         <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
@@ -42,14 +42,13 @@
     <center>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;">
             <content>
-                <VBox spacing="12">
+                <VBox spacing="12" style="-fx-background-color: white;">
                     <padding><Insets bottom="20" left="24" right="24" top="16" /></padding>
 
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Copias de seguridad y restauración" />
                         <ProgressIndicator fx:id="indicador" managed="false" maxHeight="22" maxWidth="22" prefHeight="22" prefWidth="22" visible="false" />
                     </HBox>
-                    <Label style="-fx-text-fill: #6b7280;" text="Protege la base de datos local frente a fallas del equipo. Puede crear copias cuando quiera, programarlas o dejar que se hagan solas, y volver a una copia anterior." wrapText="true" />
 
 
                     <VBox spacing="4" style="-fx-background-color: #f3f6ff; -fx-background-radius: 8; -fx-border-color: #c7d2fe; -fx-border-radius: 8; -fx-padding: 12 14 12 14;">
@@ -58,19 +57,26 @@
                     </VBox>
 
 
-                    <FlowPane hgap="8" vgap="8">
-                        <Button fx:id="btnCrear" onAction="#onCrearCopiaClick" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="Crear copia ahora" />
-                        <Button fx:id="btnGuardarEn" onAction="#onGuardarEnClick" style="-fx-background-color: #ffffff; -fx-border-color: #2447c4; -fx-text-fill: #2447c4; -fx-font-weight: bold;" text="Guardar copia en…" />
-                        <Button fx:id="btnRestaurar" onAction="#onRestaurarClick" style="-fx-background-color: #ef6c00; -fx-text-fill: white; -fx-font-weight: bold;" text="Restaurar seleccionada" />
-                        <Button fx:id="btnRestaurarArchivo" onAction="#onRestaurarArchivoClick" style="-fx-background-color: #ffffff; -fx-border-color: #ef6c00; -fx-text-fill: #ef6c00; -fx-font-weight: bold;" text="Restaurar desde archivo…" />
-                        <Button fx:id="btnVerificar" onAction="#onVerificarClick" style="-fx-background-color: #ffffff; -fx-border-color: #6b7280; -fx-text-fill: #374151;" text="Verificar" />
-                        <Button fx:id="btnEliminar" onAction="#onEliminarClick" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="Eliminar" />
-                        <Button fx:id="btnAbrirCarpeta" onAction="#onAbrirCarpetaClick" style="-fx-background-color: #ffffff; -fx-border-color: #6b7280; -fx-text-fill: #374151;" text="Abrir carpeta" />
-                    </FlowPane>
+                    <FlowPane hgap="8" vgap="8" />
+               <HBox spacing="10.0">
+                  <children>
+                           <Button fx:id="btnGuardarEn" onAction="#onGuardarEnClick" prefWidth="125.0" style="-fx-background-color: #ffffff; -fx-border-color: #2447c4; -fx-text-fill: #2447c4; -fx-font-weight: bold;" text="Guardar copia en…" />
+                           <Button fx:id="btnRestaurarArchivo" onAction="#onRestaurarArchivoClick" prefWidth="165.0" style="-fx-background-color: #ffffff; -fx-border-color: #2447c4; -fx-text-fill: #2447c4; -fx-font-weight: bold;" text="Restaurar desde archivo…" />
+                           <Button fx:id="btnVerificar" onAction="#onVerificarClick" style="-fx-background-color: #ffffff; -fx-border-color: #6b7280; -fx-text-fill: #374151;" text="Verificar" />
+                           <Button fx:id="btnAbrirCarpeta" onAction="#onAbrirCarpetaClick" style="-fx-background-color: #ffffff; -fx-border-color: #6b7280; -fx-text-fill: #374151;" text="Abrir carpeta" />
+                  </children>
+               </HBox>
 
-                    <Label fx:id="lblMensaje" style="-fx-text-fill: #6b7280;" text="" wrapText="true" />
-
-                    <Label fx:id="lblCarpetaListado" style="-fx-font-weight: bold;" text="Copias disponibles" />
+                          <Label fx:id="lblMensaje" style="-fx-text-fill: #6b7280;" text="" wrapText="true" />
+               <HBox prefWidth="200.0" spacing="10.0">
+                  <children>
+      
+                          <Label fx:id="lblCarpetaListado" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold;" text="Copias disponibles" HBox.hgrow="ALWAYS" />
+                           <Button fx:id="btnEliminar" onAction="#onEliminarClick" prefWidth="120.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
+                           <Button fx:id="btnRestaurar" onAction="#onRestaurarClick" prefWidth="150.0" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" text="Restaurar seleccionada" />
+                           <Button fx:id="btnCrear" onAction="#onCrearCopiaClick" prefWidth="120.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="Crear copia ahora" />
+                  </children>
+               </HBox>
                     <TableView fx:id="tablaCopias" prefHeight="220.0" VBox.vgrow="NEVER">
                         <columns>
                             <TableColumn fx:id="colFecha" prefWidth="150" text="Fecha y hora" />
@@ -114,9 +120,15 @@
                             </HBox>
 
                             <CheckBox fx:id="chkAlCerrar" text="Hacer también una copia al cerrar la aplicación" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
                         </GridPane>
 
-                        <HBox alignment="CENTER_LEFT" spacing="10">
+                        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: white;">
                             <Button fx:id="btnGuardarConfig" onAction="#onGuardarConfigClick" style="-fx-background-color: #2447c4; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar configuración" />
                             <Label style="-fx-text-fill: #6b7280;" text="Use una carpeta en otro disco o una USB para estar protegido si falla el equipo." wrapText="true" HBox.hgrow="ALWAYS" />
                         </HBox>
