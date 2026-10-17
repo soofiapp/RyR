@@ -39,15 +39,16 @@
              <Label fx:id="lblTotalPrestamos" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Mostrando préstamos" />
 
             <HBox alignment="CENTER_LEFT">
-                <ComboBox fx:id="cmbFiltro" prefHeight="25.0" prefWidth="75.0" promptText="Filtrar" />
+                <ComboBox fx:id="cmbFiltro" prefHeight="25.0" prefWidth="75.0" promptText="Filtrar" HBox.hgrow="ALWAYS" />
+            <HBox prefHeight="40.0" prefWidth="20.0" HBox.hgrow="NEVER" />
                 <TextField fx:id="txtBuscar" prefHeight="25.0" prefWidth="285.0" promptText="Busca por máquina, herramienta o código " HBox.hgrow="ALWAYS" />
                 <VBox prefHeight="40.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-            <ButtonBar prefHeight="40.0" prefWidth="339.0">
+            <ButtonBar buttonMinWidth="50.0" prefHeight="40.0">
                <buttons>
 
-                  <Button fx:id="btnEliminarPrestamo" minWidth="71.0" mnemonicParsing="false" onAction="#onEliminarPrestamoClick" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
-                  <Button fx:id="btnModificarPrestamo" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarPrestamoClick" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
-                  <Button fx:id="btnAnadirPrestamo" onAction="#onAnadirPrestamoClick" prefHeight="25.0" prefWidth="160.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Añadir" />
+                  <Button fx:id="btnEliminarPrestamo" minWidth="65.0" mnemonicParsing="false" onAction="#onEliminarPrestamoClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
+                  <Button fx:id="btnModificarPrestamo" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarPrestamoClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
+                  <Button fx:id="btnAnadirPrestamo" minWidth="65.0" onAction="#onAnadirPrestamoClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar" />
                </buttons>
             </ButtonBar>
             </HBox>

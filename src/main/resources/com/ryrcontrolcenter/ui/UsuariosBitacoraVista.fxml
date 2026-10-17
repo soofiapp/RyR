@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.UsuariosBitacoraController">
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.UsuariosBitacoraController">
 
     <left>
         <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
@@ -31,7 +32,7 @@
     </left>
 
     <center>
-        <VBox spacing="20">
+        <VBox spacing="20" style="-fx-background-color: white;">
             <padding><Insets bottom="20" left="24" right="24" top="16" /></padding>
 
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Control de Usuarios y Bitácora Auditora" />
@@ -39,13 +40,16 @@
             <children>
                <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                   <children>
-                         <Label prefHeight="17.0" prefWidth="133.0" style="-fx-font-weight: bold;" text="Usuarios del sistema" HBox.hgrow="ALWAYS" />
-                     <VBox HBox.hgrow="ALWAYS" />
-                     <ButtonBar prefHeight="40.0" prefWidth="329.0">
+                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="245.0" style="-fx-font-weight: bold;" text="Usuarios del sistema" HBox.hgrow="ALWAYS">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <ButtonBar prefHeight="40.0">
                         <buttons>
-                           <Button fx:id="btnEliminarUsuario" minWidth="71.0" mnemonicParsing="false" onAction="#onEliminarUsuarioClick" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
-                           <Button fx:id="btnModificarUsuario" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarUsuarioClick" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
-                           <Button fx:id="btnRegistrarUsuario" mnemonicParsing="false" onAction="#onRegistrarUsuarioClick" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Registrar" />
+                           <Button fx:id="btnEliminarUsuario" minWidth="71.0" mnemonicParsing="false" onAction="#onEliminarUsuarioClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
+                           <Button fx:id="btnModificarUsuario" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarUsuarioClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
+                           <Button fx:id="btnRegistrarUsuario" mnemonicParsing="false" onAction="#onRegistrarUsuarioClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Registrar" />
                         </buttons>
                      </ButtonBar>
                   </children>
@@ -68,7 +72,10 @@
                    </TableView>
             </children>
          </VBox>
-             <Label style="-fx-font-weight: bold;" text="Bitácora de Eventos y Cambios" />
+             <Label style="-fx-font-weight: bold;" text="Bitácora de Eventos y Cambios">
+            <font>
+               <Font size="14.0" />
+            </font></Label>
              <TableView fx:id="tablaBitacora" VBox.vgrow="ALWAYS">
                  <columns>
                      <TableColumn fx:id="colFechaHora" prefWidth="150" text="Fecha / Hora" />

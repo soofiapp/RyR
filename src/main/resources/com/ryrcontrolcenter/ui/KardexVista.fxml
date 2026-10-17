@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -20,11 +20,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" stylesheets="@kardex.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.KardexController">
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" stylesheets="@kardex.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.KardexController">
 
     <left>
         <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
-            <padding><Insets bottom="20" left="16" right="16" top="20" /></padding>
+            <padding>
+                <Insets bottom="20" left="16" right="16" top="20" />
+            </padding>
             <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="RyR Global" />
             <VBox spacing="2" style="-fx-padding: 20 0 0 0;">
                 <Button maxWidth="Infinity" onAction="#irADashboard" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: baseline-left;" text="  Dashboard" />
@@ -42,56 +44,71 @@
 
     <center>
         <VBox spacing="12">
-            <padding><Insets bottom="16" left="24" right="24" top="16" /></padding>
+            <padding>
+                <Insets bottom="16" left="24" right="24" top="16" />
+            </padding>
 
 
             <HBox alignment="CENTER_LEFT" spacing="8">
                 <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                     <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Kárdex de Insumos" />
-                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Entradas, salidas y saldo por insumo, con semáforo de reorden." />
                 </VBox>
                 <Button fx:id="btnExportarPdf" minWidth="-Infinity" onAction="#onExportarPdfClick" style="-fx-background-color: #ffffff; -fx-border-color: #2447c4; -fx-text-fill: #2447c4; -fx-font-weight: bold;" text="Exportar PDF">
-                    <tooltip><Tooltip text="Exporta la pestaña activa con los filtros aplicados" /></tooltip>
+                    <tooltip>
+                        <Tooltip text="Exporta la pestaña activa con los filtros aplicados" />
+                    </tooltip>
                 </Button>
-                <Button fx:id="btnExportarExcel" minWidth="-Infinity" onAction="#onExportarExcelClick" style="-fx-background-color: #ffffff; -fx-border-color: #2e7d32; -fx-text-fill: #2e7d32; -fx-font-weight: bold;" text="Exportar Excel">
-                    <tooltip><Tooltip text="Exporta la pestaña activa con los filtros aplicados" /></tooltip>
+                <Button fx:id="btnExportarExcel" minWidth="-Infinity" onAction="#onExportarExcelClick" style="-fx-background-color: #ffffff; -fx-border-color: #2447c4; -fx-text-fill: #2447c4; -fx-font-weight: bold;" text="Exportar Excel">
+                    <tooltip>
+                        <Tooltip text="Exporta la pestaña activa con los filtros aplicados" />
+                    </tooltip>
                 </Button>
-                <Button fx:id="btnRegistrarMovimiento" minWidth="-Infinity" onAction="#onRegistrarMovimientoClick" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Registrar movimiento" />
+                <Button fx:id="btnRegistrarMovimiento" minWidth="-Infinity" onAction="#onRegistrarMovimientoClick" style="-fx-background-color: #2e7d32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Registrar movimiento" />            
             </HBox>
+         <HBox prefHeight="6.0" prefWidth="200.0" />
 
 
-            <HBox spacing="12">
-                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2447c4;" HBox.hgrow="ALWAYS">
-                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+            <HBox prefHeight="100.0" prefWidth="750.0" spacing="12">
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 5; -fx-border-width: 2 2 2 3; -fx-border-color: #d1d5db #d1d5db #d1d5db #2447c4;" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="8" left="12" right="12" top="8" />
+                    </padding>
                     <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Existencias totales" />
                     <Label fx:id="lblKpiExistencias" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
                     <Label fx:id="lblKpiExistenciasSub" style="-fx-text-fill: #6b7280; -fx-font-size: 10px;" text=" " />
                 </VBox>
-                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #2e7d32;" HBox.hgrow="ALWAYS">
-                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
-                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Entradas (según filtros)" />
+                <VBox style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #d1d5db; -fx-border-radius: 5; -fx-border-width: 2 2 2 3; -fx-border-color: #d1d5db #d1d5db #d1d5db #2e7d32;" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="8" left="12" right="12" top="8" />
+                    </padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Entradas" />
                     <Label fx:id="lblKpiEntradas" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
                     <Label fx:id="lblKpiEntradasSub" style="-fx-text-fill: #6b7280; -fx-font-size: 10px;" text=" " />
                 </VBox>
-                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #c62828;" HBox.hgrow="ALWAYS">
-                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
-                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Salidas (según filtros)" />
+                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 5; -fx-border-width: 2 2 2 3; -fx-border-color: #d1d5db #d1d5db #d1d5db #c62828;" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="8" left="12" right="12" top="8" />
+                    </padding>
+                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Salidas" />
                     <Label fx:id="lblKpiSalidas" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
                     <Label fx:id="lblKpiSalidasSub" style="-fx-text-fill: #6b7280; -fx-font-size: 10px;" text=" " />
                 </VBox>
-                <VBox style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #d1d5db; -fx-border-radius: 6; -fx-border-width: 1 1 1 4; -fx-border-color: #d1d5db #d1d5db #d1d5db #f9a825;" HBox.hgrow="ALWAYS">
-                    <padding><Insets bottom="8" left="12" right="12" top="8" /></padding>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #d1d5db; -fx-border-radius: 5; -fx-border-width: 2 2 2 3; -fx-border-color: #d1d5db #d1d5db #d1d5db #f9a825;" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="8" left="12" right="12" top="8" />
+                    </padding>
                     <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Insumos en alerta" />
                     <Label fx:id="lblKpiAlertas" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;" text="0" />
                     <Label fx:id="lblKpiAlertasSub" style="-fx-text-fill: #6b7280; -fx-font-size: 10px;" text=" " />
                 </VBox>
             </HBox>
+         <HBox prefHeight="6.0" prefWidth="200.0" />
 
  
             <HBox alignment="CENTER_LEFT" spacing="8">
-                <TextField fx:id="txtBuscar" minWidth="120.0" prefWidth="260.0" promptText="Buscar por código o descripción del insumo" HBox.hgrow="ALWAYS" />
                 <ComboBox fx:id="cmbCategoria" minWidth="130.0" promptText="Categoría" />
-                <Button fx:id="btnLimpiar" onAction="#onLimpiarClick" style="-fx-background-color: #e5e7eb;" text="Limpiar filtros" />
+                <TextField fx:id="txtBuscar" minWidth="120.0" prefWidth="260.0" promptText="Buscar por código o descripción del insumo" HBox.hgrow="ALWAYS" />
+                <Button fx:id="btnLimpiar" onAction="#onLimpiar" text="Limpiar filtros" />
             </HBox>
 
             <TabPane fx:id="tabs" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
@@ -100,21 +117,25 @@
                     <Tab fx:id="tabMovimientos" text="Movimientos (Kárdex)">
                         <content>
                             <VBox spacing="8">
-                                <padding><Insets top="8" /></padding>
-                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                <padding>
+                                    <Insets top="8" />
+                                </padding>
+                        <HBox prefHeight="6.0" prefWidth="6.0" />
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
                                     <Label text="Tipo:" />
-                                    <ComboBox fx:id="cmbTipo" prefWidth="110.0" />
+                                    <ComboBox fx:id="cmbTipo" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="250.0" HBox.hgrow="ALWAYS" />
                                     <Label text="Desde:" />
-                                    <DatePicker fx:id="dpDesde" prefWidth="130.0" />
+                                    <DatePicker fx:id="dpDesde" prefWidth="150.0" />
                                     <Label text="Hasta:" />
-                                    <DatePicker fx:id="dpHasta" prefWidth="130.0" />
+                                    <DatePicker fx:id="dpHasta" prefWidth="150.0" />
                                 </HBox>
+                        <HBox prefHeight="6.0" prefWidth="20.0" />
                                 <TableView fx:id="tablaMovimientos" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="colFecha" maxWidth="150" minWidth="122" prefWidth="130.0" text="Fecha y hora" />
-                                        <TableColumn fx:id="colCodigo" maxWidth="120" minWidth="90" prefWidth="95.0" text="Código" />
-                                        <TableColumn fx:id="colInsumo" prefWidth="210.0" text="Insumo / descripción" />
-                                        <TableColumn fx:id="colTipo" maxWidth="105" minWidth="88" prefWidth="95.0" text="Tipo" />
+                                        <TableColumn fx:id="colFecha" maxWidth="150" minWidth="91.33329772949219" prefWidth="91.33329772949219" text="Fecha y hora" />
+                                        <TableColumn fx:id="colCodigo" maxWidth="126.0" minWidth="84.66668701171875" prefWidth="88.0" text="Código" />
+                                        <TableColumn fx:id="colInsumo" prefWidth="130.00003051757812" text="Insumo / descripción" />
+                                        <TableColumn fx:id="colTipo" maxWidth="105" minWidth="78.0" prefWidth="78.0" text="Tipo" />
                                         <TableColumn fx:id="colEntrada" maxWidth="80" minWidth="66" prefWidth="68.0" text="Entrada" />
                                         <TableColumn fx:id="colSalida" maxWidth="80" minWidth="62" prefWidth="64.0" text="Salida" />
                                         <TableColumn fx:id="colSaldo" maxWidth="70" minWidth="55" prefWidth="60.0" text="Saldo" />
@@ -133,12 +154,16 @@
                     <Tab fx:id="tabExistencias" text="Existencias y reposición">
                         <content>
                             <VBox spacing="8">
-                                <padding><Insets top="8" /></padding>
+                                <padding>
+                                    <Insets top="8" />
+                                </padding>
+                        <HBox prefHeight="6.0" prefWidth="200.0" />
                                 <HBox alignment="CENTER_LEFT" spacing="8">
                                     <Label text="Estado:" />
                                     <ComboBox fx:id="cmbEstado" prefWidth="190.0" />
-                                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Doble clic en un insumo para ver su tarjeta de movimientos." />
+                                    <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Doble clic en un insumo para ver sus movimientos." />
                                 </HBox>
+                        <HBox prefHeight="6.0" prefWidth="200.0" />
                                 <TableView fx:id="tablaExistencias" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="colExCodigo" maxWidth="135" minWidth="100" prefWidth="105.0" text="Código" />
@@ -165,13 +190,19 @@
                             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;">
                                 <content>
                                     <VBox spacing="12">
-                                        <padding><Insets bottom="12" left="2" right="8" top="10" /></padding>
-                                        <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Las gráficas se recalculan con los filtros activos (búsqueda, categoría, tipo y fechas)." />
+                                        <padding>
+                                            <Insets bottom="12" left="2" right="8" top="10" />
+                                        </padding>
+                                        <Label style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" text="Las gráficas se recalculan con los filtros activos" />
                                         <HBox spacing="12">
                                             <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
                                                 <BarChart fx:id="chartMovMes" animated="false" legendSide="BOTTOM" minHeight="260.0" prefHeight="270.0" title="Entradas y salidas por mes (uds)">
-                                                    <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
-                                                    <yAxis><NumberAxis side="LEFT" /></yAxis>
+                                                    <xAxis>
+                                                        <CategoryAxis side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis side="LEFT" />
+                                                    </yAxis>
                                                 </BarChart>
                                             </VBox>
                                             <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
@@ -181,14 +212,22 @@
                                         <HBox spacing="12">
                                             <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
                                                 <BarChart fx:id="chartTopInsumos" animated="false" legendSide="BOTTOM" minHeight="300.0" prefHeight="310.0" title="Movimiento por insumo (más activos)">
-                                                    <xAxis><NumberAxis side="BOTTOM" /></xAxis>
-                                                    <yAxis><CategoryAxis side="LEFT" /></yAxis>
+                                                    <xAxis>
+                                                        <NumberAxis side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <CategoryAxis side="LEFT" />
+                                                    </yAxis>
                                                 </BarChart>
                                             </VBox>
                                             <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
                                                 <BarChart fx:id="chartCriticos" animated="false" legendSide="BOTTOM" minHeight="300.0" prefHeight="310.0" title="Stock vs. punto de reorden (más críticos)">
-                                                    <xAxis><NumberAxis side="BOTTOM" /></xAxis>
-                                                    <yAxis><CategoryAxis side="LEFT" /></yAxis>
+                                                    <xAxis>
+                                                        <NumberAxis side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <CategoryAxis side="LEFT" />
+                                                    </yAxis>
                                                 </BarChart>
                                             </VBox>
                                         </HBox>

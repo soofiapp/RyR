@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.MatrizFiltroController">
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ryrcontrolcenter.controller.MatrizFiltroController">
 
     <left>
         <VBox prefWidth="220" spacing="4" style="-fx-background-color: #2447c4;">
@@ -38,14 +38,14 @@
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Matriz de Compatibilidad: Máquina y Filtros OEM" />
 
             <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label prefHeight="17.0" prefWidth="143.0" text="Seleccionar Maquinaria" />
-                <ComboBox fx:id="cmbMaquina" prefHeight="25.0" prefWidth="229.0" />
+                <Label prefHeight="17.0" prefWidth="143.0" text="Seleccionar Maquinaria" HBox.hgrow="ALWAYS" />
+                <ComboBox fx:id="cmbMaquina" prefHeight="25.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
                 <VBox HBox.hgrow="ALWAYS" />
-            <ButtonBar prefHeight="40.0" prefWidth="359.0">
+            <ButtonBar prefHeight="40.0">
                <buttons>
-                  <Button fx:id="btnEliminarFiltro" minWidth="71.0" mnemonicParsing="false" onAction="#onEliminarFiltroClick" prefHeight="25.0" prefWidth="138.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
-                  <Button fx:id="btnModificarFiltro" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarFiltroClick" prefHeight="25.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
-                      <Button fx:id="btnAgregarFiltro" onAction="#onAgregarFiltroClick" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar" />
+                  <Button fx:id="btnEliminarFiltro" minWidth="71.0" mnemonicParsing="false" onAction="#onEliminarFiltroClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="- Eliminar" />
+                  <Button fx:id="btnModificarFiltro" minWidth="65.0" mnemonicParsing="false" onAction="#onModificarFiltroClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2196F3; -fx-font-weight: bold; -fx-text-fill: white;" text="⚙ Modificar" />
+                      <Button fx:id="btnAgregarFiltro" onAction="#onAgregarFiltroClick" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar" />
                </buttons>
             </ButtonBar>
             </HBox>

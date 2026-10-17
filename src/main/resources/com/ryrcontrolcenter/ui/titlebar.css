@@ -6,7 +6,7 @@
 }
 .rr-logo-badge {
     -fx-background-color: white;
-    -fx-background-radius: 9;
+    -fx-background-radius: 8;
 }
 .rr-app-nombre {
     -fx-text-fill: white;

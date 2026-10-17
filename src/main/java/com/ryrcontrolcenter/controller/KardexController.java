@@ -53,7 +53,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-
 public class KardexController implements Initializable {
 
     private static final String TODAS = "Todas";
@@ -101,7 +100,7 @@ public class KardexController implements Initializable {
     private BarChart<Number, String> chartTopInsumos;
     @FXML
     private BarChart<Number, String> chartCriticos;
-    
+
     @FXML
     private ComboBox<String> cmbTipo;
     @FXML
@@ -161,6 +160,14 @@ public class KardexController implements Initializable {
     private FilteredList<Filtros> exFiltrados;
     private SortedList<KardexFila> movOrdenados;
     private SortedList<Filtros> exOrdenados;
+    @FXML
+    private Button btnExportarPdf;
+    @FXML
+    private Button btnExportarExcel;
+    @FXML
+    private Button btnLimpiar;
+    @FXML
+    private Tab tabGraficas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -186,7 +193,6 @@ public class KardexController implements Initializable {
         configurarFiltros();
         cargarDatos();
 
-
         tablaExistencias.setOnMouseClicked(ev -> {
             Filtros sel = tablaExistencias.getSelectionModel().getSelectedItem();
             if (ev.getClickCount() == 2 && sel != null) {
@@ -196,10 +202,8 @@ public class KardexController implements Initializable {
         });
     }
 
-
-
     private void configurarTablaMovimientos() {
-        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaHora")); 
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaHora"));
         colFecha.setCellFactory(c -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -220,9 +224,12 @@ public class KardexController implements Initializable {
                     return;
                 }
                 String[] colores = switch (item) {
-                    case "Entrada" -> new String[]{"#e8f5e9", "#2e7d32"};
-                    case "Salida" -> new String[]{"#fdecea", "#c62828"};
-                    default -> new String[]{"#fff3cd", "#8a5a00"};
+                    case "Entrada" ->
+                        new String[]{"#e8f5e9", "#2e7d32"};
+                    case "Salida" ->
+                        new String[]{"#fdecea", "#c62828"};
+                    default ->
+                        new String[]{"#fff3cd", "#8a5a00"};
                 };
                 Label pill = new Label(item.toUpperCase());
                 pill.setStyle("-fx-background-color: " + colores[0] + "; -fx-text-fill: " + colores[1]
@@ -328,8 +335,6 @@ public class KardexController implements Initializable {
         dpHasta.valueProperty().addListener((o, a, b) -> aplicarFiltros());
     }
 
-
-
     private void cargarDatos() {
         movimientos.setAll(kardexDao.listarMovimientos());
         existencias.setAll(filtroDao.listarTodos());
@@ -371,7 +376,7 @@ public class KardexController implements Initializable {
                 return false;
             }
             String fh = k.getFechaHora() == null ? "" : k.getFechaHora();
-            String dia = fh.length() >= 10 ? fh.substring(0, 10) : fh; 
+            String dia = fh.length() >= 10 ? fh.substring(0, 10) : fh;
             if (desde != null && dia.compareTo(desde.toString()) < 0) {
                 return false;
             }
@@ -387,11 +392,16 @@ public class KardexController implements Initializable {
             }
             String sem = KardexService.semaforo(f.getStockActual(), f.getPuntoReorden());
             return switch (estado) {
-                case EST_ROJO -> KardexService.ROJO.equals(sem);
-                case EST_AMARILLO -> KardexService.AMARILLO.equals(sem);
-                case EST_VERDE -> KardexService.VERDE.equals(sem);
-                case EST_CRITICOS -> !KardexService.VERDE.equals(sem);
-                default -> true;
+                case EST_ROJO ->
+                    KardexService.ROJO.equals(sem);
+                case EST_AMARILLO ->
+                    KardexService.AMARILLO.equals(sem);
+                case EST_VERDE ->
+                    KardexService.VERDE.equals(sem);
+                case EST_CRITICOS ->
+                    !KardexService.VERDE.equals(sem);
+                default ->
+                    true;
             };
         });
         actualizarIndicadores();
@@ -439,7 +449,6 @@ public class KardexController implements Initializable {
         actualizarGraficas();
     }
 
-
     private void actualizarGraficas() {
 
         Map<String, int[]> porMes = new TreeMap<>();
@@ -462,20 +471,21 @@ public class KardexController implements Initializable {
         }
         chartMovMes.getData().setAll(List.of(sEnt, sSal));
 
-
         int[] sem = new int[3];
         for (Filtros f : exFiltrados) {
             switch (KardexService.semaforo(f.getStockActual(), f.getPuntoReorden())) {
-                case KardexService.ROJO -> sem[0]++;
-                case KardexService.AMARILLO -> sem[1]++;
-                default -> sem[2]++;
+                case KardexService.ROJO ->
+                    sem[0]++;
+                case KardexService.AMARILLO ->
+                    sem[1]++;
+                default ->
+                    sem[2]++;
             }
         }
         chartSemaforo.getData().setAll(
                 new PieChart.Data("Rojo - reponer (" + sem[0] + ")", sem[0]),
                 new PieChart.Data("Amarillo - pedir pronto (" + sem[1] + ")", sem[1]),
                 new PieChart.Data("Verde - OK (" + sem[2] + ")", sem[2]));
-
 
         Map<String, int[]> porInsumo = new java.util.LinkedHashMap<>();
         for (KardexFila k : movFiltrados) {
@@ -517,20 +527,25 @@ public class KardexController implements Initializable {
         chartCriticos.getData().setAll(List.of(cStock, cReorden));
     }
 
-
     private static String colorSemaforo(String s) {
         return switch (s) {
-            case KardexService.ROJO -> "#c62828";
-            case KardexService.AMARILLO -> "#8a5a00";
-            default -> "#2e7d32";
+            case KardexService.ROJO ->
+                "#c62828";
+            case KardexService.AMARILLO ->
+                "#8a5a00";
+            default ->
+                "#2e7d32";
         };
     }
 
     private static String fondoSemaforo(String s) {
         return switch (s) {
-            case KardexService.ROJO -> "#fdecea";
-            case KardexService.AMARILLO -> "#fff3cd";
-            default -> "#e8f5e9";
+            case KardexService.ROJO ->
+                "#fdecea";
+            case KardexService.AMARILLO ->
+                "#fff3cd";
+            default ->
+                "#e8f5e9";
         };
     }
 
@@ -538,10 +553,8 @@ public class KardexController implements Initializable {
         return KardexService.ROJO.equals(s) ? 0 : KardexService.AMARILLO.equals(s) ? 1 : 2;
     }
 
-
-
     @FXML
-    private void onLimpiarClick(ActionEvent event) {
+    private void onLimpiar(ActionEvent event) {
         txtBuscar.clear();
         cmbCategoria.setValue(TODAS);
         cmbTipo.setValue(TODOS);
@@ -591,7 +604,6 @@ public class KardexController implements Initializable {
     private void onExportarExcelClick(ActionEvent event) {
         exportar(false);
     }
-
 
     private void exportar(boolean pdf) {
         boolean enMovimientos = tabs.getSelectionModel().getSelectedItem() == tabMovimientos;
@@ -651,7 +663,6 @@ public class KardexController implements Initializable {
         return partes.isEmpty() ? "Sin filtros (todos los registros)." : "Filtros aplicados: " + String.join("; ", partes) + ".";
     }
 
-
     @FXML
     private void irADashboard(ActionEvent event) {
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/DashboardVista.fxml");
@@ -672,7 +683,6 @@ public class KardexController implements Initializable {
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/MatrizFiltroVista.fxml");
     }
 
-    @FXML
     private void irAKardex(ActionEvent event) {
         SceneManager.cambiarA("/com/ryrcontrolcenter/ui/KardexVista.fxml");
     }
