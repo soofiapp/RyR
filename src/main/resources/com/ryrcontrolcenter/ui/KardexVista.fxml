@@ -53,12 +53,12 @@
                 <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                     <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Kárdex de Insumos" />
                 </VBox>
-                <Button fx:id="btnExportarPdf" minWidth="-Infinity" onAction="#onExportarPdfClick" style="-fx-background-color: #ffffff; -fx-border-color: #2447c4; -fx-text-fill: #2447c4; -fx-font-weight: bold;" text="Exportar PDF">
+                <Button fx:id="btnExportarPdf" minWidth="-Infinity" onAction="#onExportarPdfClick" style="-fx-background-color: #d1453b; -fx-text-fill: white; -fx-font-weight: bold;" text="Exportar PDF">
                     <tooltip>
                         <Tooltip text="Exporta la pestaña activa con los filtros aplicados" />
                     </tooltip>
                 </Button>
-                <Button fx:id="btnExportarExcel" minWidth="-Infinity" onAction="#onExportarExcelClick" style="-fx-background-color: #ffffff; -fx-border-color: #2447c4; -fx-text-fill: #2447c4; -fx-font-weight: bold;" text="Exportar Excel">
+                <Button fx:id="btnExportarExcel" minWidth="-Infinity" onAction="#onExportarExcelClick" style="-fx-background-color: #2e7d32; -fx-text-fill: white; -fx-font-weight: bold;" text="Exportar Excel">
                     <tooltip>
                         <Tooltip text="Exporta la pestaña activa con los filtros aplicados" />
                     </tooltip>

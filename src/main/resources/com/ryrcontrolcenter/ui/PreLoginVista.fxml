@@ -20,8 +20,9 @@
             <Label style="-fx-text-fill: white; -fx-font-size: 82px; -fx-font-weight: bold;" text="R" />
             <Label style="-fx-text-fill: #2f6bff; -fx-font-size: 82px; -fx-font-weight: bold;" text="&amp;" />
             <Label style="-fx-text-fill: white; -fx-font-size: 82px; -fx-font-weight: bold;" text="R" />
+         <VBox prefWidth="15.0" />
+           <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-text-fill: white; -fx-font-size: 80; -fx-font-weight: bold;" text="GLOBAL" />
         </HBox>
-        <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-text-fill: white; -fx-font-size: 60px; -fx-font-weight: bold;" text="GLOBAL" VBox.vgrow="NEVER" />
 
         <Pane fx:id="globo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="337.0" />
 
