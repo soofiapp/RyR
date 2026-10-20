@@ -1,4 +1,16 @@
+# Archivos generados por Maven
 target/
+
+# Archivos generados para empaquetar la aplicación
+entrada/
+dist/
+
+# Archivos temporales de Java
+*.class
+hs_err_pid*
+
+# Configuración local del IDE
+nbproject/private/
 
 # Copias de seguridad (RF-6): datos y configuracion locales de cada equipo
 backups/
